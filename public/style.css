@@ -15,7 +15,8 @@
     width: 19%;
   }
 }
-The typing effect @keyframes typing-part {
+/* The typing effect  */
+@keyframes typing-part {
   from {
     width: 0;
   }
@@ -52,7 +53,7 @@ html {
 }
 
 body {
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 li {
@@ -135,7 +136,8 @@ button {
   display: flex;
   justify-content: center;
 }
-.part-info, .machine-info {
+.part-info,
+.machine-info {
   display: flex;
   justify-content: center;
   text-align: center;
@@ -317,7 +319,7 @@ button {
 }
 
 .machine-dropdown {
-  width: 15%;
+  /* width: 15%; */
 }
 
 .boxplots {
@@ -351,3 +353,11 @@ button {
   gap: 50px;
 }
 
+.machine-dropdown-and-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-picker {
+  border-radius: 10px;
+}
