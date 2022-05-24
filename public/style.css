@@ -1,0 +1,353 @@
+@keyframes growStrip {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+/* The typing effect */
+@keyframes typing-home {
+  from {
+    width: 0;
+  }
+  to {
+    width: 19%;
+  }
+}
+The typing effect @keyframes typing-part {
+  from {
+    width: 0;
+  }
+  to {
+    width: 25%;
+  }
+}
+/* The typing effect */
+@keyframes typing-options {
+  from {
+    width: 0;
+  }
+  to {
+    width: 45%;
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #2761cc;
+  }
+}
+
+html {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+body {
+  /* overflow: hidden; */
+}
+
+li {
+  list-style-type: none;
+}
+button {
+  width: 100px;
+}
+
+.navbar {
+  border-bottom: 1px solid #bbbbbb;
+}
+.blue-strip {
+  transition: 500ms;
+  animation: growStrip 0.5s ease-in forwards;
+  width: 0%;
+  height: 10px;
+  background-color: #2761cc;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+}
+.blue-period {
+  font-size: 100px;
+  color: #2761cc;
+}
+
+.content {
+  display: flex;
+}
+
+.side-bar {
+  width: 280px;
+  height: 100vh;
+}
+.home-title {
+  border-right: 0.07em solid #2761cc; /* The typwriter cursor */
+}
+
+.home-title,
+.part-display-title,
+.machine-display-title {
+  float: left;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+}
+.home-title {
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing-home 0.7s steps(8, end) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+.part-display-title {
+  letter-spacing: 0.12em; /* Adjust as needed */
+  /* animation: typing-part 0.8s steps(12, end) forwards,
+    blink-caret 0.75s step-end infinite; */
+}
+.machine-display-title {
+  letter-spacing: 0.12em; /* Adjust as needed */
+  /* animation: typing-machine 0.9s steps(15, end) forwards,
+    blink-caret 0.75s step-end infinite; */
+}
+
+.PartDisplay,
+.DailyDisplay,
+.MachineDisplay,
+.OptionsDisplay {
+  margin-top: -75px;
+  padding: 0rem, 0rem;
+  width: 95%;
+}
+
+.data-display {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  background-color: #e9ecef margin;
+}
+.metrics {
+  display: flex;
+  justify-content: center;
+}
+.part-info, .machine-info {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: -50px;
+  margin-bottom: 30px;
+}
+.charts {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.line-graph,
+.scatter-graph {
+  height: 100%;
+  width: 100%;
+}
+
+.scatter-graph {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url("./img/silfex_disc.png");
+}
+
+.doughnut {
+  width: 15%;
+}
+
+.drag-drop-area {
+  height: 100%;
+  padding: 50px;
+  padding-top: 150px;
+  padding-bottom: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  font-size: 24px;
+  color: #555555;
+  border: 2px #c3c3c3 dashed;
+  border-radius: 12px;
+}
+.top-drag-drop-area {
+  width: 95%;
+  height: 100%;
+}
+.side-drag-drop-area {
+  font-size: 24px;
+  color: #555555;
+  border: 2px #c3c3c3 dashed;
+  border-radius: 12px;
+  height: 100%;
+}
+
+.linegraph-and-buttons {
+  height: 100%;
+  width: 90%;
+  padding-left: 175px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.version {
+  font-weight: 350;
+}
+.version-num {
+  color: #2761cc;
+}
+
+.metric-buttons {
+  width: 18%;
+}
+
+.part-jumbotron,
+#part-title {
+  height: 25%;
+  padding: 0;
+}
+.machine-jumbotron,
+#machine-title {
+  height: 25%;
+  padding: 0;
+}
+
+.carousel {
+  height: 55%;
+}
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%232761cc' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%232761cc' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+/* Add an extra .carousel parent class to increase specificity
+   avoiding the use of !important flag. */
+.carousel .carousel-indicators li {
+  background-color: #fff;
+  background-color: rgb(39, 97, 204, 0.4);
+}
+
+.carousel .carousel-indicators .active {
+  background-color: #2761cc;
+}
+
+.carousel-control-prev {
+  margin-left: 175px;
+}
+.carousel-control-next {
+  margin-right: -30px;
+}
+.carousel-control {
+  height: 75%;
+  margin-top: 250px;
+}
+
+.card {
+  border-width: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.highlight-tables {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  gap: 10px;
+}
+
+.c-side-highlight-table,
+.a-side-highlight-table {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: #e9ecef;
+  border: #555555;
+  border-width: 2px;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.c-side-highlights,
+.a-side-highlights {
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.c-dia-highlights,
+.c-pos-highlights,
+.a-dia-highlights,
+.a-pos-highlights {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.c-max-dia-light,
+.c-max-pos-light,
+.c-min-dia-light,
+.c-min-pos-light {
+  width: 100%;
+  height: 100%;
+}
+
+.machine-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 75px;
+}
+
+.machine-dropdown {
+  width: 15%;
+}
+
+.boxplots {
+  height: 100%;
+  width: 100%;
+}
+
+.machine-param-selectors {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.form-check {
+  display: flex;
+  margin-left: 10px;
+}
+
+.side-buttons,
+.metric-buttons,
+.machine-metric-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.boxplots-and-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-left: 25px;
+  gap: 50px;
+}
+

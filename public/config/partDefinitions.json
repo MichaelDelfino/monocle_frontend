@@ -1,0 +1,398 @@
+[
+  {
+    "partType": "1789P-01",
+    "textFileSpecs": {
+      "includeAFlip": false,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 562,
+      "cEnd": 2821,
+      "aEnd": 5632,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      }
+    }
+  },
+  {
+    "partType": "369P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3994,
+      "aEnd": 7979,
+      "diaString": "DIA",
+      "truePosString": "XY POS",
+      "xPosString": "XPOS",
+      "yPosString": "YPOS"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.019,
+        "diaPlus": 0.002,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      },
+      "a-side": {
+        "diaNom": 0.019,
+        "diaPlus": 0.002,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      }
+    }
+  },
+  {
+    "partType": "369P-01",
+    "textFileSpecs": {
+      "includeAFlip": false,
+      "cSideOnly": true,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3994,
+      "aEnd": 7979,
+      "diaString": "DIA",
+      "truePosString": "XY POS",
+      "xPosString": "XPOS",
+      "yPosString": "YPOS"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.019,
+        "diaPlus": 0.002,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      },
+      "a-side": {
+        "diaNom": 0.019,
+        "diaPlus": 0.002,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      }
+    }
+  },
+  {
+    "partType": "1534P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 346,
+      "cEnd": 1396,
+      "aEnd": 2783,
+      "diaString": "Diameter",
+      "truePosString": " Position ",
+      "xPosString": "X Position",
+      "yPosString": "Y Position"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      },
+      "a-side": {
+        "diaNom": 0.0,
+        "diaPlus": 0.0,
+        "diaMin": 0.0,
+        "posNom": 0,
+        "posPlus": 0.0,
+        "posMin": 0.0
+      }
+    }
+  },
+  {
+    "partType": "2078P-01",
+    "textFileSpecs": {
+      "includeAFlip": false,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 751,
+      "cEnd": 3015,
+      "aEnd": 6020,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.004,
+        "diaMin": 0.002,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      }
+    }
+  },
+  {
+    "partType": "1557P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 671,
+      "cEnd": 2695,
+      "aEnd": 5380,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      },
+      "a-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      }
+    }
+  },
+  {
+    "partType": "2129P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3995,
+      "aEnd": 7980,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      }
+    }
+  },
+  {
+    "partType": "2129P-02",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3995,
+      "aEnd": 7980,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      }
+    }
+  },
+  {
+    "partType": "2129P-03",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3995,
+      "aEnd": 7980,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.0065,
+        "posMin": 0.0065
+      }
+    }
+  },
+  {
+    "partType": "1565P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": true,
+      "numHoles": 1268,
+      "cEnd": 5083,
+      "aEnd": 7437,
+      "diaString": "Dia",
+      "truePosString": "XYPos",
+      "xPosString": "XPos",
+      "yPosString": " YPos"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.019,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      },
+      "a-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      }
+    }
+  },
+  {
+    "partType": "817P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 849,
+      "cEnd": 3406,
+      "aEnd": 6803,
+      "diaString": "DIA",
+      "truePosString": "XY POS",
+      "xPosString": "XPOS",
+      "yPosString": "YPOS"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      },
+      "a-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      }
+    }
+  },
+  {
+    "partType": "317P-01",
+    "textFileSpecs": {
+      "includeAFlip": false,
+      "cSideOnly": false,
+      "isAngleHole": false,
+      "numHoles": 996,
+      "cEnd": 3995,
+      "aEnd": 7980,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "X",
+      "yPosString": "Y"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      },
+      "a-side": {
+        "diaNom": 9,
+        "diaPlus": 9,
+        "diaMin": 9,
+        "posNom": 0,
+        "posPlus": 9,
+        "posMin": 9
+      }
+    }
+  }
+]
