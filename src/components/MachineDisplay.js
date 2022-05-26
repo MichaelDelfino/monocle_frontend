@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
 import BoxPlots from "./BoxPlots";
-import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
-
-export default function MachineDisplay() {
+export default function MachineDisplay({ searchHandler }) {
   const [partData, setPartData] = useState({
     parts: [],
-    machine: "WAM 142",
+    machine: "WAM 101",
     numOfParts: 5,
     metric: "Diameter",
     side: "C-Side",
-    startDate: Date.parse("2022-01-01"),
+    startDate: Date.now(),
   });
 
   useEffect(() => {
     fetch(
-      `http://localhost:3001/parts/?machine=${partData.machine}&num=${partData.numOfParts}&timestamp=${partData.startDate}`
+      `http://localhost:3001/parts/?machine=${partData.machine}&timestamp=${partData.startDate}`
     )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
+        console.log(partData.parts);
         setPartData({
           parts: data,
           machine: partData.machine,
@@ -34,13 +32,7 @@ export default function MachineDisplay() {
       .catch((error) => {
         console.log(error);
       });
-  }, [
-    partData.machine,
-    partData.numOfParts,
-    partData.metric,
-    partData.side,
-    partData.startDate,
-  ]);
+  }, [partData.machine, partData.startDate]);
 
   const setMachine = (e) => {
     setPartData((prevState) => {
@@ -49,8 +41,16 @@ export default function MachineDisplay() {
   };
 
   const setNumOfParts = (e) => {
+    const value = e.target.value;
+    if (value > 9) {
+      console.log("bigboi");
+      value = 9;
+    } else if (value < 1) {
+      value = 1;
+    }
+
     setPartData((prevState) => {
-      return { ...prevState, numOfParts: e.target.value };
+      return { ...prevState, numOfParts: value };
     });
   };
 
@@ -67,6 +67,15 @@ export default function MachineDisplay() {
   };
 
   const setStartDate = (e) => {
+    setPartData((prevState) => {
+      return { ...prevState, startDate: Date.parse(e.target.value) };
+    });
+  };
+
+  // alter time with slider for currently selected day
+  const setStartTime = (e) => {
+    const currentDate = Date.parse(partData.startDate);
+    console.log(currentDate);
     setPartData((prevState) => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
@@ -108,7 +117,28 @@ export default function MachineDisplay() {
     return [borderColor, backgroundColor];
   };
 
-  const getTodayString = (data) => {};
+  const getTodayFormattedString = (date) => {
+    // req format: 2022-05-23T16:46
+    const origDate = new Date(date);
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const stringTime = origDate
+      .toLocaleTimeString("en-US", {
+        hour12: true,
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace("AM", "")
+      .replace("PM", "")
+      .trim();
+    const splitDate = stringDate.split("/");
+    const splitTime = stringTime.split(":");
+    const todayDefault = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
+    return todayDefault;
+  };
 
   return (
     <div className="MachineDisplay">
@@ -160,6 +190,7 @@ export default function MachineDisplay() {
                   <option value="WAM 138">WAM 138</option>
                   <option value="WAM 139">WAM 139</option>
                   <option value="WAM 140">WAM 140</option>
+                  <option value="WAM 141">WAM 141</option>
                   <option value="WAM 142">WAM 142</option>
                   <option value="WAM 143">WAM 143</option>
                   <option value="WAM 144">WAM 144</option>
@@ -170,20 +201,39 @@ export default function MachineDisplay() {
                   <option value="WAM 951">WAM 951</option>
                 </select>
               </div>
-              {/* default to todays date */}
-              <div className="date-picker">
-                <input
-                  type="date"
-                  defaultValue="2022-01-01"
-                  onChange={setStartDate}
-                />
+              <div className="date-and-parts-input">
+                <div className="date-input">
+                  <input
+                    type="datetime-local"
+                    defaultValue={getTodayFormattedString(Date.now())}
+                    onChange={setStartDate}
+                  />
+                  <input
+                    type="range"
+                    className="form-range"
+                    min="1"
+                    max="24"
+                    step="1"
+                    id="customRange3"
+                  ></input>
+                </div>
+                <div className="num-of-parts-input">
+                  <input
+                    type="number"
+                    defaultValue="5"
+                    min="1"
+                    max="9"
+                    onChange={setNumOfParts}
+                  />
+                </div>
               </div>
             </div>
             <div className="boxplots">
               <BoxPlots
-                partData={partData.parts}
+                partData={partData.parts.slice(0, partData.numOfParts)}
                 side={partData.side}
                 metric={partData.metric}
+                searchHandler={searchHandler}
               />
             </div>
             <div className="machine-metric-toggles">

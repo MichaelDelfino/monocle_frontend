@@ -5,12 +5,13 @@ import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-export default function BoxPlots({ partData, side, metric }) {
+export default function BoxPlots({ partData, side, metric, searchHandler }) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
     let allHoleData = [];
     let datasets = [];
+    let scales = {};
 
     if (metric === "Diameter") {
       allHoleData = getDiameters(partData, side);
@@ -39,9 +40,11 @@ export default function BoxPlots({ partData, side, metric }) {
       return datasets;
     };
     datasets = setDatasets(partData, allHoleData);
+    scales = setScales(metric);
 
     setGraphData({
       datasets: datasets,
+      scales: scales,
     });
   }, [partData, side, metric]);
 
@@ -136,6 +139,18 @@ export default function BoxPlots({ partData, side, metric }) {
         borderColor = "rgb(252, 3, 102, 1)";
         backgroundColor = "rgb(252, 3, 102, .2)";
         break;
+      case 6:
+        borderColor = "rgb(175, 104, 252, 1)";
+        backgroundColor = "rgb(175, 104, 252, .2)";
+        break;
+      case 7:
+        borderColor = "rgb(1, 0, 3, 1)";
+        backgroundColor = "rgb(1, 0, 3, .2)";
+        break;
+      case 8:
+        borderColor = "rgb(171, 194, 21, 1)";
+        backgroundColor = "rgb(171, 194, 21, .2)";
+        break;
       default:
         break;
     }
@@ -151,6 +166,34 @@ export default function BoxPlots({ partData, side, metric }) {
         y: data.y,
       };
     });
+  };
+
+  const setScales = (metric) => {
+    let scales = {};
+    if (metric === "Diameter") {
+      scales = {
+        y: {
+          max: 0.02,
+          min: 0.014,
+          beginAtZero: true,
+        },
+        x: {
+          beginAtZero: true,
+        },
+      };
+    } else if (metric === "Position") {
+      scales = {
+        y: {
+          max: 0.01,
+          min: 0.0,
+          beginAtZero: true,
+        },
+        x: {
+          beginAtZero: true,
+        },
+      };
+    }
+    return scales;
   };
 
   return (
@@ -173,6 +216,10 @@ export default function BoxPlots({ partData, side, metric }) {
                   },
                 },
                 legend: {
+                  onClick: (e, legendItem) => {
+                    const tracking = legendItem.text;
+                    searchHandler(tracking);
+                  },
                   labels: {
                     font: {
                       size: 20,
@@ -180,7 +227,17 @@ export default function BoxPlots({ partData, side, metric }) {
                   },
                 },
                 tooltip: {
-                  enabled: false,
+                  enabled: true,
+                  callbacks: {
+                    label: (context) => {
+                      console.log(context);
+                      let index = context.dataIndex;
+                      let label = `Hole ${
+                        Object.keys(context.dataset.data)[index + 1]
+                      }: ${context.raw.y}`;
+                      return label;
+                    },
+                  },
                 },
                 zoom: {
                   pan: {
@@ -202,16 +259,7 @@ export default function BoxPlots({ partData, side, metric }) {
                   },
                 },
               },
-              scales: {
-                y: {
-                  max: 0.02,
-                  min: 0.014,
-                  beginAtZero: true,
-                },
-                x: {
-                  beginAtZero: true,
-                },
-              },
+              scales: graphData.scales,
             }}
           />
         </div>

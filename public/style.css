@@ -118,6 +118,7 @@ button {
 .PartDisplay,
 .DailyDisplay,
 .MachineDisplay,
+.OverviewDisplay,
 .OptionsDisplay {
   margin-top: -75px;
   padding: 0rem, 0rem;
@@ -352,8 +353,11 @@ button {
 .machine-dropdown-and-date {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.date-picker {
-  border-radius: 10px;
+.date-input {
+  border-color: #d6d6d6;
+  border-radius: 2px;
+  border-width: 1px;
 }

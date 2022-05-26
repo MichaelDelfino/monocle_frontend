@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-export const SearchBar = props => {
+export const SearchBar = ({ searchHandler }) => {
   useEffect(() => {});
 
-  const setSearchData = e => {
+  const setSearchData = (e) => {
     if (e) e.preventDefault();
 
     const [input] = e.target.children;
     const tracking = input.value;
 
-    props.searchHandler(tracking);
-    input.value = '';
+    searchHandler(tracking);
+    input.value = "";
   };
 
-  const toggleHighlight = e => {
-    e.target.classList.toggle('active');
+  const toggleHighlight = (e) => {
+    e.target.classList.toggle("active");
   };
 
-  const toggleSelected = e => {
+  const toggleSelected = (e) => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
       console.log(li.firstChild.classList);
-      li.firstChild.classList.remove('link-dark');
+      li.firstChild.classList.remove("link-dark");
     }
-    e.target.classList.toggle('link-dark');
+    e.target.classList.toggle("link-dark");
   };
   return (
     <nav className="navbar navbar-light bg-light">
