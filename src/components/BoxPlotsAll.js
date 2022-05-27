@@ -5,75 +5,84 @@ import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-export default function BoxPlots({ partData, side, metric, searchHandler }) {
+export default function BoxPlotsAll({ data, side, metric, machHandler }) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
-    let allHoleData = [];
-    let datasets = [];
-    let scales = {};
-
-    if (metric === "Diameter") {
-      allHoleData = getDiameters(partData, side);
-    }
-    if (metric === "Position") {
-      allHoleData = getPositions(partData, side);
-    }
-    // const [borderColor, backgroundColor] = getPartColor(partData[0]);
-
-    // // To handle dynamic number of parts: for part in partdata,
-    // // datasets.push {label, data.partData[i].tracking}
-    const setDatasets = (data, allHoleData) => {
+    setGraphData(null);
+    if (data.length) {
+      let allHoleData = [];
       let datasets = [];
-      let i = 0;
-      for (const part of data) {
-        let singleDataset = {
-          label: data[i]?.tracking,
-          data: generateJitter(allHoleData[i]),
-          backgroundColor: getPartColor(i),
-          borderColor: "black",
-          borderWidth: 0.5,
-        };
-        datasets.push(singleDataset);
-        i++;
-      }
-      return datasets;
-    };
-    datasets = setDatasets(partData, allHoleData);
-    scales = setScales(metric);
+      let scales = {};
 
-    setGraphData({
-      datasets: datasets,
-      scales: scales,
-    });
-  }, [partData, side, metric]);
+      // console.log(partData);
+
+      if (metric === "Diameter") {
+        allHoleData = getDiameters(data, side);
+      }
+      if (metric === "Position") {
+        allHoleData = getPositions(data, side);
+      }
+      // const [borderColor, backgroundColor] = getPartColor(partData[0]);
+
+      // // To handle dynamic number of parts: for part in partdata,
+      // // datasets.push {label, data.partData[i].tracking}
+      const setDatasets = (data, allHoleData) => {
+        let datasets = [];
+        let i = 0;
+        console.log(data);
+        for (const machine of data) {
+          let singleDataset = {
+            label: machine[0]?.machine,
+            data: generateJitter(allHoleData[i]),
+            backgroundColor: getPartColor(i),
+            borderColor: "black",
+            borderWidth: 0.5,
+          };
+          datasets.push(singleDataset);
+          i++;
+        }
+        return datasets;
+      };
+      datasets = setDatasets(data, allHoleData);
+      scales = setScales(metric);
+
+      setGraphData({
+        datasets: datasets,
+        scales: scales,
+      });
+    }
+  }, [data]);
 
   const getDiameters = (data, side) => {
     let allDiametersArray = [];
-    let i = 0;
-    if (side === "C-Side") {
-      for (const part of data) {
-        let diameterArray = [];
-        for (const hole in part.csidedata) {
-          diameterArray.push({
-            x: i + 0.5,
-            y: parseFloat(part.csidedata[hole]?.cDia),
-          });
+    let diameterArray = [];
+    let i = 0.5;
+    for (const machine of data) {
+      if (side === "C-Side") {
+        diameterArray = [];
+        for (const part of machine) {
+          for (const hole in part.csidedata) {
+            diameterArray.push({
+              x: i,
+              y: parseFloat(part.csidedata[hole]?.cDia),
+            });
+          }
+          i++;
         }
         allDiametersArray.push(diameterArray);
-        i++;
-      }
-    } else if (side === "A-Side") {
-      for (const part of data) {
-        let diameterArray = [];
-        for (const hole in part.asidedata) {
-          diameterArray.push({
-            x: i + 0.5,
-            y: parseFloat(part.asidedata[hole]?.aDia),
-          });
+      } else if (side === "A-Side") {
+        for (const part of data) {
+          let diameterArray = [];
+          for (const hole in part.asidedata) {
+            diameterArray.push({
+              x: i + 0.5,
+              y: parseFloat(part.asidedata[hole]?.aDia),
+            });
+          }
+          allDiametersArray.push(diameterArray);
+          i++;
         }
-        allDiametersArray.push(diameterArray);
-        i++;
       }
     }
     return allDiametersArray;
@@ -151,6 +160,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
         borderColor = "rgb(171, 194, 21, 1)";
         backgroundColor = "rgb(171, 194, 21, .2)";
         break;
+
       default:
         break;
     }
@@ -203,6 +213,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
           <Scatter
             data={graphData}
             options={{
+              animation: false,
               parsing: false,
               normalized: true,
               plugins: {
@@ -220,7 +231,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;
-                    searchHandler(tracking);
+                    machHandler(tracking);
                   },
                   labels: {
                     font: {
@@ -229,10 +240,9 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
                   },
                 },
                 tooltip: {
-                  enabled: true,
+                  enabled: false,
                   callbacks: {
                     label: (context) => {
-                      console.log(context);
                       let index = context.dataIndex;
                       let label = `Hole ${
                         Object.keys(context.dataset.data)[index + 1]
@@ -266,7 +276,29 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
           />
         </div>
       ) : (
-        <p>no data loaded</p>
+        <div className="loading-spinners">
+          <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-success" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow text-dark" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       )}
     </div>
   );

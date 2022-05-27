@@ -361,3 +361,8 @@ button {
   border-radius: 2px;
   border-width: 1px;
 }
+
+.loading-spinners {
+  display: flex;
+  justify-content: center;
+}

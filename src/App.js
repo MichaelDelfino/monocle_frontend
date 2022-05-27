@@ -14,6 +14,7 @@ export default function App() {
     setPageData({
       section: "home",
       tracking: "",
+      machine: "WAM 120",
     });
   }, []);
 
@@ -32,6 +33,16 @@ export default function App() {
       setPageData({
         section: "part",
         tracking: tracking,
+      });
+    }
+  };
+
+  const machHandler = (mach) => {
+    if (mach) {
+      setPageData({
+        section: "mach",
+        tracking: "",
+        machine: mach,
       });
     }
   };
@@ -60,13 +71,20 @@ export default function App() {
             </div>
             <div className="mach-display">
               {pageData.section === "mach" ? (
-                <MachineDisplay searchHandler={searchHandler} />
+                <MachineDisplay
+                  searchHandler={searchHandler}
+                  machine={pageData.machine}
+                />
               ) : (
                 <div></div>
               )}
             </div>
             <div className="overview-display">
-              {pageData.section === "overview" ? <Overview /> : <div></div>}
+              {pageData.section === "overview" ? (
+                <Overview machHandler={machHandler} />
+              ) : (
+                <div></div>
+              )}
             </div>
             <div className="options-display">
               {pageData.section === "options" ? (

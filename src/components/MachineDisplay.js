@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import BoxPlots from "./BoxPlots";
 
-export default function MachineDisplay({ searchHandler }) {
+export default function MachineDisplay({ searchHandler, machine }) {
   const [partData, setPartData] = useState({
     parts: [],
-    machine: "WAM 101",
+    machine: machine,
     numOfParts: 5,
     metric: "Diameter",
     side: "C-Side",
@@ -185,6 +185,8 @@ export default function MachineDisplay({ searchHandler }) {
                   <option value="WAM 116">WAM 106</option>
                   <option value="WAM 110">WAM 110</option>
                   <option value="WAM 116">WAM 116</option>
+                  <option value="WAM 120">WAM 120</option>
+                  <option value="WAM 132">WAM 132</option>
                   <option value="WAM 136">WAM 136</option>
                   <option value="WAM 137">WAM 137</option>
                   <option value="WAM 138">WAM 138</option>
