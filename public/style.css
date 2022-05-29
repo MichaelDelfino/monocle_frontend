@@ -392,6 +392,7 @@ button {
   flex-direction: row;
   justify-content: center;
   height:50%;
+  gap: 10px;
 }
 
 .overview-boxplots {
