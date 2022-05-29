@@ -24,7 +24,7 @@ export default function Overview({ machHandler }) {
 
       for (const mach of machines) {
         fetchArray.push(
-          `http://localhost:3000/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}`
+          `http://localhost:3001/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}`
         );
       }
       let requests = fetchArray.map(url => fetch(url));
@@ -38,12 +38,13 @@ export default function Overview({ machHandler }) {
               validMachines.push(obj);
             }
           }
-          setPartData({
-            partType: partData.partType,
-            startDate: partData.startDate,
-            machineData: validMachines,
-            side: partData.side,
-            metric: partData.metric,
+          setPartData(prevState => {
+            return {
+              ...prevState,
+              partType: partData.partType,
+              startDate: partData.startDate,
+              machineData: validMachines,
+            };
           });
         });
     };
