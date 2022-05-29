@@ -448,148 +448,139 @@ export default function PartDisplay(props) {
 
   return (
     <div className="PartDisplay">
-      <div id="part-title" className="jumbotron jumbotron-fluid part-jumbotron">
-        <h1 className="display-4 part-display-title">
-          Part Display<span className="blue-period">.</span>
-        </h1>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <p className="lead"></p>
-        <hr className="my-4" />
-        <p className="lead"></p>
-      </div>
-
       {partData ? (
-        <div className="data-display">
-          <div className="part-info">
-            {/* <button
-              className="btn btn-outline-success"
-              onClick={importTest.bind(null, partData.part)}
-            >
-              import test
-            </button> */}
-            <p className="display-4 lead">
-              {partData.part.tracking}
-              <span style={{ color: getPartColor(partData.part.parttype) }}>
-                |
-              </span>
-            </p>
-            <p className="display-4 lead">
-              {partData.part.parttype}
-              <span style={{ color: getPartColor(partData.part.parttype) }}>
-                |
-              </span>
-            </p>
-            <p className="display-4 lead">{partData.part.machine} </p>
-          </div>
+        <div>
           <div
-            id="carouselExampleIndicators"
-            className="carousel slide"
-            data-ride="false"
-            data-interval="false"
+            id="part-title"
+            className="jumbotron jumbotron-fluid part-jumbotron"
           >
-            <ol className="carousel-indicators">
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="0"
-                className="active"
-              ></li>
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="1"
-              ></li>
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="2"
-              ></li>
-            </ol>
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <div className="linegraph-and-buttons">
-                  <DragAndDrop
-                    className="side-drag-and-drop=area"
-                    onDrop={onDrop}
-                  />
-                  <div className="line-graph">
-                    <LineGraph
-                      partData={partData.part}
-                      metric={partData.metric}
-                    />
-                  </div>
-                  <div className="metric-buttons">
-                    <ul>
-                      <li>
-                        <button
-                          className="btn btn-outline-primary m-3"
-                          onClick={changeMetric.bind(null, 'diameter')}
-                        >
-                          diameter
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="btn btn-outline-primary m-3"
-                          onClick={changeMetric.bind(null, 'position')}
-                        >
-                          position
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="linegraph-and-buttons">
-                  <DragAndDrop
-                    className="side-drag-and-drop=area"
-                    onDrop={onDrop}
-                  />
-                  <div className="scatter-graph">
-                    <ScatterPlot
-                      partData={partData.part}
-                      side={partData.side}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="linegraph-and-buttons">
-                  <DragAndDrop
-                    className="side-drag-and-drop=area"
-                    onDrop={onDrop}
-                  />
-                  <MetricHighlights partData={partData.part} />
-                </div>
-              </div>
+            <div className="part-info">
+              {/* <button
+                className="btn btn-outline-success"
+                onClick={importTest.bind(null, partData.part)}
+              >
+                import test
+              </button> */}
+              <p className="display-4 lead">
+                {partData.part.tracking}
+                <span style={{ color: getPartColor(partData.part.parttype) }}>
+                  |
+                </span>
+              </p>
+              <p className="display-4 lead">
+                {partData.part.parttype}
+                <span style={{ color: getPartColor(partData.part.parttype) }}>
+                  |
+                </span>
+              </p>
+              <p className="display-4 lead">{partData.part.machine} </p>
             </div>
           </div>
-          <a
-            className="carousel-control carousel-control-prev"
-            href="#carouselExampleIndicators"
-            role="button"
-            data-slide="prev"
-          >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="sr-only">Previous</span>
-          </a>
-          <a
-            className="carousel-control carousel-control-next"
-            href="#carouselExampleIndicators"
-            role="button"
-            data-slide="next"
-          >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
-            <span className="sr-only">Next</span>
-          </a>
+          <div>
+            <div className="data-display">
+              <select
+                className="form-select form-select-lg mb-3 line-metric-selector"
+                aria-label=".form-select-lg example"
+                onChange={changeMetric}
+              >
+                <option value="Diameter">Diameter</option>
+                <option value="Position">Position</option>
+              </select>
+              <div
+                id="carouselExampleIndicators"
+                className="carousel slide"
+                data-ride="false"
+                data-interval="false"
+              >
+                <ol className="carousel-indicators">
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="0"
+                    className="active"
+                  ></li>
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="1"
+                  ></li>
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="2"
+                  ></li>
+                </ol>
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
+                    <div className="linegraph-and-buttons">
+                      <div className="line-graph">
+                        <LineGraph
+                          partData={partData.part}
+                          metric={partData.metric}
+                        />
+                      </div>
+                      {/* <div className="metric-buttons">
+                        <ul>
+                          <li>
+                            <button
+                              className="btn btn-outline-primary m-3"
+                              onClick={changeMetric.bind(null, 'diameter')}
+                            >
+                              diameter
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="btn btn-outline-primary m-3"
+                              onClick={changeMetric.bind(null, 'position')}
+                            >
+                              position
+                            </button>
+                          </li>
+                        </ul>
+                      </div> */}
+                    </div>
+                  </div>
+                  <div className="carousel-item">
+                    <div className="linegraph-and-buttons">
+                      <div className="scatter-graph">
+                        <ScatterPlot
+                          partData={partData.part}
+                          side={partData.side}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="carousel-item">
+                    <div className="linegraph-and-buttons">
+                      <MetricHighlights partData={partData.part} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                className="carousel-control carousel-control-prev"
+                href="#carouselExampleIndicators"
+                role="button"
+                data-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="sr-only">Previous</span>
+              </a>
+              <a
+                className="carousel-control carousel-control-next"
+                href="#carouselExampleIndicators"
+                role="button"
+                data-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
         </div>
       ) : (
         <div>

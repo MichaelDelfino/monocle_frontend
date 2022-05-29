@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { useRef } from "react";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useRef } from 'react';
 
 export default function DragAndDrop({ onDrop }) {
   const drop = useRef(null);
 
   useEffect(() => {
-    drop.current.addEventListener("dragover", handleDragOver);
-    drop.current.addEventListener("drop", handleDrop);
+    drop.current.addEventListener('dragover', handleDragOver);
+    drop.current.addEventListener('drop', handleDrop);
 
     let dropRef = drop.current;
 
     return () => {
-      dropRef.removeEventListener("dragover", handleDragOver);
-      dropRef.removeEventListener("drop", handleDrop);
+      dropRef.removeEventListener('dragover', handleDragOver);
+      dropRef.removeEventListener('drop', handleDrop);
     };
   }, []);
 
-  const handleDragOver = (e) => {
+  const handleDragOver = e => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDrop = (e) => {
+  const handleDrop = e => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -35,7 +35,7 @@ export default function DragAndDrop({ onDrop }) {
   return (
     <div>
       <div ref={drop} className="drag-drop-area">
-        Drop a text file here!
+        Drop a text file here! Or search up there
       </div>
     </div>
   );

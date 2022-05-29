@@ -88,7 +88,7 @@ button {
   height: 100vh;
 }
 .home-title {
-  border-right: 0.07em solid #2761cc; /* The typwriter cursor */
+  /* border-right: 0.07em solid #2761cc; The typwriter cursor */
 }
 
 .home-title,
@@ -101,8 +101,8 @@ button {
 }
 .home-title {
   letter-spacing: 0.15em; /* Adjust as needed */
-  animation: typing-home 0.7s steps(8, end) forwards,
-    blink-caret 0.75s step-end infinite;
+  /* animation: typing-home 0.7s steps(8, end) forwards,
+    blink-caret 0.75s step-end infinite; */
 }
 .part-display-title {
   letter-spacing: 0.12em; /* Adjust as needed */
@@ -130,7 +130,7 @@ button {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 87px;
   background-color: #e9ecef margin;
 }
 .metrics {
@@ -142,8 +142,6 @@ button {
   display: flex;
   justify-content: center;
   text-align: center;
-  margin-top: -50px;
-  margin-bottom: 30px;
 }
 .charts {
   width: 100%;
@@ -156,6 +154,8 @@ button {
   height: 100%;
   width: 100%;
 }
+
+
 
 .scatter-graph {
   background-size: 100%;
@@ -204,6 +204,11 @@ button {
   gap: 30px;
 }
 
+.line-metric-selector {
+  display: flex;
+  justify-content: center;
+}
+
 .version {
   font-weight: 350;
 }
@@ -217,13 +222,14 @@ button {
 
 .part-jumbotron,
 #part-title {
-  height: 25%;
+  height: 15%;
   padding: 0;
 }
 .machine-jumbotron,
 #machine-title {
   height: 25%;
   padding: 0;
+  text-align: center;
 }
 
 .carousel {
@@ -249,7 +255,7 @@ button {
 }
 
 .carousel-control-prev {
-  margin-left: 175px;
+  margin-left: 275px;
 }
 .carousel-control-next {
   margin-right: -30px;
@@ -316,7 +322,6 @@ button {
 .machine-content {
   display: flex;
   flex-direction: column;
-  margin-top: 75px;
 }
 
 .boxplots {
@@ -365,4 +370,37 @@ button {
 .loading-spinners {
   display: flex;
   justify-content: center;
+}
+
+.part-params {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.overview-jumbotron,
+#overview-title{
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.overview-selectors {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height:50%;
+}
+
+.overview-boxplots {
+  height: 80%;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.jumbotron{
+  margin-bottom: 0em;
 }

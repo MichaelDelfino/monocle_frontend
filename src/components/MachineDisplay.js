@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import BoxPlots from "./BoxPlots";
+import React, { useEffect, useState } from 'react';
+import BoxPlots from './BoxPlots';
 
 export default function MachineDisplay({ searchHandler, machine }) {
   const [partData, setPartData] = useState({
     parts: [],
     machine: machine,
     numOfParts: 5,
-    metric: "Diameter",
-    side: "C-Side",
+    metric: 'Diameter',
+    side: 'C-Side',
     startDate: Date.now(),
   });
 
@@ -15,10 +15,10 @@ export default function MachineDisplay({ searchHandler, machine }) {
     fetch(
       `http://localhost:3001/parts/?machine=${partData.machine}&timestamp=${partData.startDate}`
     )
-      .then((response) => {
+      .then(response => {
         return response.json();
       })
-      .then((data) => {
+      .then(data => {
         console.log(partData.parts);
         setPartData({
           parts: data,
@@ -29,113 +29,115 @@ export default function MachineDisplay({ searchHandler, machine }) {
           startDate: partData.startDate,
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   }, [partData.machine, partData.startDate]);
 
-  const setMachine = (e) => {
-    setPartData((prevState) => {
+  const setMachine = e => {
+    setPartData(prevState => {
       return { ...prevState, machine: e.target.value };
     });
   };
 
-  const setNumOfParts = (e) => {
-    const value = e.target.value;
+  const setNumOfParts = e => {
+    let value = e.target.value;
     if (value > 9) {
-      console.log("bigboi");
+      console.log('bigboi');
       value = 9;
     } else if (value < 1) {
       value = 1;
     }
 
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, numOfParts: value };
     });
   };
 
-  const setSide = (side) => {
-    setPartData((prevState) => {
+  const setSide = e => {
+    const side = e.target.value;
+    setPartData(prevState => {
       return { ...prevState, side: side };
     });
   };
 
-  const setMetric = (metric) => {
-    setPartData((prevState) => {
+  const setMetric = e => {
+    const metric = e.target.value;
+    setPartData(prevState => {
       return { ...prevState, metric: metric };
     });
   };
 
-  const setStartDate = (e) => {
-    setPartData((prevState) => {
+  const setStartDate = e => {
+    setPartData(prevState => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
   };
 
   // alter time with slider for currently selected day
-  const setStartTime = (e) => {
+  const setStartTime = e => {
     const currentDate = Date.parse(partData.startDate);
     console.log(currentDate);
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
   };
 
-  const getPartColor = (partType) => {
-    let borderColor = "";
-    let backgroundColor = "";
+  const getPartColor = partType => {
+    let borderColor = '';
+    let backgroundColor = '';
 
-    if (String(partType).trim() === "369P-01") {
-      borderColor = "rgb(252, 186, 3, 1)";
-      backgroundColor = "rgb(252, 186, 3, .2)";
-    } else if (String(partType).trim() === "1789P-01") {
-      borderColor = "rgb(2, 117, 216, 1)";
-      backgroundColor = "rgb(2, 117, 216, .2)";
-    } else if (String(partType).trim() === "2078P-01") {
-      borderColor = "rgb(92, 184, 92, 1)";
-      backgroundColor = "rgb(92, 184, 92, .2)";
-    } else if (String(partType).trim() === "1534P-01") {
-      borderColor = "rgb(219, 112, 4, 1)";
-      backgroundColor = "rgb(219, 112, 4, .2)";
-    } else if (String(partType).trim() === "1557P-01") {
-      borderColor = "rgb(68, 242, 207, 1)";
-      backgroundColor = "rgb(68, 242, 207, .2)";
-    } else if (String(partType).trim() === "2129P-01") {
-      borderColor = "rgb(252, 3, 102, 1)";
-      backgroundColor = "rgb(252, 3, 102, .2)";
-    } else if (String(partType).trim() === "2129P-02") {
-      borderColor = "rgb(175, 104, 252, 1)";
-      backgroundColor = "rgb(175, 104, 252, .2)";
-    } else if (String(partType).trim() === "2129P-03") {
-      borderColor = "rgb(1, 0, 3, 1)";
-      backgroundColor = "rgb(1, 0, 3, .2)";
-    } else if (String(partType).trim() === "1565P-01") {
-      borderColor = "rgb(171, 194, 21, 1)";
-      backgroundColor = "rgb(171, 194, 21, .2)";
+    if (String(partType).trim() === '369P-01') {
+      borderColor = 'rgb(252, 186, 3, 1)';
+      backgroundColor = 'rgb(252, 186, 3, .2)';
+    } else if (String(partType).trim() === '1789P-01') {
+      borderColor = 'rgb(2, 117, 216, 1)';
+      backgroundColor = 'rgb(2, 117, 216, .2)';
+    } else if (String(partType).trim() === '2078P-01') {
+      borderColor = 'rgb(92, 184, 92, 1)';
+      backgroundColor = 'rgb(92, 184, 92, .2)';
+    } else if (String(partType).trim() === '1534P-01') {
+      borderColor = 'rgb(219, 112, 4, 1)';
+      backgroundColor = 'rgb(219, 112, 4, .2)';
+    } else if (String(partType).trim() === '1557P-01') {
+      borderColor = 'rgb(68, 242, 207, 1)';
+      backgroundColor = 'rgb(68, 242, 207, .2)';
+    } else if (String(partType).trim() === '2129P-01') {
+      borderColor = 'rgb(252, 3, 102, 1)';
+      backgroundColor = 'rgb(252, 3, 102, .2)';
+    } else if (String(partType).trim() === '2129P-02') {
+      borderColor = 'rgb(175, 104, 252, 1)';
+      backgroundColor = 'rgb(175, 104, 252, .2)';
+    } else if (String(partType).trim() === '2129P-03') {
+      borderColor = 'rgb(1, 0, 3, 1)';
+      backgroundColor = 'rgb(1, 0, 3, .2)';
+    } else if (String(partType).trim() === '1565P-01') {
+      borderColor = 'rgb(171, 194, 21, 1)';
+      backgroundColor = 'rgb(171, 194, 21, .2)';
     }
 
     return [borderColor, backgroundColor];
   };
 
-  const getTodayFormattedString = (date) => {
+  const getTodayFormattedString = date => {
     // req format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
+    const stringDate = origDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
     const stringTime = origDate
-      .toLocaleTimeString("en-US", {
+      .toLocaleTimeString('en-US', {
         hour12: true,
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       })
-      .replace("AM", "")
-      .replace("PM", "")
+      .replace('AM', '')
+      .replace('PM', '')
       .trim();
-    const splitDate = stringDate.split("/");
-    const splitTime = stringTime.split(":");
+    const splitDate = stringDate.split('/');
+    const splitTime = stringTime.split(':');
     const todayDefault = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
     return todayDefault;
   };
@@ -143,37 +145,26 @@ export default function MachineDisplay({ searchHandler, machine }) {
   return (
     <div className="MachineDisplay">
       <div id="machine-title" className="jumbotron machine-jumbotron">
-        <h1 className="display-4 machine-display-title">
-          Machine Display<span className="blue-period">.</span>
-        </h1>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <p className="lead"></p>
-        <hr className="my-4" />
-        <p className="lead"></p>
+        <div className="machine-info">
+          <p className="display-4 lead">
+            {partData.machine}
+            <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
+          </p>
+          <p className="display-4 lead">
+            {partData.side}
+            <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
+          </p>
+          <p className="display-4 lead">{partData.metric} </p>
+        </div>
       </div>
       {partData ? (
         <div className="machine-content">
-          <div className="dropdown-and-title">
-            <div className="machine-info">
-              <p className="display-4 lead">
-                {partData.machine}
-                <span style={{ color: getPartColor("369P-01") }}>|</span>
-              </p>
-              <p className="display-4 lead">
-                {partData.side}
-                <span style={{ color: getPartColor("369P-01") }}>|</span>
-              </p>
-              <p className="display-4 lead">{partData.metric} </p>
-            </div>
-          </div>
-          <div className="boxplots-and-buttons">
-            <div className="machine-dropdown-and-date">
-              <div className="machine-dropdown">
+          <div className="machine-dropdown-and-date">
+            <div className="overview-selectors">
+              <div className="part-params">
+                <label for="parttype-select">Select Part Metrics: </label>
                 <select
+                  name="parttype-select"
                   className="form-select form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                   value={partData.machine}
@@ -202,34 +193,43 @@ export default function MachineDisplay({ searchHandler, machine }) {
                   <option value="WAM 903">WAM 903</option>
                   <option value="WAM 951">WAM 951</option>
                 </select>
-              </div>
-              <div className="date-and-parts-input">
-                <div className="date-input">
+                <select
+                  className="form-select form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                  onChange={setSide}
+                >
+                  <option value="C-Side">C-Side</option>
+                  <option value="A-Side">A-Side</option>
+                </select>
+                <select
+                  className="form-select form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                  onChange={setMetric}
+                >
+                  <option value="Diameter">Diameter</option>
+                  <option value="Position">Position</option>
+                </select>
+                {/* <div className="form num-of-parts-input">
                   <input
+                    type="number"
+                    defaultValue={5}
+                    onChange={setNumOfParts}
+                  />
+                </div> */}
+                <div className="overview-date-input">
+                  <label for="overview-date">Select Date:</label>
+                  <input
+                    name="overview-date"
                     type="datetime-local"
                     defaultValue={getTodayFormattedString(Date.now())}
                     onChange={setStartDate}
                   />
-                  <input
-                    type="range"
-                    className="form-range"
-                    min="1"
-                    max="24"
-                    step="1"
-                    id="customRange3"
-                  ></input>
-                </div>
-                <div className="num-of-parts-input">
-                  <input
-                    type="number"
-                    defaultValue="5"
-                    min="1"
-                    max="9"
-                    onChange={setNumOfParts}
-                  />
                 </div>
               </div>
             </div>
+          </div>
+          <div className="dropdown-and-title"></div>
+          <div className="boxplots-and-buttons">
             <div className="boxplots">
               <BoxPlots
                 partData={partData.parts.slice(0, partData.numOfParts)}
@@ -237,36 +237,6 @@ export default function MachineDisplay({ searchHandler, machine }) {
                 metric={partData.metric}
                 searchHandler={searchHandler}
               />
-            </div>
-            <div className="machine-metric-toggles">
-              <div className="side-buttons">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={setSide.bind(null, "C-Side")}
-                >
-                  c-side
-                </button>
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={setSide.bind(null, "A-Side")}
-                >
-                  a-side
-                </button>
-              </div>
-              <div className="metric-buttons">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={setMetric.bind(null, "Diameter")}
-                >
-                  diameter
-                </button>
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={setMetric.bind(null, "Position")}
-                >
-                  position
-                </button>
-              </div>
             </div>
           </div>
         </div>

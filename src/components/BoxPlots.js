@@ -196,6 +196,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
     return scales;
   };
 
+  // Move options to a function that sets them
   return (
     <div>
       {graphData ? (
@@ -203,7 +204,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
           <Scatter
             data={graphData}
             options={{
-              parsing: false,
+              parsing: true,
               normalized: true,
               plugins: {
                 annotation: {
