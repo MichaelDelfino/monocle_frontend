@@ -13,7 +13,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
 
   useEffect(() => {
     fetch(
-      `http://localhost:3001/parts/?machine=${partData.machine}&timestamp=${partData.startDate}`
+      `http://192.168.0.2:3001/parts/?machine=${partData.machine}&timestamp=${partData.startDate}`
     )
       .then(response => {
         return response.json();

@@ -23,7 +23,7 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:3001/parts/?tracking=${props.tracking}`)
+    fetch(`http://192.168.0.2:3001/parts/?tracking=${props.tracking}`)
       .then(response => {
         return response.json();
       })
