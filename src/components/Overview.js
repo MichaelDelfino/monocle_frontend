@@ -24,7 +24,7 @@ export default function Overview({ machHandler }) {
 
       for (const mach of machines) {
         fetchArray.push(
-          `http://192.168.0.2:3001/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}`
+          `https://192.168.0.2:3001/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}`
         );
       }
       let requests = fetchArray.map(url => fetch(url));
