@@ -23,7 +23,9 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
-    fetch(`https://192.168.0.2:3001/parts/?tracking=${props.tracking}`)
+    fetch(
+      `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`
+    )
       .then(response => {
         return response.json();
       })
