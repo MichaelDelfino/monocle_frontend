@@ -19,6 +19,9 @@
     "react-chartjs-2": "^4.1.0",
     "react-drag-drop-files": "^2.3.5"
   },
+  "engines": {
+    "node": "16.14.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
