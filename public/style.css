@@ -120,7 +120,7 @@ button {
 .MachineDisplay,
 .OverviewDisplay,
 .OptionsDisplay {
-  margin-top: -75px;
+  margin-top: 0;
   padding: 0rem, 0rem;
   width: 95%;
 }
@@ -130,7 +130,7 @@ button {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 87px;
+  margin-top: 25px;
   background-color: #e9ecef margin;
 }
 .metrics {
@@ -154,8 +154,6 @@ button {
   height: 100%;
   width: 100%;
 }
-
-
 
 .scatter-graph {
   background-size: 100%;
@@ -224,6 +222,8 @@ button {
 #part-title {
   height: 15%;
   padding: 0;
+  margin-bottom: 0;
+  border-radius: 0.3rem;
 }
 .machine-jumbotron,
 #machine-title {
@@ -233,7 +233,7 @@ button {
 }
 
 .carousel {
-  height: 55%;
+  height: 62%;
 }
 .carousel-control-prev-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%232761cc' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
@@ -380,7 +380,7 @@ button {
 }
 
 .overview-jumbotron,
-#overview-title{
+#overview-title {
   padding: 0;
   display: flex;
   justify-content: center;
@@ -391,7 +391,7 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height:50%;
+  height: 50%;
   gap: 10px;
 }
 
@@ -402,6 +402,6 @@ button {
   margin-bottom: 50px;
 }
 
-.jumbotron{
+.jumbotron {
   margin-bottom: 0em;
 }

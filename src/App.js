@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { SearchBar } from './components/SearchBar';
-import { SideBar } from './components/SideBar';
-import Home from './components/Home';
-import PartDisplay from './components/PartDisplay';
-import MachineDisplay from './components/MachineDisplay';
-import OptionsDisplay from './components/OptionsDisplay';
-import Overview from './components/Overview';
+import React, { useEffect, useState } from "react";
+import { SearchBar } from "./components/SearchBar";
+import { SideBar } from "./components/SideBar";
+import Home from "./components/Home";
+import PartDisplay from "./components/PartDisplay";
+import MachineDisplay from "./components/MachineDisplay";
+import OptionsDisplay from "./components/OptionsDisplay";
+import Overview from "./components/Overview";
 
 export default function App() {
   const [pageData, setPageData] = useState();
 
   useEffect(() => {
     setPageData({
-      section: 'home',
-      tracking: '',
-      machine: 'WAM 101',
+      section: "home",
+      tracking: "",
+      machine: "WAM 101",
     });
   }, []);
 
-  const updateSection = section => {
-    setPageData(prevState => {
+  const updateSection = (section) => {
+    setPageData((prevState) => {
       return {
         ...prevState,
         section: section,
@@ -27,21 +27,21 @@ export default function App() {
     });
   };
 
-  const searchHandler = tracking => {
+  const searchHandler = (tracking) => {
     if (tracking) {
-      console.log('Searching for...', tracking);
+      console.log("Searching for...", tracking);
       setPageData({
-        section: 'part',
+        section: "part",
         tracking: tracking,
       });
     }
   };
 
-  const machHandler = mach => {
+  const machHandler = (mach) => {
     if (mach) {
       setPageData({
-        section: 'mach',
-        tracking: '',
+        section: "mach",
+        tracking: "",
         machine: mach,
       });
     }
@@ -60,17 +60,17 @@ export default function App() {
         {pageData ? (
           <div className="data-display">
             <div className="home-display">
-              {pageData.section === 'home' ? <Home /> : <div></div>}
+              {pageData.section === "home" ? <Home /> : <div></div>}
             </div>
             <div className="part-display">
-              {pageData.section === 'part' ? (
+              {pageData.section === "part" ? (
                 <PartDisplay tracking={pageData.tracking} />
               ) : (
                 <div></div>
               )}
             </div>
             <div className="mach-display">
-              {pageData.section === 'mach' ? (
+              {pageData.section === "mach" ? (
                 <MachineDisplay
                   searchHandler={searchHandler}
                   machine={pageData.machine}
@@ -80,14 +80,17 @@ export default function App() {
               )}
             </div>
             <div className="overview-display">
-              {pageData.section === 'overview' ? (
-                <Overview machHandler={machHandler} />
+              {pageData.section === "overview" ? (
+                <Overview
+                  machHandler={machHandler}
+                  searchHandler={searchHandler}
+                />
               ) : (
                 <div></div>
               )}
             </div>
             <div className="options-display">
-              {pageData.section === 'options' ? (
+              {pageData.section === "options" ? (
                 <OptionsDisplay />
               ) : (
                 <div></div>

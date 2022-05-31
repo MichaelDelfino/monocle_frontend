@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import DragAndDrop from './DragAndDrop';
-import { LineGraph } from './LineGraph';
-import { ScatterPlot } from './ScatterPlot';
-import { MetricHighlights } from './MetricHighlights';
+import React, { useEffect, useState } from "react";
+import DragAndDrop from "./DragAndDrop";
+import { LineGraph } from "./LineGraph";
+import { ScatterPlot } from "./ScatterPlot";
+import { MetricHighlights } from "./MetricHighlights";
 
 export default function PartDisplay(props) {
   const [partData, setPartData] = useState(null);
@@ -23,51 +23,58 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
+    // Set development environments to fetch localhost instead of hosted server
+    // let url = "";
+    // if (process.env.NODE_ENV === "development") {
+    //   url = `http://localhost:3001/parts/?tracking=${props.tracking}`;
+    // } else {
+    //   url = `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`;
+    // }
     fetch(
       `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`
     )
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(data => {
-        console.log('...found', data[0]);
+      .then((data) => {
+        console.log("...found", data[0]);
         if (data[0] === undefined) {
           setPartData(null);
         } else {
           setPartData({
             part: data[0],
-            metric: 'diameter',
-            side: 'c-side',
+            metric: "diameter",
+            side: "c-side",
           });
         }
       })
-      .catch(error => {
-        console.log('tracking error', error);
+      .catch((error) => {
+        console.log("tracking error", error);
       });
   }, [props.tracking]);
 
   // File Drag-and-Drop Functionality
-  const onDrop = file => {
+  const onDrop = (file) => {
     // init csideonly and modified time
     let cSideOnly = false;
     const mtime = file[0].lastModified;
 
-    if (file[0].name.includes('C_SideOnly')) {
+    if (file[0].name.includes("C_SideOnly")) {
       cSideOnly = true;
     } else {
       cSideOnly = false;
     }
 
-    const data = file[0].text().then(text => {
+    const data = file[0].text().then((text) => {
       const lines = text.split(/\r?\n/);
       // console.log(lines);
       const partPromise = tfParser(lines, mtime, cSideOnly);
-      partPromise.then(part => {
+      partPromise.then((part) => {
         console.log(part);
         setPartData({
           part: part,
-          metric: 'diameter',
-          side: 'c-side',
+          metric: "diameter",
+          side: "c-side",
         });
       });
     });
@@ -81,14 +88,14 @@ export default function PartDisplay(props) {
 
     for (const line of textFile) {
       if (count === 0) {
-        if (String(line.substring(20, 23)) === '809') {
-          partType = '1565P-01';
-        } else if (String(line.substring(20, 23)) === '887') {
-          partType = '1787P-01';
-        } else if (line.includes('817P')) {
-          partType = '817P-01';
-        } else if (line.includes('-317-')) {
-          partType = '317P-01';
+        if (String(line.substring(20, 23)) === "809") {
+          partType = "1565P-01";
+        } else if (String(line.substring(20, 23)) === "887") {
+          partType = "1787P-01";
+        } else if (line.includes("817P")) {
+          partType = "817P-01";
+        } else if (line.includes("-317-")) {
+          partType = "317P-01";
         } else {
           partType = String(line.substring(9, 17));
         }
@@ -97,17 +104,17 @@ export default function PartDisplay(props) {
 
       if (count === 2) {
         summit = String(line.substring(75, 100)).trim();
-        if (summit === 'S625XP11091449') {
-          summit = 'Summit_1';
-        } else if (summit === 'S600XP21031901') {
-          summit = 'Summit_2';
+        if (summit === "S625XP11091449") {
+          summit = "Summit_1";
+        } else if (summit === "S600XP21031901") {
+          summit = "Summit_2";
         } else {
-          summit = 'Summit_3';
+          summit = "Summit_3";
         }
       }
 
       if (count === 4) {
-        machine = 'WAM ' + String(line.substring(55, 58));
+        machine = "WAM " + String(line.substring(55, 58));
         tracking = String(line.substring(79, 90)).trim();
       }
 
@@ -126,7 +133,7 @@ export default function PartDisplay(props) {
 
   // Retrieve text file specification from partDefinitions config file
   const getTextFileSpecs = async (currentType, cSideOnly) => {
-    const defFile = './config/partDefinitions.json';
+    const defFile = "./config/partDefinitions.json";
 
     const response = await fetch(defFile);
     const partDef = await response.json();
@@ -156,7 +163,7 @@ export default function PartDisplay(props) {
 
     for (const line of textFile) {
       // C Side Data
-      if (!line.includes('Ellipse')) {
+      if (!line.includes("Ellipse")) {
         if (
           line.includes(textFileSpecs.diaString) &&
           lineCount <= textFileSpecs.cEnd
@@ -194,7 +201,7 @@ export default function PartDisplay(props) {
       }
 
       // C-Side angle hole data
-      if (line.includes('Ellipse')) {
+      if (line.includes("Ellipse")) {
         if (
           line.includes(textFileSpecs.truePosString) &&
           lineCount <= textFileSpecs.cEnd
@@ -293,7 +300,7 @@ export default function PartDisplay(props) {
 
       // A Flip Data
       if (textFileSpecs.includeAFlip) {
-        if (!line.includes('Ellipse')) {
+        if (!line.includes("Ellipse")) {
           // reset hole count at a-flip data
           if (lineCount === textFileSpecs.aEnd + 1) {
             holeCount = 1;
@@ -311,7 +318,7 @@ export default function PartDisplay(props) {
           }
         }
       }
-      if (line.includes('Ellipse')) {
+      if (line.includes("Ellipse")) {
         if (
           line.includes(textFileSpecs.truePosString) &&
           lineCount > textFileSpecs.aEnd
@@ -366,44 +373,44 @@ export default function PartDisplay(props) {
     return [cSideData, aSideData, aFlipData];
   };
 
-  const getPartColor = partType => {
-    let borderColor = '';
-    let backgroundColor = '';
+  const getPartColor = (partType) => {
+    let borderColor = "";
+    let backgroundColor = "";
 
-    if (String(partType).trim() === '369P-01') {
-      borderColor = 'rgb(252, 186, 3, 1)';
-      backgroundColor = 'rgb(252, 186, 3, .2)';
-    } else if (String(partType).trim() === '1789P-01') {
-      borderColor = 'rgb(2, 117, 216, 1)';
-      backgroundColor = 'rgb(2, 117, 216, .2)';
-    } else if (String(partType).trim() === '2078P-01') {
-      borderColor = 'rgb(92, 184, 92, 1)';
-      backgroundColor = 'rgb(92, 184, 92, .2)';
-    } else if (String(partType).trim() === '1534P-01') {
-      borderColor = 'rgb(219, 112, 4, 1)';
-      backgroundColor = 'rgb(219, 112, 4, .2)';
-    } else if (String(partType).trim() === '1557P-01') {
-      borderColor = 'rgb(68, 242, 207, 1)';
-      backgroundColor = 'rgb(68, 242, 207, .2)';
-    } else if (String(partType).trim() === '2129P-01') {
-      borderColor = 'rgb(252, 3, 102, 1)';
-      backgroundColor = 'rgb(252, 3, 102, .2)';
-    } else if (String(partType).trim() === '2129P-02') {
-      borderColor = 'rgb(175, 104, 252, 1)';
-      backgroundColor = 'rgb(175, 104, 252, .2)';
-    } else if (String(partType).trim() === '2129P-03') {
-      borderColor = 'rgb(1, 0, 3, 1)';
-      backgroundColor = 'rgb(1, 0, 3, .2)';
-    } else if (String(partType).trim() === '1565P-01') {
-      borderColor = 'rgb(171, 194, 21, 1)';
-      backgroundColor = 'rgb(171, 194, 21, .2)';
+    if (String(partType).trim() === "369P-01") {
+      borderColor = "rgb(252, 186, 3, 1)";
+      backgroundColor = "rgb(252, 186, 3, .2)";
+    } else if (String(partType).trim() === "1789P-01") {
+      borderColor = "rgb(2, 117, 216, 1)";
+      backgroundColor = "rgb(2, 117, 216, .2)";
+    } else if (String(partType).trim() === "2078P-01") {
+      borderColor = "rgb(92, 184, 92, 1)";
+      backgroundColor = "rgb(92, 184, 92, .2)";
+    } else if (String(partType).trim() === "1534P-01") {
+      borderColor = "rgb(219, 112, 4, 1)";
+      backgroundColor = "rgb(219, 112, 4, .2)";
+    } else if (String(partType).trim() === "1557P-01") {
+      borderColor = "rgb(68, 242, 207, 1)";
+      backgroundColor = "rgb(68, 242, 207, .2)";
+    } else if (String(partType).trim() === "2129P-01") {
+      borderColor = "rgb(252, 3, 102, 1)";
+      backgroundColor = "rgb(252, 3, 102, .2)";
+    } else if (String(partType).trim() === "2129P-02") {
+      borderColor = "rgb(175, 104, 252, 1)";
+      backgroundColor = "rgb(175, 104, 252, .2)";
+    } else if (String(partType).trim() === "2129P-03") {
+      borderColor = "rgb(1, 0, 3, 1)";
+      backgroundColor = "rgb(1, 0, 3, .2)";
+    } else if (String(partType).trim() === "1565P-01") {
+      borderColor = "rgb(171, 194, 21, 1)";
+      backgroundColor = "rgb(171, 194, 21, .2)";
     }
 
     return [borderColor, backgroundColor];
   };
 
-  const changeMetric = metricSel => {
-    setPartData(prevState => {
+  const changeMetric = (metricSel) => {
+    setPartData((prevState) => {
       return { ...prevState, metric: metricSel };
     });
   };
@@ -435,12 +442,12 @@ export default function PartDisplay(props) {
     return part;
   };
 
-  const importTest = async partData => {
+  const importTest = async (partData) => {
     console.log(partData.tracking);
     const response = await fetch(`http://localhost:3001/parts`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(partData),
     });
@@ -465,14 +472,14 @@ export default function PartDisplay(props) {
               </button> */}
               <p className="display-4 lead">
                 {partData.part.tracking}
-                <span style={{ color: getPartColor(partData.part.parttype) }}>
-                  |
+                <span style={{ color: "rgb(39, 97, 204)" }}>
+                  &nbsp;| &nbsp;
                 </span>
               </p>
               <p className="display-4 lead">
                 {partData.part.parttype}
-                <span style={{ color: getPartColor(partData.part.parttype) }}>
-                  |
+                <span style={{ color: "rgb(39, 97, 204)" }}>
+                  &nbsp;| &nbsp;
                 </span>
               </p>
               <p className="display-4 lead">{partData.part.machine} </p>
