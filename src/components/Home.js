@@ -18,7 +18,7 @@ export default function Home() {
           Ver. <span className="version version-num">1</span>
         </p>
         <p className="lead">Michael Delfino</p>
-        <p className="lead">Apr 2022</p>
+        <p className="lead">Jun 2022</p>
         <p className="lead"></p>
       </div>
     </div>
