@@ -19,7 +19,7 @@ export default function Home() {
         </p>
         <p className="lead">Michael Delfino</p>
         <p className="lead">Jun 2022</p>
-        <p className="lead">lul</p>
+        <p className="lead"></p>
       </div>
     </div>
   );
