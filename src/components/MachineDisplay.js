@@ -176,7 +176,8 @@ export default function MachineDisplay({ searchHandler, machine }) {
             {partData.machine}
             <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
-          <p className="display-4 lead">
+          <p className="display-4 lead">Machine Display</p>
+          {/* <p className="display-4 lead">
             {partData.partType}
             <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
@@ -187,7 +188,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
               partData.side.substring(3)}
             <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
-          <p className="display-4 lead">{partData.metric} </p>
+          <p className="display-4 lead">{partData.metric} </p> */}
         </div>
       </div>
       {partData ? (
