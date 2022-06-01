@@ -201,12 +201,12 @@ export default function MachineDisplay({ searchHandler, machine }) {
                   {/* All machines option, different query required? */}
                   {/* <option value="%">All Machines</option> */}
                   <option value="WAM 101">WAM 101</option>
-                  <option value="WAM 116">WAM 106</option>
+                  <option value="WAM 106">WAM 106</option>
                   <option value="WAM 110">WAM 110</option>
                   <option value="WAM 116">WAM 116</option>
                   <option value="WAM 120">WAM 120</option>
                   <option value="WAM 132">WAM 132</option>
-                  <option value="WAM 132">WAM 134</option>
+                  <option value="WAM 134">WAM 134</option>
                   <option value="WAM 136">WAM 136</option>
                   <option value="WAM 137">WAM 137</option>
                   <option value="WAM 138">WAM 138</option>
