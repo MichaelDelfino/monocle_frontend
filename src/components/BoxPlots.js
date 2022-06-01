@@ -6,13 +6,15 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 
 Chart.register(...registerables, annotationPlugin);
 
-export default function BoxPlots({ partData, side, metric, searchHandler }) {
+export default function BoxPlots({ partData, side, metric, searchHandler, tols }) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
     let allHoleData = [];
     let datasets = [];
     let scales = {};
+    let annotations = [];
+    console.log(tols)
 
     if (metric === 'Diameter') {
       allHoleData = getDiameters(partData, side);
@@ -46,6 +48,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
     setGraphData({
       datasets: datasets,
       scales: scales,
+      // annotations: annotations,
     });
   }, [partData, side, metric]);
 
@@ -197,6 +200,42 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
     return scales;
   };
 
+  const setAnnotations =  (tols) => {
+    const annotations = [];
+
+    annotations.push({
+      type: 'line',
+      mode: 'horizontal',
+      yMin:
+        tols[side]?.diaNom -
+        tols[side]?.diaMin,
+      yMax:
+        tols[side]?.diaNom -
+        tols[side]?.diaMin,
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderWidth: 2,
+      adjustScaleRange: true,
+    },
+    {
+      type: 'line',
+      mode: 'horizontal',
+      yMin:
+      tols[side]?.diaNom +
+      tols[side]?.diaMax,
+      yMax:
+      tols[side]?.diaNom +
+      tols[side]?.diaMax,
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderWidth: 2,
+      adjustScaleRange: true,
+    })
+    return annotations;
+  }
+
+  
+
   // Move options to a function that sets them
   return (
     <div>
@@ -208,38 +247,9 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
               parsing: true,
               normalized: true,
               plugins: {
-                annotation: {
-                  annotations: [
-                    {
-                      type: 'line',
-                      mode: 'horizontal',
-                      yMin:
-                        partData[0]?.tolerances[side]?.diaNom -
-                        partData[0]?.tolerances[side]?.diaMin,
-                      yMax:
-                        partData[0]?.tolerances[side]?.diaNom -
-                        partData[0]?.tolerances[side]?.diaMin,
-                      borderColor: 'rgb(255, 99, 132)',
-                      backgroundColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                      adjustScaleRange: true,
-                    },
-                    {
-                      type: 'line',
-                      mode: 'horizontal',
-                      yMin:
-                        partData[0]?.tolerances[side]?.diaNom +
-                        partData[0]?.tolerances[side]?.diaPlus,
-                      yMax:
-                        partData[0]?.tolerances[side]?.diaNom +
-                        partData[0]?.tolerances[side]?.diaPlus,
-                      borderColor: 'rgb(255, 99, 132)',
-                      backgroundColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                      adjustScaleRange: true,
-                    },
-                  ],
-                },
+                // annotation: {
+                //   annotations: graphData.annotations,
+                // },
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;

@@ -141,7 +141,8 @@ export const ScatterPlot = ({ partData }) => {
 
     return [borderColor, backgroundColor];
   };
-
+  
+  // TODO - pull tols from json file, not obj to make dynamic
   const getOutTol = (hole) => {
     let outTol = [];
     let cDia = partData.csidedata[hole]?.cDia;

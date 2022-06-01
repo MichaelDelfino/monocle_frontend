@@ -9,6 +9,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
     metric: 'Diameter',
     side: 'c-side',
     startDate: Date.now(),
+    tols: {}
   });
 
   useEffect(() => {
@@ -19,15 +20,18 @@ export default function MachineDisplay({ searchHandler, machine }) {
         return response.json();
       })
       .then(data => {
-        console.log(partData.parts);
-        setPartData({
-          parts: data,
-          machine: partData.machine,
-          numOfParts: partData.numOfParts,
-          metric: partData.metric,
-          side: partData.side,
-          startDate: partData.startDate,
-        });
+        const tolPromise = getTextFileSpecs(partData.parts[0])
+        tolPromise.then((specs, tols) => {
+          setPartData({
+            parts: data,
+            machine: partData.machine,
+            numOfParts: partData.numOfParts,
+            metric: partData.metric,
+            side: partData.side,
+            startDate: partData.startDate,
+            tols: tols
+          });
+        })
       })
       .catch(error => {
         console.log(error);
@@ -142,6 +146,28 @@ export default function MachineDisplay({ searchHandler, machine }) {
     return todayDefault;
   };
 
+
+  const getTextFileSpecs = async (currentType) => {
+    console.log(currentType)
+    const defFile = "./config/partDefinitions.json";
+
+    const response = await fetch(defFile);
+    const partDef = await response.json();
+
+    for (const part of partDef) {
+      if (
+        String(part.partType).trim() === String(currentType).trim()
+      ) {
+        let textFileSpecs,
+          tolerances = {};
+        textFileSpecs = part.textFileSpecs;
+        tolerances = part.tolerances;
+        console.log(textFileSpecs, tolerances)
+        return [textFileSpecs, tolerances];
+      }
+    }
+  };
+
   return (
     <div className="MachineDisplay">
       <div id="machine-title" className="jumbotron machine-jumbotron">
@@ -151,7 +177,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
             <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
           </p>
           <p className="display-4 lead">
-            {partData.side}
+            {partData.side[0].toUpperCase() + partData.side.substring(1,2) + partData.side[2].toUpperCase() + partData.side.substring(3)}
             <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
           </p>
           <p className="display-4 lead">{partData.metric} </p>
@@ -234,6 +260,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
                 side={partData.side}
                 metric={partData.metric}
                 searchHandler={searchHandler}
+                tols={partData.tols}
               />
             </div>
           </div>

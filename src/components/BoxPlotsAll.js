@@ -17,6 +17,7 @@ export default function BoxPlotsAll({
 
   useEffect(() => {
     setGraphData(null);
+    console.log(data)
     if (data.length) {
       let allHoleData = [];
       let datasets = [];
@@ -247,32 +248,32 @@ export default function BoxPlotsAll({
               animation: false,
               normalized: true,
               plugins: {
-                annotation: {
-                  annotations: [
-                    {
-                      type: 'line',
-                      yMin:
-                        data[0][0]?.tolerances[side]?.diaNom -
-                        data[0][0]?.tolerances[side]?.diaMin,
-                      yMax:
-                        data[0][0]?.tolerances[side]?.diaNom -
-                        data[0][0]?.tolerances[side]?.diaMin,
-                      borderColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                    },
-                    {
-                      type: 'line',
-                      yMin:
-                        data[0][0]?.tolerances[side]?.diaNom +
-                        data[0][0]?.tolerances[side]?.diaPlus,
-                      yMax:
-                        data[0][0]?.tolerances[side]?.diaNom +
-                        data[0][0]?.tolerances[side]?.diaPlus,
-                      borderColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                    },
-                  ],
-                },
+                // annotation: {
+                //   annotations: [
+                //     {
+                //       type: 'line',
+                //       yMin:
+                //         data[0][0]?.tolerances[side]?.diaNom -
+                //         data[0][0]?.tolerances[side]?.diaMin,
+                //       yMax:
+                //         data[0][0]?.tolerances[side]?.diaNom -
+                //         data[0][0]?.tolerances[side]?.diaMin,
+                //       borderColor: 'rgb(255, 99, 132)',
+                //       borderWidth: 2,
+                //     },
+                //     {
+                //       type: 'line',
+                //       yMin:
+                //         data[0][0]?.tolerances[side]?.diaNom +
+                //         data[0][0]?.tolerances[side]?.diaPlus,
+                //       yMax:
+                //         data[0][0]?.tolerances[side]?.diaNom +
+                //         data[0][0]?.tolerances[side]?.diaPlus,
+                //       borderColor: 'rgb(255, 99, 132)',
+                //       borderWidth: 2,
+                //     },
+                //   ],
+                // },
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;
