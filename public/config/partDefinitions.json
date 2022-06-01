@@ -156,8 +156,8 @@
       },
       "a-side": {
         "diaNom": 0.0163,
-        "diaPlus": 0.004,
-        "diaMin": 0.002,
+        "diaPlus": 0.002,
+        "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.0065,
         "posMin": 0.0065
