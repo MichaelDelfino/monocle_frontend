@@ -1,12 +1,19 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Scatter } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
+import React from "react";
+import { useState, useEffect } from "react";
+import { Scatter } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import annotationPlugin from "chartjs-plugin-annotation";
 
 Chart.register(...registerables, annotationPlugin);
 
-export default function BoxPlots({ partData, side, metric, searchHandler, tols }) {
+export default function BoxPlots({
+  partData,
+  side,
+  metric,
+  searchHandler,
+  tols,
+  parttype,
+}) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
@@ -14,12 +21,11 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
     let datasets = [];
     let scales = {};
     let annotations = [];
-    console.log(tols)
 
-    if (metric === 'Diameter') {
+    if (metric === "Diameter") {
       allHoleData = getDiameters(partData, side);
     }
-    if (metric === 'Position') {
+    if (metric === "Position") {
       allHoleData = getPositions(partData, side);
     }
     // const [borderColor, backgroundColor] = getPartColor(partData[0]);
@@ -34,7 +40,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
           label: data[i]?.tracking,
           data: generateJitter(allHoleData[i]),
           backgroundColor: getPartColor(i),
-          borderColor: 'black',
+          borderColor: "black",
           borderWidth: 0.5,
         };
         datasets.push(singleDataset);
@@ -43,19 +49,20 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
       return datasets;
     };
     datasets = setDatasets(partData, allHoleData);
-    scales = setScales(metric);
+    scales = setScales(metric, parttype);
+    annotations = setAnnotations(tols, metric);
 
     setGraphData({
       datasets: datasets,
       scales: scales,
-      // annotations: annotations,
+      annotations: annotations,
     });
   }, [partData, side, metric]);
 
   const getDiameters = (data, side) => {
     let allDiametersArray = [];
     let i = 0;
-    if (side === 'c-side') {
+    if (side === "c-side") {
       for (const part of data) {
         let diameterArray = [];
         for (const hole in part.csidedata) {
@@ -67,7 +74,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
         allDiametersArray.push(diameterArray);
         i++;
       }
-    } else if (side === 'a-side') {
+    } else if (side === "a-side") {
       for (const part of data) {
         let diameterArray = [];
         for (const hole in part.asidedata) {
@@ -86,7 +93,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
   const getPositions = (data, side) => {
     let allPositionsArray = [];
     let i = 0;
-    if (side === 'c-side') {
+    if (side === "c-side") {
       for (const part of data) {
         let positionsArray = [];
         for (const hole in part.csidedata) {
@@ -98,7 +105,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
         allPositionsArray.push(positionsArray);
         i++;
       }
-    } else if (side === 'a-side') {
+    } else if (side === "a-side") {
       for (const part of data) {
         let positionsArray = [];
         for (const hole in part.asidedata) {
@@ -114,46 +121,46 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
     return allPositionsArray;
   };
 
-  const getPartColor = data => {
-    let borderColor = '';
-    let backgroundColor = '';
+  const getPartColor = (data) => {
+    let borderColor = "";
+    let backgroundColor = "";
 
     switch (data) {
       case 0:
-        borderColor = 'rgb(252, 186, 3, 1)';
-        backgroundColor = 'rgb(252, 186, 3, .2)';
+        borderColor = "rgb(252, 186, 3, 1)";
+        backgroundColor = "rgb(252, 186, 3, .2)";
         break;
       case 1:
-        borderColor = 'rgb(2, 117, 216, 1)';
-        backgroundColor = 'rgb(2, 117, 216, .2)';
+        borderColor = "rgb(2, 117, 216, 1)";
+        backgroundColor = "rgb(2, 117, 216, .2)";
         break;
       case 2:
-        borderColor = 'rgb(92, 184, 92, 1)';
-        backgroundColor = 'rgb(92, 184, 92, .2)';
+        borderColor = "rgb(92, 184, 92, 1)";
+        backgroundColor = "rgb(92, 184, 92, .2)";
         break;
       case 3:
-        borderColor = 'rgb(219, 112, 4, 1)';
-        backgroundColor = 'rgb(219, 112, 4, .2)';
+        borderColor = "rgb(219, 112, 4, 1)";
+        backgroundColor = "rgb(219, 112, 4, .2)";
         break;
       case 4:
-        borderColor = 'rgb(68, 242, 207, 1)';
-        backgroundColor = 'rgb(68, 242, 207, .2)';
+        borderColor = "rgb(68, 242, 207, 1)";
+        backgroundColor = "rgb(68, 242, 207, .2)";
         break;
       case 5:
-        borderColor = 'rgb(252, 3, 102, 1)';
-        backgroundColor = 'rgb(252, 3, 102, .2)';
+        borderColor = "rgb(252, 3, 102, 1)";
+        backgroundColor = "rgb(252, 3, 102, .2)";
         break;
       case 6:
-        borderColor = 'rgb(175, 104, 252, 1)';
-        backgroundColor = 'rgb(175, 104, 252, .2)';
+        borderColor = "rgb(175, 104, 252, 1)";
+        backgroundColor = "rgb(175, 104, 252, .2)";
         break;
       case 7:
-        borderColor = 'rgb(1, 0, 3, 1)';
-        backgroundColor = 'rgb(1, 0, 3, .2)';
+        borderColor = "rgb(1, 0, 3, 1)";
+        backgroundColor = "rgb(1, 0, 3, .2)";
         break;
       case 8:
-        borderColor = 'rgb(171, 194, 21, 1)';
-        backgroundColor = 'rgb(171, 194, 21, .2)';
+        borderColor = "rgb(171, 194, 21, 1)";
+        backgroundColor = "rgb(171, 194, 21, .2)";
         break;
       default:
         break;
@@ -162,8 +169,8 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
     return borderColor;
   };
 
-  const generateJitter = data => {
-    return data.map(data => {
+  const generateJitter = (data) => {
+    return data.map((data) => {
       let xJitter = Math.random() * (-0.1 - 0.1) + 0.1;
       return {
         x: data.x + xJitter,
@@ -172,20 +179,35 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
     });
   };
 
-  const setScales = metric => {
+  const setScales = (metric, parttype) => {
     let scales = {};
-    if (metric === 'Diameter') {
-      scales = {
-        y: {
-          max: 0.02,
-          min: 0.014,
-          beginAtZero: true,
-        },
-        x: {
-          beginAtZero: true,
-        },
-      };
-    } else if (metric === 'Position') {
+    if (metric === "Diameter") {
+      {
+        if (parttype === "369P-01") {
+          scales = {
+            y: {
+              max: 0.023,
+              min: 0.015,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        } else {
+          scales = {
+            y: {
+              max: 0.02,
+              min: 0.014,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        }
+      }
+    } else if (metric === "Position") {
       scales = {
         y: {
           max: 0.01,
@@ -200,41 +222,56 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
     return scales;
   };
 
-  const setAnnotations =  (tols) => {
+  const setAnnotations = (tols, metric) => {
     const annotations = [];
-
-    annotations.push({
-      type: 'line',
-      mode: 'horizontal',
-      yMin:
-        tols[side]?.diaNom -
-        tols[side]?.diaMin,
-      yMax:
-        tols[side]?.diaNom -
-        tols[side]?.diaMin,
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderWidth: 2,
-      adjustScaleRange: true,
-    },
-    {
-      type: 'line',
-      mode: 'horizontal',
-      yMin:
-      tols[side]?.diaNom +
-      tols[side]?.diaMax,
-      yMax:
-      tols[side]?.diaNom +
-      tols[side]?.diaMax,
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderWidth: 2,
-      adjustScaleRange: true,
-    })
+    console.log(tols);
+    if (metric === "Diameter") {
+      annotations.push(
+        {
+          type: "line",
+          mode: "horizontal",
+          yMin: tols[side]?.diaNom - tols[side]?.diaMin,
+          yMax: tols[side]?.diaNom - tols[side]?.diaMin,
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderWidth: 2,
+        },
+        {
+          type: "line",
+          mode: "horizontal",
+          yMin: tols[side]?.diaNom + tols[side]?.diaPlus,
+          yMax: tols[side]?.diaNom + tols[side]?.diaPlus,
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+    } else if (metric === "Position") {
+      annotations.push(
+        {
+          type: "line",
+          mode: "horizontal",
+          yMin: tols[side]?.posNom - tols[side]?.posMin,
+          yMax: tols[side]?.posNom - tols[side]?.posMin,
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderWidth: 2,
+        },
+        {
+          type: "line",
+          mode: "horizontal",
+          yMin: tols[side]?.posNom + tols[side]?.posPlus,
+          yMax: tols[side]?.posNom + tols[side]?.posPlus,
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgb(255, 99, 132)",
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+    }
     return annotations;
-  }
-
-  
+  };
 
   // Move options to a function that sets them
   return (
@@ -247,9 +284,9 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
               parsing: true,
               normalized: true,
               plugins: {
-                // annotation: {
-                //   annotations: graphData.annotations,
-                // },
+                annotation: {
+                  annotations: graphData.annotations,
+                },
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;
@@ -264,7 +301,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
                 tooltip: {
                   enabled: false,
                   callbacks: {
-                    label: context => {
+                    label: (context) => {
                       console.log(context);
                       let index = context.dataIndex;
                       let label = `Hole ${
@@ -277,7 +314,7 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
                 zoom: {
                   pan: {
                     enabled: true,
-                    modifierKey: 'ctrl',
+                    modifierKey: "ctrl",
                   },
                   zoom: {
                     wheel: {
@@ -286,11 +323,11 @@ export default function BoxPlots({ partData, side, metric, searchHandler, tols }
                     pinch: {
                       enabled: false,
                     },
-                    mode: 'xy',
+                    mode: "xy",
                   },
                   limits: {
-                    x: { min: 'original', max: 'original' },
-                    y: { min: 'original', max: 'original' },
+                    x: { min: "original", max: "original" },
+                    y: { min: "original", max: "original" },
                   },
                 },
               },

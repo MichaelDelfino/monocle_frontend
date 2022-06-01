@@ -49,7 +49,7 @@
     "tolerances": {
       "c-side": {
         "diaNom": 0.019,
-        "diaPlus": 0.002,
+        "diaPlus": 0.0,
         "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.01,
