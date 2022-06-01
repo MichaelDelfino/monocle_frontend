@@ -177,6 +177,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
                   <option value="WAM 116">WAM 116</option>
                   <option value="WAM 120">WAM 120</option>
                   <option value="WAM 132">WAM 132</option>
+                  <option value="WAM 132">WAM 134</option>
                   <option value="WAM 136">WAM 136</option>
                   <option value="WAM 137">WAM 137</option>
                   <option value="WAM 138">WAM 138</option>
@@ -190,7 +191,6 @@ export default function MachineDisplay({ searchHandler, machine }) {
                   <option value="WAM 901">WAM 901</option>
                   <option value="WAM 902">WAM 902</option>
                   <option value="WAM 903">WAM 903</option>
-                  <option value="WAM 951">WAM 951</option>
                 </select>
                 <select
                   className="form-select form-select-lg mb-3"

@@ -87,9 +87,6 @@ button {
   width: 280px;
   height: 100vh;
 }
-.home-title {
-  /* border-right: 0.07em solid #2761cc; The typwriter cursor */
-}
 
 .home-title,
 .part-display-title,
