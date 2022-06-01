@@ -222,8 +222,8 @@
       },
       "a-side": {
         "diaNom": 0.0163,
-        "diaPlus": 0.0015,
-        "diaMin": 0.0015,
+        "diaPlus": 0.002,
+        "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.0065,
         "posMin": 0.0065
@@ -255,8 +255,8 @@
       },
       "a-side": {
         "diaNom": 0.0163,
-        "diaPlus": 0.0015,
-        "diaMin": 0.0015,
+        "diaPlus": 0.002,
+        "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.0065,
         "posMin": 0.0065
@@ -288,8 +288,8 @@
       },
       "a-side": {
         "diaNom": 0.0163,
-        "diaPlus": 0.0015,
-        "diaMin": 0.0015,
+        "diaPlus": 0.002,
+        "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.0065,
         "posMin": 0.0065
@@ -312,20 +312,20 @@
     },
     "tolerances": {
       "c-side": {
-        "diaNom": 0.019,
-        "diaPlus": 9,
-        "diaMin": 9,
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
         "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
+        "posPlus": 0.01,
+        "posMin": 0.01
       },
       "a-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
         "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
+        "posPlus": 0.01,
+        "posMin": 0.01
       }
     }
   },

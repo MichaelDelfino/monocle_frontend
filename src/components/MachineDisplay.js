@@ -14,7 +14,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
   });
 
   useEffect(() => {
-    const getPartTols = async (currentType) => {
+    const getPartTols = async currentType => {
       console.log(currentType);
       const defFile = "./config/partDefinitions.json";
       let tolerances = {};
@@ -30,10 +30,10 @@ export default function MachineDisplay({ searchHandler, machine }) {
       fetch(
         `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach-page`
       )
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setPartData({
             parts: data,
             machine: partData.machine,
@@ -45,7 +45,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
             tols: tolerances,
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     };
@@ -53,13 +53,13 @@ export default function MachineDisplay({ searchHandler, machine }) {
     getPartTols(partData.partType);
   }, [partData.machine, partData.startDate, partData.partType]);
 
-  const setMachine = (e) => {
-    setPartData((prevState) => {
+  const setMachine = e => {
+    setPartData(prevState => {
       return { ...prevState, machine: e.target.value };
     });
   };
 
-  const setNumOfParts = (e) => {
+  const setNumOfParts = e => {
     let value = e.target.value;
     if (value > 9) {
       console.log("bigboi");
@@ -68,41 +68,41 @@ export default function MachineDisplay({ searchHandler, machine }) {
       value = 1;
     }
 
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, numOfParts: value };
     });
   };
 
-  const setSide = (e) => {
+  const setSide = e => {
     const side = e.target.value;
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, side: side };
     });
   };
 
-  const setMetric = (e) => {
+  const setMetric = e => {
     const metric = e.target.value;
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, metric: metric };
     });
   };
 
-  const setStartDate = (e) => {
-    setPartData((prevState) => {
+  const setStartDate = e => {
+    setPartData(prevState => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
   };
 
   // alter time with slider for currently selected day
-  const setStartTime = (e) => {
+  const setStartTime = e => {
     const currentDate = Date.parse(partData.startDate);
     console.log(currentDate);
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
   };
 
-  const getPartColor = (partType) => {
+  const getPartColor = partType => {
     let borderColor = "";
     let backgroundColor = "";
 
@@ -138,7 +138,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
     return [borderColor, backgroundColor];
   };
 
-  const getTodayFormattedString = (date) => {
+  const getTodayFormattedString = date => {
     // req format: 2022-05-23T16:46
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
@@ -161,9 +161,9 @@ export default function MachineDisplay({ searchHandler, machine }) {
     return todayDefault;
   };
 
-  const setPartType = (e) => {
+  const setPartType = e => {
     const partType = e.target.value;
-    setPartData((prevState) => {
+    setPartData(prevState => {
       return { ...prevState, partType: partType };
     });
   };
@@ -174,6 +174,10 @@ export default function MachineDisplay({ searchHandler, machine }) {
         <div className="machine-info">
           <p className="display-4 lead">
             {partData.machine}
+            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+          </p>
+          <p className="display-4 lead">
+            {partData.partType}
             <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
           <p className="display-4 lead">
@@ -220,6 +224,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
                   <option value="WAM 901">WAM 901</option>
                   <option value="WAM 902">WAM 902</option>
                   <option value="WAM 903">WAM 903</option>
+                  <option value="WAM 904">WAM 904</option>
                 </select>
                 <select
                   name="parttype-select"
@@ -257,6 +262,7 @@ export default function MachineDisplay({ searchHandler, machine }) {
                 </div> */}
                 <div className="overview-date-input">
                   <input
+                    className="form-control"
                     name="overview-date"
                     type="datetime-local"
                     defaultValue={getTodayFormattedString(Date.now())}

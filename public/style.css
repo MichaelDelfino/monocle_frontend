@@ -374,6 +374,7 @@ button {
   flex-direction: row;
   justify-content: center;
   gap: 10px;
+  width: 80%;
 }
 
 .overview-jumbotron,

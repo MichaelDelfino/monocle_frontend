@@ -1,8 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Scatter } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
+import React from "react";
+import { useState, useEffect } from "react";
+import { Scatter } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import annotationPlugin from "chartjs-plugin-annotation";
 
 Chart.register(...registerables, annotationPlugin);
 
@@ -12,21 +12,22 @@ export default function BoxPlotsAll({
   metric,
   machHandler,
   searchHandler,
+  partType,
 }) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
     setGraphData(null);
-    console.log(data)
+    console.log(data);
     if (data.length) {
       let allHoleData = [];
       let datasets = [];
       let scales = {};
 
-      if (metric === 'Diameter') {
+      if (metric === "Diameter") {
         allHoleData = getDiameters(data, side);
       }
-      if (metric === 'Position') {
+      if (metric === "Position") {
         allHoleData = getPositions(data, side);
       }
       // const [borderColor, backgroundColor] = getPartColor(partData[0]);
@@ -42,7 +43,7 @@ export default function BoxPlotsAll({
             label: machine[0]?.machine,
             data: generateJitter(allHoleData[i]),
             backgroundColor: getPartColor(i),
-            borderColor: 'black',
+            borderColor: "black",
             borderWidth: 0.5,
           };
           datasets.push(singleDataset);
@@ -51,7 +52,7 @@ export default function BoxPlotsAll({
         return datasets;
       };
       datasets = setDatasets(data, allHoleData);
-      scales = setScales(metric);
+      scales = setScales(metric, partType);
 
       setGraphData({
         datasets: datasets,
@@ -65,7 +66,7 @@ export default function BoxPlotsAll({
     let diameterArray = [];
     let i = 0.5;
     for (const machine of data) {
-      if (side === 'c-side') {
+      if (side === "c-side") {
         diameterArray = [];
         for (const part of machine) {
           for (const hole in part.csidedata) {
@@ -77,7 +78,7 @@ export default function BoxPlotsAll({
           i++;
         }
         allDiametersArray.push(diameterArray);
-      } else if (side === 'a-side') {
+      } else if (side === "a-side") {
         diameterArray = [];
         for (const part of machine) {
           for (const hole in part.asidedata) {
@@ -99,7 +100,7 @@ export default function BoxPlotsAll({
     let positionArray = [];
     let i = 0.5;
     for (const machine of data) {
-      if (side === 'c-side') {
+      if (side === "c-side") {
         positionArray = [];
         for (const part of machine) {
           for (const hole in part.csidedata) {
@@ -111,7 +112,7 @@ export default function BoxPlotsAll({
           i++;
         }
         allPositionsArray.push(positionArray);
-      } else if (side === 'a-side') {
+      } else if (side === "a-side") {
         positionArray = [];
         for (const part of machine) {
           for (const hole in part.asidedata) {
@@ -129,57 +130,65 @@ export default function BoxPlotsAll({
   };
 
   const getPartColor = data => {
-    let borderColor = '';
-    let backgroundColor = '';
+    let borderColor = "";
+    let backgroundColor = "";
 
     switch (data) {
       case 0:
-        borderColor = 'rgb(252, 186, 3, 1)';
-        backgroundColor = 'rgb(252, 186, 3, .2)';
+        borderColor = "rgb(252, 186, 3, 1)";
+        backgroundColor = "rgb(252, 186, 3, .2)";
         break;
       case 1:
-        borderColor = 'rgb(2, 117, 216, 1)';
-        backgroundColor = 'rgb(2, 117, 216, .2)';
+        borderColor = "rgb(2, 117, 216, 1)";
+        backgroundColor = "rgb(2, 117, 216, .2)";
         break;
       case 2:
-        borderColor = 'rgb(92, 184, 92, 1)';
-        backgroundColor = 'rgb(92, 184, 92, .2)';
+        borderColor = "rgb(92, 184, 92, 1)";
+        backgroundColor = "rgb(92, 184, 92, .2)";
         break;
       case 3:
-        borderColor = 'rgb(219, 112, 4, 1)';
-        backgroundColor = 'rgb(219, 112, 4, .2)';
+        borderColor = "rgb(219, 112, 4, 1)";
+        backgroundColor = "rgb(219, 112, 4, .2)";
         break;
       case 4:
-        borderColor = 'rgb(68, 242, 207, 1)';
-        backgroundColor = 'rgb(68, 242, 207, .2)';
+        borderColor = "rgb(68, 242, 207, 1)";
+        backgroundColor = "rgb(68, 242, 207, .2)";
         break;
       case 5:
-        borderColor = 'rgb(252, 3, 102, 1)';
-        backgroundColor = 'rgb(252, 3, 102, .2)';
+        borderColor = "rgb(252, 3, 102, 1)";
+        backgroundColor = "rgb(252, 3, 102, .2)";
         break;
       case 6:
-        borderColor = 'rgb(175, 104, 252, 1)';
-        backgroundColor = 'rgb(175, 104, 252, .2)';
+        borderColor = "rgb(175, 104, 252, 1)";
+        backgroundColor = "rgb(175, 104, 252, .2)";
         break;
       case 7:
-        borderColor = 'rgb(1, 0, 3, 1)';
-        backgroundColor = 'rgb(1, 0, 3, .2)';
+        borderColor = "rgb(1, 0, 3, 1)";
+        backgroundColor = "rgb(1, 0, 3, .2)";
         break;
       case 8:
-        borderColor = 'rgb(171, 194, 21, 1)';
-        backgroundColor = 'rgb(171, 194, 21, .2)';
+        borderColor = "rgb(171, 194, 21, 1)";
+        backgroundColor = "rgb(171, 194, 21, .2)";
         break;
       case 9:
-        borderColor = 'rgb(247, 87, 87, 1)';
-        backgroundColor = 'rgb(247, 87, 87, .2)';
+        borderColor = "rgb(247, 87, 87, 1)";
+        backgroundColor = "rgb(247, 87, 87, .2)";
         break;
       case 10:
-        borderColor = 'rgb(88, 54, 224, 1)';
-        backgroundColor = 'rgb(88, 54, 224, .2)';
+        borderColor = "rgb(0, 199, 143, 1)";
+        backgroundColor = "rgb(0, 199, 143, .2)";
         break;
       case 11:
-        borderColor = 'rgb(117, 2, 2, 1)';
-        backgroundColor = 'rgb(117, 2, 2, .2)';
+        borderColor = "rgb(117, 2, 2, 1)";
+        backgroundColor = "rgb(117, 2, 2, .2)";
+        break;
+      case 12:
+        borderColor = "rgb(77, 191, 159, 1)";
+        backgroundColor = "rgb(77, 191, 159, .2)";
+        break;
+      case 13:
+        borderColor = "rgb(88, 54, 224, 1)";
+        backgroundColor = "rgb(88, 54, 224, .2)";
         break;
       default:
         break;
@@ -193,7 +202,7 @@ export default function BoxPlotsAll({
     var r = num >> 16;
     var g = (num >> 8) & 255;
     var b = num & 255;
-    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+    return "rgb(" + r + ", " + g + ", " + b + ")";
   };
 
   const generateJitter = data => {
@@ -206,20 +215,35 @@ export default function BoxPlotsAll({
     });
   };
 
-  const setScales = metric => {
+  const setScales = (metric, parttype) => {
     let scales = {};
-    if (metric === 'Diameter') {
-      scales = {
-        y: {
-          max: 0.02,
-          min: 0.014,
-          beginAtZero: true,
-        },
-        x: {
-          beginAtZero: true,
-        },
-      };
-    } else if (metric === 'Position') {
+    if (metric === "Diameter") {
+      {
+        if (parttype === "369P-01") {
+          scales = {
+            y: {
+              max: 0.023,
+              min: 0.015,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        } else {
+          scales = {
+            y: {
+              max: 0.02,
+              min: 0.014,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        }
+      }
+    } else if (metric === "Position") {
       scales = {
         y: {
           max: 0.01,
@@ -242,7 +266,7 @@ export default function BoxPlotsAll({
             data={graphData}
             options={{
               onClick: (e, legendItem) => {
-                console.log('clicked dat bish', legendItem);
+                console.log("clicked dat bish", legendItem);
                 // searchHandler();
               },
               animation: false,
@@ -300,7 +324,7 @@ export default function BoxPlotsAll({
                 zoom: {
                   pan: {
                     enabled: true,
-                    modifierKey: 'ctrl',
+                    modifierKey: "ctrl",
                   },
                   zoom: {
                     wheel: {
@@ -309,11 +333,11 @@ export default function BoxPlotsAll({
                     pinch: {
                       enabled: false,
                     },
-                    mode: 'xy',
+                    mode: "xy",
                   },
                   limits: {
-                    x: { min: 'original', max: 'original' },
-                    y: { min: 'original', max: 'original' },
+                    x: { min: "original", max: "original" },
+                    y: { min: "original", max: "original" },
                   },
                 },
               },

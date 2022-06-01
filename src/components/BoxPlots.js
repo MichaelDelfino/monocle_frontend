@@ -50,7 +50,7 @@ export default function BoxPlots({
     };
     datasets = setDatasets(partData, allHoleData);
     scales = setScales(metric, parttype);
-    annotations = setAnnotations(tols, metric);
+    annotations = setAnnotations(tols, metric, partData);
 
     setGraphData({
       datasets: datasets,
@@ -121,7 +121,7 @@ export default function BoxPlots({
     return allPositionsArray;
   };
 
-  const getPartColor = (data) => {
+  const getPartColor = data => {
     let borderColor = "";
     let backgroundColor = "";
 
@@ -169,8 +169,8 @@ export default function BoxPlots({
     return borderColor;
   };
 
-  const generateJitter = (data) => {
-    return data.map((data) => {
+  const generateJitter = data => {
+    return data.map(data => {
       let xJitter = Math.random() * (-0.1 - 0.1) + 0.1;
       return {
         x: data.x + xJitter,
@@ -222,7 +222,8 @@ export default function BoxPlots({
     return scales;
   };
 
-  const setAnnotations = (tols, metric) => {
+  // TODO - refactor repeated code
+  const setAnnotations = (tols, metric, partData) => {
     const annotations = [];
     console.log(tols);
     if (metric === "Diameter") {
@@ -247,6 +248,17 @@ export default function BoxPlots({
           adjustScaleRange: true,
         }
       );
+      // if (partData.isAngleHole) {
+      //   annotations.push({
+      //     type: "line",
+      //     mode: "horizontal",
+      //     yMin: ,
+      //     yMax: ,
+      //     borderColor: "rgb(255, 99, 132)",
+      //     backgroundColor: "rgb(255, 99, 132)",
+      //     borderWidth: 2,
+      //   });
+      // }
     } else if (metric === "Position") {
       annotations.push(
         {
@@ -301,7 +313,7 @@ export default function BoxPlots({
                 tooltip: {
                   enabled: false,
                   callbacks: {
-                    label: (context) => {
+                    label: context => {
                       console.log(context);
                       let index = context.dataIndex;
                       let label = `Hole ${
