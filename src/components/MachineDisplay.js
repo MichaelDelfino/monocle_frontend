@@ -11,6 +11,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
     side: 'c-side',
     startDate: Date.now(),
     tols: {},
+    isAngleHole: false,
   });
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
       console.log(currentType);
       const defFile = './config/partDefinitions.json';
       let tolerances = {};
+      let isAngleHole = false;
 
       const response = await fetch(defFile);
       const partDef = await response.json();
@@ -25,8 +27,10 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
       for (const part of partDef) {
         if (String(part.partType).trim() === String(currentType).trim()) {
           tolerances = part.tolerances;
+          isAngleHole = part.textFileSpecs.isAngleHole;
         }
       }
+
       fetch(
         `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach-page`
       )
@@ -43,6 +47,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
             side: partData.side,
             startDate: partData.startDate,
             tols: tolerances,
+            isAngleHole: isAngleHole,
           });
         })
         .catch(error => {
@@ -282,6 +287,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                 searchHandler={searchHandler}
                 tols={partData.tols}
                 parttype={partData.partType}
+                isAngleHole={partData.isAngleHole}
               />
             </div>
           </div>

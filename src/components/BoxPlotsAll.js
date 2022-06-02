@@ -13,6 +13,8 @@ export default function BoxPlotsAll({
   machHandler,
   searchHandler,
   partType,
+  tols,
+  isAngleHole,
 }) {
   const [graphData, setGraphData] = useState(null);
 
@@ -23,6 +25,7 @@ export default function BoxPlotsAll({
       let allHoleData = [];
       let datasets = [];
       let scales = {};
+      let annotations = [];
 
       if (metric === 'Diameter') {
         allHoleData = getDiameters(data, side);
@@ -52,10 +55,12 @@ export default function BoxPlotsAll({
       };
       datasets = setDatasets(data, allHoleData);
       scales = setScales(metric, partType);
+      annotations = setAnnotations(tols, metric, isAngleHole);
 
       setGraphData({
         datasets: datasets,
         scales: scales,
+        annotations: annotations,
       });
     }
   }, [data, side, metric]);
@@ -214,6 +219,81 @@ export default function BoxPlotsAll({
     });
   };
 
+  // TODO - refactor repeated code
+  const setAnnotations = (tols, metric, isAngleHole) => {
+    const annotations = [];
+    console.log(tols);
+    if (metric === 'Diameter') {
+      annotations.push(
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols[side]?.diaNom - tols[side]?.diaMin,
+          yMax: tols[side]?.diaNom - tols[side]?.diaMin,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols[side]?.diaNom + tols[side]?.diaPlus,
+          yMax: tols[side]?.diaNom + tols[side]?.diaPlus,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+      if (isAngleHole) {
+        annotations.push(
+          {
+            type: 'line',
+            mode: 'horizontal',
+            yMin: tols[side]?.diaNom - tols[side]?.diaMin + 0.0015,
+            yMax: tols[side]?.diaNom - tols[side]?.diaMin + 0.0015,
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+          },
+          {
+            type: 'line',
+            mode: 'horizontal',
+            yMin: tols[side]?.diaNom + tols[side]?.diaPlus + 0.0015,
+            yMax: tols[side]?.diaNom + tols[side]?.diaPlus + 0.0015,
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            adjustScaleRange: true,
+          }
+        );
+      }
+    } else if (metric === 'Position') {
+      annotations.push(
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols[side]?.posNom - tols[side]?.posMin,
+          yMax: tols[side]?.posNom - tols[side]?.posMin,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols[side]?.posNom + tols[side]?.posPlus,
+          yMax: tols[side]?.posNom + tols[side]?.posPlus,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+    }
+    return annotations;
+  };
+
   const setScales = (metric, parttype) => {
     let scales = {};
     if (metric === 'Diameter') {
@@ -267,32 +347,9 @@ export default function BoxPlotsAll({
               animation: false,
               normalized: true,
               plugins: {
-                // annotation: {
-                //   annotations: [
-                //     {
-                //       type: 'line',
-                //       yMin:
-                //         data[0][0]?.tolerances[side]?.diaNom -
-                //         data[0][0]?.tolerances[side]?.diaMin,
-                //       yMax:
-                //         data[0][0]?.tolerances[side]?.diaNom -
-                //         data[0][0]?.tolerances[side]?.diaMin,
-                //       borderColor: 'rgb(255, 99, 132)',
-                //       borderWidth: 2,
-                //     },
-                //     {
-                //       type: 'line',
-                //       yMin:
-                //         data[0][0]?.tolerances[side]?.diaNom +
-                //         data[0][0]?.tolerances[side]?.diaPlus,
-                //       yMax:
-                //         data[0][0]?.tolerances[side]?.diaNom +
-                //         data[0][0]?.tolerances[side]?.diaPlus,
-                //       borderColor: 'rgb(255, 99, 132)',
-                //       borderWidth: 2,
-                //     },
-                //   ],
-                // },
+                annotation: {
+                  annotations: graphData.annotations,
+                },
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;
