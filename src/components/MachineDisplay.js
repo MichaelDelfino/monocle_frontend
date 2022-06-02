@@ -5,7 +5,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
   const [partData, setPartData] = useState({
     parts: [],
     machine: machine,
-    partType: '369P-01',
+    partType: parttype,
     numOfParts: 5,
     metric: 'Diameter',
     side: 'c-side',
@@ -230,6 +230,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                   className="form-select form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                   onChange={setPartType}
+                  defaultValue={partData.partType}
                 >
                   <option value="369P-01">369P-01</option>
                   <option value="1789P-01">1789P-01</option>
