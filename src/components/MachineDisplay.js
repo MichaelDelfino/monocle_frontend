@@ -5,33 +5,53 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
   const [partData, setPartData] = useState({
     parts: [],
     machine: machine,
+    partType: '369P-01',
     numOfParts: 5,
     metric: 'Diameter',
     side: 'c-side',
     startDate: Date.now(),
+    tols: {},
   });
 
   useEffect(() => {
-    fetch(
-      `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&timestamp=${partData.startDate}`
-    )
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        setPartData({
-          parts: data,
-          machine: partData.machine,
-          numOfParts: partData.numOfParts,
-          metric: partData.metric,
-          side: partData.side,
-          startDate: partData.startDate,
+    const getPartTols = async currentType => {
+      console.log(currentType);
+      const defFile = './config/partDefinitions.json';
+      let tolerances = {};
+
+      const response = await fetch(defFile);
+      const partDef = await response.json();
+
+      for (const part of partDef) {
+        if (String(part.partType).trim() === String(currentType).trim()) {
+          tolerances = part.tolerances;
+        }
+      }
+      fetch(
+        `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach-page`
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setPartData({
+            parts: data,
+            machine: partData.machine,
+            partType: partData.partType,
+            numOfParts: partData.numOfParts,
+            metric: partData.metric,
+            side: partData.side,
+            startDate: partData.startDate,
+            tols: tolerances,
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [partData.machine, partData.startDate]);
+    };
+    // ****Rename this function
+    getPartTols(partData.partType);
+  }, [partData.machine, partData.startDate, partData.partType]);
 
   const setMachine = e => {
     setPartData(prevState => {
@@ -139,6 +159,13 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
     return todayDefault;
   };
 
+  const setPartType = e => {
+    const partType = e.target.value;
+    setPartData(prevState => {
+      return { ...prevState, partType: partType };
+    });
+  };
+
   return (
     <div className="MachineDisplay">
       <div id="machine-title" className="jumbotron machine-jumbotron">
@@ -147,11 +174,19 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
             {partData.machine}
             <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
           </p>
-          <p className="display-4 lead">
-            {partData.side}
-            <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
+          <p className="display-4 lead">Machine Display</p>
+          {/* <p className="display-4 lead">
+            {partData.partType}
+            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
-          <p className="display-4 lead">{partData.metric} </p>
+          <p className="display-4 lead">
+            {partData.side[0].toUpperCase() +
+              partData.side.substring(1, 2) +
+              partData.side[2].toUpperCase() +
+              partData.side.substring(3)}
+            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+          </p>
+          <p className="display-4 lead">{partData.metric} </p> */}
         </div>
       </div>
       {partData ? (
@@ -169,11 +204,12 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                   {/* All machines option, different query required? */}
                   {/* <option value="%">All Machines</option> */}
                   <option value="WAM 101">WAM 101</option>
-                  <option value="WAM 116">WAM 106</option>
+                  <option value="WAM 106">WAM 106</option>
                   <option value="WAM 110">WAM 110</option>
                   <option value="WAM 116">WAM 116</option>
                   <option value="WAM 120">WAM 120</option>
                   <option value="WAM 132">WAM 132</option>
+                  <option value="WAM 134">WAM 134</option>
                   <option value="WAM 136">WAM 136</option>
                   <option value="WAM 137">WAM 137</option>
                   <option value="WAM 138">WAM 138</option>
@@ -187,7 +223,18 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                   <option value="WAM 901">WAM 901</option>
                   <option value="WAM 902">WAM 902</option>
                   <option value="WAM 903">WAM 903</option>
-                  <option value="WAM 951">WAM 951</option>
+                  <option value="WAM 904">WAM 904</option>
+                </select>
+                <select
+                  name="parttype-select"
+                  className="form-select form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                  onChange={setPartType}
+                >
+                  <option value="369P-01">369P-01</option>
+                  <option value="1789P-01">1789P-01</option>
+                  <option value="2078P-01">2078P-01</option>
+                  <option value="1565P-01">1565P-01</option>
                 </select>
                 <select
                   className="form-select form-select-lg mb-3"
@@ -214,6 +261,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                 </div> */}
                 <div className="overview-date-input">
                   <input
+                    className="form-control"
                     name="overview-date"
                     type="datetime-local"
                     defaultValue={getTodayFormattedString(Date.now())}
@@ -231,6 +279,8 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                 side={partData.side}
                 metric={partData.metric}
                 searchHandler={searchHandler}
+                tols={partData.tols}
+                parttype={partData.partType}
               />
             </div>
           </div>

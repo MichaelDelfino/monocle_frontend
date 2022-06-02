@@ -12,11 +12,13 @@ export default function BoxPlotsAll({
   metric,
   machHandler,
   searchHandler,
+  partType,
 }) {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
     setGraphData(null);
+    console.log(data);
     if (data.length) {
       let allHoleData = [];
       let datasets = [];
@@ -49,7 +51,7 @@ export default function BoxPlotsAll({
         return datasets;
       };
       datasets = setDatasets(data, allHoleData);
-      scales = setScales(metric);
+      scales = setScales(metric, partType);
 
       setGraphData({
         datasets: datasets,
@@ -172,12 +174,20 @@ export default function BoxPlotsAll({
         backgroundColor = 'rgb(247, 87, 87, .2)';
         break;
       case 10:
-        borderColor = 'rgb(88, 54, 224, 1)';
-        backgroundColor = 'rgb(88, 54, 224, .2)';
+        borderColor = 'rgb(0, 199, 143, 1)';
+        backgroundColor = 'rgb(0, 199, 143, .2)';
         break;
       case 11:
         borderColor = 'rgb(117, 2, 2, 1)';
         backgroundColor = 'rgb(117, 2, 2, .2)';
+        break;
+      case 12:
+        borderColor = 'rgb(77, 191, 159, 1)';
+        backgroundColor = 'rgb(77, 191, 159, .2)';
+        break;
+      case 13:
+        borderColor = 'rgb(88, 54, 224, 1)';
+        backgroundColor = 'rgb(88, 54, 224, .2)';
         break;
       default:
         break;
@@ -204,19 +214,34 @@ export default function BoxPlotsAll({
     });
   };
 
-  const setScales = metric => {
+  const setScales = (metric, parttype) => {
     let scales = {};
     if (metric === 'Diameter') {
-      scales = {
-        y: {
-          max: 0.02,
-          min: 0.014,
-          beginAtZero: true,
-        },
-        x: {
-          beginAtZero: true,
-        },
-      };
+      {
+        if (parttype === '369P-01') {
+          scales = {
+            y: {
+              max: 0.023,
+              min: 0.015,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        } else {
+          scales = {
+            y: {
+              max: 0.02,
+              min: 0.014,
+              beginAtZero: true,
+            },
+            x: {
+              beginAtZero: true,
+            },
+          };
+        }
+      }
     } else if (metric === 'Position') {
       scales = {
         y: {
@@ -242,32 +267,32 @@ export default function BoxPlotsAll({
               animation: false,
               normalized: true,
               plugins: {
-                annotation: {
-                  annotations: [
-                    {
-                      type: 'line',
-                      yMin:
-                        data[0][0]?.tolerances[side]?.diaNom -
-                        data[0][0]?.tolerances[side]?.diaMin,
-                      yMax:
-                        data[0][0]?.tolerances[side]?.diaNom -
-                        data[0][0]?.tolerances[side]?.diaMin,
-                      borderColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                    },
-                    {
-                      type: 'line',
-                      yMin:
-                        data[0][0]?.tolerances[side]?.diaNom +
-                        data[0][0]?.tolerances[side]?.diaPlus,
-                      yMax:
-                        data[0][0]?.tolerances[side]?.diaNom +
-                        data[0][0]?.tolerances[side]?.diaPlus,
-                      borderColor: 'rgb(255, 99, 132)',
-                      borderWidth: 2,
-                    },
-                  ],
-                },
+                // annotation: {
+                //   annotations: [
+                //     {
+                //       type: 'line',
+                //       yMin:
+                //         data[0][0]?.tolerances[side]?.diaNom -
+                //         data[0][0]?.tolerances[side]?.diaMin,
+                //       yMax:
+                //         data[0][0]?.tolerances[side]?.diaNom -
+                //         data[0][0]?.tolerances[side]?.diaMin,
+                //       borderColor: 'rgb(255, 99, 132)',
+                //       borderWidth: 2,
+                //     },
+                //     {
+                //       type: 'line',
+                //       yMin:
+                //         data[0][0]?.tolerances[side]?.diaNom +
+                //         data[0][0]?.tolerances[side]?.diaPlus,
+                //       yMax:
+                //         data[0][0]?.tolerances[side]?.diaNom +
+                //         data[0][0]?.tolerances[side]?.diaPlus,
+                //       borderColor: 'rgb(255, 99, 132)',
+                //       borderWidth: 2,
+                //     },
+                //   ],
+                // },
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;

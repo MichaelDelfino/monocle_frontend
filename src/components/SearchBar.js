@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 export const SearchBar = ({ searchHandler }) => {
   useEffect(() => {});
 
-  const setSearchData = (e) => {
+  const setSearchData = e => {
     if (e) e.preventDefault();
 
     const [input] = e.target.children;
@@ -13,11 +13,11 @@ export const SearchBar = ({ searchHandler }) => {
     input.value = "";
   };
 
-  const toggleHighlight = (e) => {
+  const toggleHighlight = e => {
     e.target.classList.toggle("active");
   };
 
-  const toggleSelected = (e) => {
+  const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
       console.log(li.firstChild.classList);
       li.firstChild.classList.remove("link-dark");

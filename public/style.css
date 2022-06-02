@@ -87,9 +87,6 @@ button {
   width: 280px;
   height: 100vh;
 }
-.home-title {
-  /* border-right: 0.07em solid #2761cc; The typwriter cursor */
-}
 
 .home-title,
 .part-display-title,
@@ -377,6 +374,7 @@ button {
   flex-direction: row;
   justify-content: center;
   gap: 10px;
+  width: 80%;
 }
 
 .overview-jumbotron,
