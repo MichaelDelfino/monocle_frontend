@@ -255,7 +255,6 @@ export default function BoxPlots({ partData, side, metric, searchHandler }) {
                   enabled: false,
                   callbacks: {
                     label: context => {
-                      console.log(context);
                       let index = context.dataIndex;
                       let label = `Hole ${
                         Object.keys(context.dataset.data)[index + 1]

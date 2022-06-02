@@ -35,7 +35,6 @@ export default function BoxPlotsAll({
       const setDatasets = (data, allHoleData) => {
         let datasets = [];
         let i = 0;
-        console.log(data);
         for (const machine of data) {
           let singleDataset = {
             label: machine[0]?.machine,
@@ -240,10 +239,6 @@ export default function BoxPlotsAll({
           <Scatter
             data={graphData}
             options={{
-              onClick: (e, legendItem) => {
-                console.log('clicked dat bish', legendItem);
-                // searchHandler();
-              },
               animation: false,
               normalized: true,
               plugins: {
@@ -276,7 +271,7 @@ export default function BoxPlotsAll({
                 legend: {
                   onClick: (e, legendItem) => {
                     const tracking = legendItem.text;
-                    machHandler(tracking);
+                    machHandler(tracking, data[0][0].parttype);
                   },
                   labels: {
                     font: {

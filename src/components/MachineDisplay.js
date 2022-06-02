@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BoxPlots from './BoxPlots';
 
-export default function MachineDisplay({ searchHandler, machine }) {
+export default function MachineDisplay({ searchHandler, machine, parttype }) {
   const [partData, setPartData] = useState({
     parts: [],
     machine: machine,
@@ -19,7 +19,6 @@ export default function MachineDisplay({ searchHandler, machine }) {
         return response.json();
       })
       .then(data => {
-        console.log(partData.parts);
         setPartData({
           parts: data,
           machine: partData.machine,
@@ -43,7 +42,6 @@ export default function MachineDisplay({ searchHandler, machine }) {
   const setNumOfParts = e => {
     let value = e.target.value;
     if (value > 9) {
-      console.log('bigboi');
       value = 9;
     } else if (value < 1) {
       value = 1;
@@ -77,7 +75,6 @@ export default function MachineDisplay({ searchHandler, machine }) {
   // alter time with slider for currently selected day
   const setStartTime = e => {
     const currentDate = Date.parse(partData.startDate);
-    console.log(currentDate);
     setPartData(prevState => {
       return { ...prevState, startDate: Date.parse(e.target.value) };
     });
