@@ -271,7 +271,6 @@ export default function BoxPlotsAll({
     } else if (metric === 'Position') {
       annotations.push(
         {
-          type: 'line',
           mode: 'horizontal',
           yMin: tols[side]?.posNom - tols[side]?.posMin,
           yMax: tols[side]?.posNom - tols[side]?.posMin,
@@ -343,7 +342,9 @@ export default function BoxPlotsAll({
         <div>
           <Scatter
             data={graphData}
+            height={'100%'}
             options={{
+              maintainAspectRatio: true,
               animation: false,
               normalized: true,
               plugins: {

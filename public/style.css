@@ -63,6 +63,10 @@ button {
   width: 100px;
 }
 
+.btn, .form-select, .form-control, #form-select, .form-select-lg {
+  border-radius: 30px;
+}
+
 .navbar {
   border-bottom: 1px solid #bbbbbb;
 }
@@ -196,6 +200,7 @@ button {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 100px;
   gap: 30px;
 }
 
@@ -349,6 +354,7 @@ button {
   display: flex;
   flex-direction: row;
   margin-left: 25px;
+  margin-top: 100px;
   gap: 50px;
 }
 
@@ -367,6 +373,7 @@ button {
 .loading-spinners {
   display: flex;
   justify-content: center;
+  margin-top: 200px;
 }
 
 .part-params {
@@ -397,9 +404,10 @@ button {
   height: 80%;
   width: 100%;
   align-items: center;
-  margin-bottom: 50px;
+  margin-top: 100px;
 }
 
 .jumbotron {
   margin-bottom: 0em;
 }
+

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 export const SearchBar = ({ searchHandler }) => {
   useEffect(() => {});
@@ -10,19 +10,19 @@ export const SearchBar = ({ searchHandler }) => {
     const tracking = input.value;
 
     searchHandler(tracking);
-    input.value = "";
+    input.value = '';
   };
 
   const toggleHighlight = e => {
-    e.target.classList.toggle("active");
+    e.target.classList.toggle('active');
   };
 
   const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
       console.log(li.firstChild.classList);
-      li.firstChild.classList.remove("link-dark");
+      li.firstChild.classList.remove('link-dark');
     }
-    e.target.classList.toggle("link-dark");
+    e.target.classList.toggle('link-dark');
   };
   return (
     <nav className="navbar navbar-light bg-light">
@@ -33,13 +33,16 @@ export const SearchBar = ({ searchHandler }) => {
 
         <form className="d-flex" onSubmit={setSearchData}>
           <input
+            id="form-select"
             className="form-control me-2 part-search"
             placeholder="tracking number"
             type="search"
             aria-label="Search"
             required
           />
-          <button className="btn btn-outline-primary">Search</button>
+          <button id="form-select" className="btn btn-outline-primary">
+            Search
+          </button>
         </form>
       </div>
     </nav>

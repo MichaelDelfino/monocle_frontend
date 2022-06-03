@@ -139,8 +139,9 @@ export default function Overview({ machHandler, searchHandler }) {
             <div className="part-params">
               <select
                 name="parttype-select"
-                className="form-select form-select-lg mb-3"
-                aria-label=".form-select-lg example"
+                id="form-select"
+                className="form-select form-select mb-3"
+                aria-label=".form-select example"
                 onChange={setPartType}
               >
                 <option value="369P-01">369P-01</option>
@@ -149,16 +150,18 @@ export default function Overview({ machHandler, searchHandler }) {
                 <option value="1565P-01">1565P-01</option>
               </select>
               <select
-                className="form-select form-select-lg mb-3"
-                aria-label=".form-select-lg example"
+                id="form-select"
+                className="form-select form-select mb-3"
+                aria-label=".form-select example"
                 onChange={setSide}
               >
                 <option value="c-side">C-Side</option>
                 <option value="a-side">A-Side</option>
               </select>
               <select
-                className="form-select form-select-lg mb-3"
-                aria-label=".form-select-lg example"
+                id="form-select"
+                className="form-select form-select mb-3"
+                aria-label=".form-select example"
                 onChange={setMetric}
               >
                 <option value="Diameter">Diameter</option>
@@ -167,6 +170,7 @@ export default function Overview({ machHandler, searchHandler }) {
             </div>
             <div className="overview-date-input">
               <input
+                id="form-select"
                 className="form-control"
                 name="overview-date"
                 type="datetime-local"

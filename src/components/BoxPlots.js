@@ -304,7 +304,9 @@ export default function BoxPlots({
         <div>
           <Scatter
             data={graphData}
+            height={'100%'}
             options={{
+              maintainAspectRatio: true,
               parsing: true,
               normalized: true,
               plugins: {

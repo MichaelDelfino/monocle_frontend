@@ -123,7 +123,9 @@ export const LineGraph = ({ partData, metric }) => {
       {graphData ? (
         <Line
           data={graphData}
+          height={'100%'}
           options={{
+            maintainAspectRatio: true,
             plugins: {
               // annotation: {
               //   annotations: [
