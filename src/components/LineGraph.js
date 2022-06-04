@@ -1,7 +1,7 @@
-import { Line } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
-import React, { useEffect, useState } from "react";
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import React, { useEffect, useState } from 'react';
 
 Chart.register(...registerables, zoomPlugin);
 
@@ -12,7 +12,7 @@ export const LineGraph = ({ partData, metric }) => {
     let allCData,
       allAData = [];
 
-    if (metric === "diameter") {
+    if (metric === 'diameter') {
       allCData = getCDiameters(partData);
       allAData = getADiameters(partData);
     } else {
@@ -30,18 +30,18 @@ export const LineGraph = ({ partData, metric }) => {
       metric: metric,
       datasets: [
         {
-          label: "C-Side",
+          label: 'C-Side',
           data: allCData,
           fill: false,
           borderColor: borderColor,
           backgroundColor: backgroundColor,
         },
         {
-          label: "A-Side",
+          label: 'A-Side',
           data: allAData,
           fill: false,
-          borderColor: "rgb(148, 148, 148, 1)",
-          backgroundColor: "rgb(148, 148, 148, .2)",
+          borderColor: 'rgb(148, 148, 148, 1)',
+          backgroundColor: 'rgb(148, 148, 148, .2)',
         },
       ],
     });
@@ -82,36 +82,36 @@ export const LineGraph = ({ partData, metric }) => {
   };
 
   const getPartColor = data => {
-    let borderColor = "";
-    let backgroundColor = "";
+    let borderColor = '';
+    let backgroundColor = '';
 
-    if (String(data.parttype).trim() === "369P-01") {
-      borderColor = "rgb(252, 186, 3, 1)";
-      backgroundColor = "rgb(252, 186, 3, .2)";
-    } else if (String(data.parttype).trim() === "1789P-01") {
-      borderColor = "rgb(2, 117, 216, 1)";
-      backgroundColor = "rgb(2, 117, 216, .2)";
-    } else if (String(data.parttype).trim() === "2078P-01") {
-      borderColor = "rgb(92, 184, 92, 1)";
-      backgroundColor = "rgb(92, 184, 92, .2)";
-    } else if (String(data.parttype).trim() === "1534P-01") {
-      borderColor = "rgb(219, 112, 4, 1)";
-      backgroundColor = "rgb(219, 112, 4, .2)";
-    } else if (String(data.parttype).trim() === "1557P-01") {
-      borderColor = "rgb(68, 242, 207, 1)";
-      backgroundColor = "rgb(68, 242, 207, .2)";
-    } else if (String(data.parttype).trim() === "2129P-01") {
-      borderColor = "rgb(252, 3, 102, 1)";
-      backgroundColor = "rgb(252, 3, 102, .2)";
-    } else if (String(data.parttype).trim() === "2129P-02") {
-      borderColor = "rgb(175, 104, 252, 1)";
-      backgroundColor = "rgb(175, 104, 252, .2)";
-    } else if (String(data.parttype).trim() === "2129P-03") {
-      borderColor = "rgb(1, 0, 3, 1)";
-      backgroundColor = "rgb(1, 0, 3, .2)";
-    } else if (String(data.parttype).trim() === "1565P-01") {
-      borderColor = "rgb(171, 194, 21, 1)";
-      backgroundColor = "rgb(171, 194, 21, .2)";
+    if (String(data.parttype).trim() === '369P-01') {
+      borderColor = 'rgb(252, 186, 3, 1)';
+      backgroundColor = 'rgb(252, 186, 3, .2)';
+    } else if (String(data.parttype).trim() === '1789P-01') {
+      borderColor = 'rgb(2, 117, 216, 1)';
+      backgroundColor = 'rgb(2, 117, 216, .2)';
+    } else if (String(data.parttype).trim() === '2078P-01') {
+      borderColor = 'rgb(92, 184, 92, 1)';
+      backgroundColor = 'rgb(92, 184, 92, .2)';
+    } else if (String(data.parttype).trim() === '1534P-01') {
+      borderColor = 'rgb(219, 112, 4, 1)';
+      backgroundColor = 'rgb(219, 112, 4, .2)';
+    } else if (String(data.parttype).trim() === '1557P-01') {
+      borderColor = 'rgb(68, 242, 207, 1)';
+      backgroundColor = 'rgb(68, 242, 207, .2)';
+    } else if (String(data.parttype).trim() === '2129P-01') {
+      borderColor = 'rgb(252, 3, 102, 1)';
+      backgroundColor = 'rgb(252, 3, 102, .2)';
+    } else if (String(data.parttype).trim() === '2129P-02') {
+      borderColor = 'rgb(175, 104, 252, 1)';
+      backgroundColor = 'rgb(175, 104, 252, .2)';
+    } else if (String(data.parttype).trim() === '2129P-03') {
+      borderColor = 'rgb(1, 0, 3, 1)';
+      backgroundColor = 'rgb(1, 0, 3, .2)';
+    } else if (String(data.parttype).trim() === '1565P-01') {
+      borderColor = 'rgb(171, 194, 21, 1)';
+      backgroundColor = 'rgb(171, 194, 21, .2)';
     }
 
     return [borderColor, backgroundColor];
@@ -123,9 +123,8 @@ export const LineGraph = ({ partData, metric }) => {
       {graphData ? (
         <Line
           data={graphData}
-          height={"100%"}
           options={{
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             plugins: {
               // annotation: {
               //   annotations: [
@@ -157,7 +156,7 @@ export const LineGraph = ({ partData, metric }) => {
                 enabled: true,
                 callbacks: {
                   label: context => {
-                    let label = context.dataset.label + ": " + context.raw;
+                    let label = context.dataset.label + ': ' + context.raw;
                     return label;
                   },
                 },
@@ -165,7 +164,7 @@ export const LineGraph = ({ partData, metric }) => {
               zoom: {
                 pan: {
                   enabled: true,
-                  modifierKey: "ctrl",
+                  modifierKey: 'ctrl',
                 },
                 zoom: {
                   wheel: {
@@ -174,11 +173,11 @@ export const LineGraph = ({ partData, metric }) => {
                   pinch: {
                     enabled: true,
                   },
-                  mode: "xy",
+                  mode: 'xy',
                 },
                 limits: {
-                  x: { min: "original", max: "original" },
-                  y: { min: "original", max: "original" },
+                  x: { min: 'original', max: 'original' },
+                  y: { min: 'original', max: 'original' },
                 },
               },
             },

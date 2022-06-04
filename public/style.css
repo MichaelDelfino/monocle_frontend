@@ -213,16 +213,22 @@ canvas {
   width: 90%;
   padding-left: 175px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 30px;
   gap: 30px;
 }
 
 .line-metric-selector {
   display: flex;
   justify-content: center;
+}
+
+.linegraph-params {
+  display: flex;
+  flex-direction: row;
+  width: 43%;
 }
 
 .version {
@@ -442,4 +448,8 @@ canvas {
 .machine-display,
 .machine-content {
   height: 100%;
+}
+
+.line-graph {
+  margin-bottom: 50px; 
 }
