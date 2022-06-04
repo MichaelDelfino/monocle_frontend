@@ -185,10 +185,10 @@ export default function Overview({ machHandler, searchHandler }) {
               side={partData.side}
               metric={partData.metric}
               machHandler={machHandler}
-              searchHandler={searchHandler}
               partType={partData.partType}
               tols={partData.tols}
               isAngleHole={partData.isAngleHole}
+              startDate={partData.startDate}
             />
           </div>
         </div>

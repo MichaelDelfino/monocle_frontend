@@ -8,7 +8,15 @@ import OptionsDisplay from './components/OptionsDisplay';
 import Overview from './components/Overview';
 
 export default function App() {
-  const [pageData, setPageData] = useState();
+  const [pageData, setPageData] = useState({
+    section: 'home',
+    tracking: '',
+    machine: 'WAM 101',
+    parttype: '369P-01',
+    side: 'c-side',
+    metric: 'Diameter',
+    startDate: Date.now(),
+  });
 
   useEffect(() => {
     setPageData({
@@ -16,6 +24,9 @@ export default function App() {
       tracking: '',
       machine: 'WAM 101',
       parttype: '369P-01',
+      side: 'c-side',
+      metric: 'Diameter',
+      startDate: Date.now(),
     });
   }, []);
 
@@ -31,20 +42,27 @@ export default function App() {
   const searchHandler = tracking => {
     if (tracking) {
       console.log('Searching for...', tracking);
-      setPageData({
-        section: 'part',
-        tracking: tracking,
+      setPageData(prevState => {
+        return {
+          ...prevState,
+          section: 'part',
+          tracking: tracking,
+        };
       });
     }
   };
 
-  const machHandler = (mach, parttype) => {
+  // name confusing...
+  const machHandler = (mach, parttype, side, metric, startDate) => {
     if (mach) {
       setPageData({
         section: 'mach',
         tracking: '',
         machine: mach,
         parttype: parttype,
+        side: side,
+        metric: metric,
+        startDate: startDate,
       });
     }
   };
@@ -77,6 +95,9 @@ export default function App() {
                   searchHandler={searchHandler}
                   machine={pageData.machine}
                   parttype={pageData.parttype}
+                  side={pageData.side}
+                  metric={pageData.metric}
+                  startDate={pageData.startDate}
                 />
               ) : (
                 <div></div>

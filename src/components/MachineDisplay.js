@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import BoxPlots from './BoxPlots';
 
-export default function MachineDisplay({ searchHandler, machine, parttype }) {
+export default function MachineDisplay({
+  searchHandler,
+  machine,
+  parttype,
+  metric,
+  side,
+  startDate,
+}) {
   const [partData, setPartData] = useState({
     parts: [],
     machine: machine,
     partType: parttype,
     numOfParts: 5,
-    metric: 'Diameter',
-    side: 'c-side',
-    startDate: Date.now(),
+    metric: metric,
+    side: side,
+    startDate: startDate,
     tols: {},
     isAngleHole: false,
   });
 
   useEffect(() => {
     const getPartTols = async currentType => {
-      console.log(currentType);
+      console.log(partData);
       const defFile = './config/partDefinitions.json';
       let tolerances = {};
       let isAngleHole = false;
@@ -54,7 +61,6 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
           console.log(error);
         });
     };
-    // ****Rename this function
     getPartTols(partData.partType);
   }, [partData.machine, partData.startDate, partData.partType]);
 
@@ -141,7 +147,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
     return [borderColor, backgroundColor];
   };
 
-  const getTodayFormattedString = date => {
+  const getFormattedDateStringFromUnix = date => {
     // req format: 2022-05-23T16:46
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString('en-US', {
@@ -249,6 +255,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                   className="form-select form-select mb-3"
                   aria-label=".form-select example"
                   onChange={setSide}
+                  defaultValue={partData.side}
                 >
                   <option value="c-side">C-Side</option>
                   <option value="a-side">A-Side</option>
@@ -258,6 +265,7 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                   className="form-select form-select mb-3"
                   aria-label=".form-select example"
                   onChange={setMetric}
+                  defaultValue={partData.metric}
                 >
                   <option value="Diameter">Diameter</option>
                   <option value="Position">Position</option>
@@ -275,7 +283,9 @@ export default function MachineDisplay({ searchHandler, machine, parttype }) {
                     className="form-control"
                     name="overview-date"
                     type="datetime-local"
-                    defaultValue={getTodayFormattedString(Date.now())}
+                    defaultValue={getFormattedDateStringFromUnix(
+                      partData.startDate
+                    )}
                     onChange={setStartDate}
                   />
                 </div>
