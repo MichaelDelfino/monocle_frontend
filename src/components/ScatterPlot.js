@@ -1,7 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Scatter } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { Scatter } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
@@ -23,25 +23,25 @@ export const ScatterPlot = ({ partData }) => {
       labels: Object.keys(partData.csidedata),
       datasets: [
         {
-          label: "C-Side",
+          label: 'C-Side',
           data: allCPosData,
-          backgroundColor: (context) => {
+          backgroundColor: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
 
-            return getOutTol(holes[index]).length ? "red" : borderColor;
+            return getOutTol(holes[index]).length ? 'red' : borderColor;
           },
-          pointRadius: (context) => {
+          pointRadius: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
             return getOutTol(holes[index]).length ? 5 : 3;
           },
-          pointHoverRadius: (context) => {
+          pointHoverRadius: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
             return getOutTol(holes[index]).length ? 10 : 4;
           },
-          borderColor: "black",
+          borderColor: 'black',
           borderWidth: 0.5,
         },
         // {
@@ -74,7 +74,7 @@ export const ScatterPlot = ({ partData }) => {
 
   // ***************Make methods into class that can be imported into Components***********
   // *************************************************************************************
-  const getCPosition = (data) => {
+  const getCPosition = data => {
     // data = [{
     //   x: 0.6,
     //   y: 0.3,
@@ -90,7 +90,7 @@ export const ScatterPlot = ({ partData }) => {
     return positionArray;
   };
 
-  const getAPosition = (data) => {
+  const getAPosition = data => {
     // data = [{
     //   x: 0.6,
     //   y: 0.3,
@@ -106,44 +106,44 @@ export const ScatterPlot = ({ partData }) => {
     return positionArray;
   };
 
-  const getPartColor = (data) => {
-    let borderColor = "";
-    let backgroundColor = "";
+  const getPartColor = data => {
+    let borderColor = '';
+    let backgroundColor = '';
 
-    if (String(data.parttype).trim() === "369P-01") {
-      borderColor = "rgb(252, 186, 3, 1)";
-      backgroundColor = "rgb(252, 186, 3, .2)";
-    } else if (String(data.parttype).trim() === "1789P-01") {
-      borderColor = "rgb(2, 117, 216, 1)";
-      backgroundColor = "rgb(2, 117, 216, .2)";
-    } else if (String(data.parttype).trim() === "2078P-01") {
-      borderColor = "rgb(92, 184, 92, 1)";
-      backgroundColor = "rgb(92, 184, 92, .2)";
-    } else if (String(data.parttype).trim() === "1534P-01") {
-      borderColor = "rgb(219, 112, 4, 1)";
-      backgroundColor = "rgb(219, 112, 4, .2)";
-    } else if (String(data.parttype).trim() === "1557P-01") {
-      borderColor = "rgb(68, 242, 207, 1)";
-      backgroundColor = "rgb(68, 242, 207, .2)";
-    } else if (String(data.parttype).trim() === "2129P-01") {
-      borderColor = "rgb(252, 3, 102, 1)";
-      backgroundColor = "rgb(252, 3, 102, .2)";
-    } else if (String(data.parttype).trim() === "2129P-02") {
-      borderColor = "rgb(175, 104, 252, 1)";
-      backgroundColor = "rgb(175, 104, 252, .2)";
-    } else if (String(data.parttype).trim() === "2129P-03") {
-      borderColor = "rgb(1, 0, 3, 1)";
-      backgroundColor = "rgb(1, 0, 3, .2)";
-    } else if (String(data.parttype).trim() === "1565P-01") {
-      borderColor = "rgb(171, 194, 21, 1)";
-      backgroundColor = "rgb(171, 194, 21, .2)";
+    if (String(data.parttype).trim() === '369P-01') {
+      borderColor = 'rgb(252, 186, 3, 1)';
+      backgroundColor = 'rgb(252, 186, 3, .2)';
+    } else if (String(data.parttype).trim() === '1789P-01') {
+      borderColor = 'rgb(2, 117, 216, 1)';
+      backgroundColor = 'rgb(2, 117, 216, .2)';
+    } else if (String(data.parttype).trim() === '2078P-01') {
+      borderColor = 'rgb(92, 184, 92, 1)';
+      backgroundColor = 'rgb(92, 184, 92, .2)';
+    } else if (String(data.parttype).trim() === '1534P-01') {
+      borderColor = 'rgb(219, 112, 4, 1)';
+      backgroundColor = 'rgb(219, 112, 4, .2)';
+    } else if (String(data.parttype).trim() === '1557P-01') {
+      borderColor = 'rgb(68, 242, 207, 1)';
+      backgroundColor = 'rgb(68, 242, 207, .2)';
+    } else if (String(data.parttype).trim() === '2129P-01') {
+      borderColor = 'rgb(252, 3, 102, 1)';
+      backgroundColor = 'rgb(252, 3, 102, .2)';
+    } else if (String(data.parttype).trim() === '2129P-02') {
+      borderColor = 'rgb(175, 104, 252, 1)';
+      backgroundColor = 'rgb(175, 104, 252, .2)';
+    } else if (String(data.parttype).trim() === '2129P-03') {
+      borderColor = 'rgb(1, 0, 3, 1)';
+      backgroundColor = 'rgb(1, 0, 3, .2)';
+    } else if (String(data.parttype).trim() === '1565P-01') {
+      borderColor = 'rgb(171, 194, 21, 1)';
+      backgroundColor = 'rgb(171, 194, 21, .2)';
     }
 
     return [borderColor, backgroundColor];
   };
-  
+
   // TODO - pull tols from json file, not obj to make dynamic
-  const getOutTol = (hole) => {
+  const getOutTol = hole => {
     let outTol = [];
     let cDia = partData.csidedata[hole]?.cDia;
     let aDia = partData.asidedata[hole]?.aDia;
@@ -151,43 +151,43 @@ export const ScatterPlot = ({ partData }) => {
     let aPos = partData.asidedata[hole]?.aXY;
     if (
       cDia >
-        partData.tolerances["c-side"]["diaNom"] +
-          partData.tolerances["c-side"]["diaPlus"] ||
+        partData.tolerances['c-side']['diaNom'] +
+          partData.tolerances['c-side']['diaPlus'] ||
       cDia <
-        partData.tolerances["c-side"]["diaNom"] -
-          partData.tolerances["c-side"]["diaMin"]
+        partData.tolerances['c-side']['diaNom'] -
+          partData.tolerances['c-side']['diaMin']
     ) {
-      outTol.push("cDia");
+      outTol.push('cDia');
     }
     if (
       aDia >
-        partData.tolerances["a-side"]["diaNom"] +
-          partData.tolerances["a-side"]["diaPlus"] ||
+        partData.tolerances['a-side']['diaNom'] +
+          partData.tolerances['a-side']['diaPlus'] ||
       aDia <
-        partData.tolerances["a-side"]["diaNom"] -
-          partData.tolerances["a-side"]["diaMin"]
+        partData.tolerances['a-side']['diaNom'] -
+          partData.tolerances['a-side']['diaMin']
     ) {
-      outTol.push("aDia");
+      outTol.push('aDia');
     }
     if (
       cPos >
-        partData.tolerances["c-side"]["posNom"] +
-          partData.tolerances["c-side"]["posPlus"] ||
+        partData.tolerances['c-side']['posNom'] +
+          partData.tolerances['c-side']['posPlus'] ||
       cPos <
-        partData.tolerances["c-side"]["posNom"] -
-          partData.tolerances["c-side"]["posPlus"]
+        partData.tolerances['c-side']['posNom'] -
+          partData.tolerances['c-side']['posPlus']
     ) {
-      outTol.push("cPos");
+      outTol.push('cPos');
     }
     if (
       aPos >
-        partData.tolerances["a-side"]["posNom"] +
-          partData.tolerances["a-side"]["posPlus"] ||
+        partData.tolerances['a-side']['posNom'] +
+          partData.tolerances['a-side']['posPlus'] ||
       aPos <
-        partData.tolerances["a-side"]["posNom"] -
-          partData.tolerances["a-side"]["posPlus"]
+        partData.tolerances['a-side']['posNom'] -
+          partData.tolerances['a-side']['posPlus']
     ) {
-      outTol.push("aPos");
+      outTol.push('aPos');
     }
     return outTol;
   };
@@ -204,36 +204,36 @@ export const ScatterPlot = ({ partData }) => {
                 tooltip: {
                   enabled: true,
                   callbacks: {
-                    title: (context) => {
+                    title: context => {
                       let index = context[0].dataIndex;
                       let holes = Object.keys(partData.csidedata);
                       let title = holes[index];
                       return title;
                     },
-                    label: (context) => {
+                    label: context => {
                       let label = [];
                       let index = context.dataIndex;
                       let holes = Object.keys(partData.csidedata);
 
                       // if hole failed for any given metric
-                      if (getOutTol(holes[index])?.includes("cDia")) {
+                      if (getOutTol(holes[index])?.includes('cDia')) {
                         label.push(
-                          "C-Dia: " + partData.csidedata[holes[index]]?.cDia
+                          'C-Dia: ' + partData.csidedata[holes[index]]?.cDia
                         );
                       }
-                      if (getOutTol(holes[index])?.includes("aDia")) {
+                      if (getOutTol(holes[index])?.includes('aDia')) {
                         label.push(
-                          "A-Dia: " + partData.asidedata[holes[index]]?.aDia
+                          'A-Dia: ' + partData.asidedata[holes[index]]?.aDia
                         );
                       }
-                      if (getOutTol(holes[index])?.includes("cPos")) {
+                      if (getOutTol(holes[index])?.includes('cPos')) {
                         label.push(
-                          "C-Pos: " + partData.csidedata[holes[index]]?.cXY
+                          'C-Pos: ' + partData.csidedata[holes[index]]?.cXY
                         );
                       }
-                      if (getOutTol(holes[index])?.includes("aPos")) {
+                      if (getOutTol(holes[index])?.includes('aPos')) {
                         label.push(
-                          "A-Pos: " + partData.asidedata[holes[index]]?.aXY
+                          'A-Pos: ' + partData.asidedata[holes[index]]?.aXY
                         );
                       }
                       return label;
@@ -243,31 +243,31 @@ export const ScatterPlot = ({ partData }) => {
                 zoom: {
                   pan: {
                     enabled: true,
-                    modifierKey: "ctrl",
+                    modifierKey: 'ctrl',
                   },
                   zoom: {
                     wheel: {
-                      enabled: false,
+                      enabled: true,
                     },
                     pinch: {
-                      enabled: false,
+                      enabled: true,
                     },
-                    mode: "xy",
+                    mode: 'xy',
                   },
                   limits: {
-                    x: { min: "original", max: "original" },
-                    y: { min: "original", max: "original" },
+                    x: { min: 'original', max: 'original' },
+                    y: { min: 'original', max: 'original' },
                   },
                 },
               },
               scales: {
                 y: {
                   beginAtZero: true,
-                  position: "center",
+                  position: 'center',
                 },
                 x: {
                   beginAtZero: true,
-                  position: "center",
+                  position: 'center',
                 },
               },
             }}
