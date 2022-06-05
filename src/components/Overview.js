@@ -122,14 +122,28 @@ export default function Overview({ machHandler }) {
     });
   };
 
-  const changeGroup = () => {
-    if (partData.groupNum < Math.ceil(partData.machineData.length / 6) - 1) {
+  const changeGroupNext = () => {
+    if (partData.groupNum < Math.floor(partData.machineData.length / 6)) {
       setPartData(prevState => {
         return { ...prevState, groupNum: partData.groupNum + 1 };
       });
     } else {
       setPartData(prevState => {
         return { ...prevState, groupNum: 0 };
+      });
+    }
+  };
+  const changeGroupPrev = () => {
+    if (partData.groupNum === 0) {
+      setPartData(prevState => {
+        return {
+          ...prevState,
+          groupNum: Math.floor(partData.machineData.length / 6),
+        };
+      });
+    } else {
+      setPartData(prevState => {
+        return { ...prevState, groupNum: partData.groupNum - 1 };
       });
     }
   };
@@ -150,6 +164,24 @@ export default function Overview({ machHandler }) {
         <div className="overview-content">
           <div className="overview-selectors">
             <div className="part-params">
+              <div className="prev-machgroup-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  class="bi bi-chevron-double-left prev-group-arrow"
+                  viewBox="0 0 15 15"
+                  onClick={changeGroupPrev}
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                  />
+                </svg>
+              </div>
               <select
                 name="parttype-select"
                 id="form-select"
@@ -180,21 +212,34 @@ export default function Overview({ machHandler }) {
                 <option value="Diameter">Diameter</option>
                 <option value="Position">Position</option>
               </select>
-            </div>
-            <div className="overview-date-input">
-              <input
-                id="form-select"
-                className="form-control"
-                name="overview-date"
-                type="datetime-local"
-                defaultValue={getTodayFormattedString(Date.now())}
-                onChange={setStartDate}
-              />
-            </div>
-            <div className="next-machgroup-button">
-              <button className="next-machgroup-button" onClick={changeGroup}>
-                next group
-              </button>
+              <div className="overview-date-input">
+                <input
+                  id="form-select"
+                  className="form-control"
+                  name="overview-date"
+                  type="datetime-local"
+                  defaultValue={getTodayFormattedString(Date.now())}
+                  onChange={setStartDate}
+                />
+              </div>
+              <div className="next-machgroup-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  className="bi bi-chevron-double-right next-group-arrow"
+                  viewBox="0 0 15 15"
+                  onClick={changeGroupNext}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
+                  />
+                </svg>
+              </div>
             </div>
             {/* <input type="number" defaultValue={5} onChange={setNumOfMachines} /> */}
           </div>

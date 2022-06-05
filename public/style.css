@@ -69,19 +69,26 @@ canvas {
 
 
 
+form, .form-select:focus,
+.form-control:focus,
+#form-select:focus,
+.form-select-lg:focus {
+  border-color: #2761cc;
+  box-shadow: none;
+}
+
 .btn,
 .form-select,
 .form-control,
 #form-select,
 .form-select-lg {
+
   border-radius: 30px;
 }
 .form-select:hover, .form-control:hover{
   border-color: #2761cc;
 }
-.form-select:focus {
-  box-shadow: none;
-}
+
 
 .navbar {
   border-bottom: 1px solid #bbbbbb;
@@ -452,4 +459,14 @@ canvas {
 
 .line-graph {
   margin-bottom: 50px; 
+}
+
+.next-group-arrow, .prev-group-arrow{
+  width: 60%;
+}
+.next-group-arrow:hover, .prev-group-arrow:hover {
+  fill: #2761cc;
+}
+.prev-machgroup-button {
+
 }
