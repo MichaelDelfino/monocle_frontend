@@ -15,6 +15,7 @@ export default function BoxPlotsAll({
   tols,
   isAngleHole,
   startDate,
+  groupNum,
 }) {
   const [graphData, setGraphData] = useState(null);
 
@@ -25,12 +26,16 @@ export default function BoxPlotsAll({
       let datasets = [];
       let scales = {};
       let annotations = [];
+      let groupedMachines = [];
+
+      getMachineGroups(data, groupedMachines);
+      console.log(groupedMachines);
 
       if (metric === 'Diameter') {
-        allHoleData = getDiameters(data, side);
+        allHoleData = getDiameters(groupedMachines[groupNum], side);
       }
       if (metric === 'Position') {
-        allHoleData = getPositions(data, side);
+        allHoleData = getPositions(groupedMachines[groupNum], side);
       }
       // const [borderColor, backgroundColor] = getPartColor(partData[0]);
 
@@ -52,7 +57,7 @@ export default function BoxPlotsAll({
         }
         return datasets;
       };
-      datasets = setDatasets(data, allHoleData);
+      datasets = setDatasets(groupedMachines[groupNum], allHoleData);
       scales = setScales(metric, partType);
       annotations = setAnnotations(tols, metric, isAngleHole);
 
@@ -62,7 +67,7 @@ export default function BoxPlotsAll({
         annotations: annotations,
       });
     }
-  }, [data, side, metric]);
+  }, [data, side, metric, groupNum]);
 
   const getDiameters = (data, side) => {
     let allDiametersArray = [];
@@ -333,6 +338,16 @@ export default function BoxPlotsAll({
     }
     return scales;
   };
+
+  const getMachineGroups = (machines, groupedMachines) => {
+    if (machines.length > 6) {
+      groupedMachines.push(machines.slice(0, 6));
+      getMachineGroups(machines.slice(6), groupedMachines);
+    } else {
+      groupedMachines.push(machines);
+    }
+  };
+
   // Move options to a function that sets them
   return (
     <div className="boxplot-all">

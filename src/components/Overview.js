@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import BoxPlotsAll from './BoxPlotsAll';
 
-export default function Overview({ machHandler, searchHandler }) {
+export default function Overview({ machHandler }) {
   const [partData, setPartData] = useState({
     partType: '369P-01',
     startDate: Date.now(),
@@ -11,6 +11,7 @@ export default function Overview({ machHandler, searchHandler }) {
     metric: 'Diameter',
     tols: {},
     isAngleHole: false,
+    groupNum: 0,
   });
 
   useEffect(() => {
@@ -121,6 +122,18 @@ export default function Overview({ machHandler, searchHandler }) {
     });
   };
 
+  const changeGroup = () => {
+    if (partData.groupNum < Math.ceil(partData.machineData.length / 6) - 1) {
+      setPartData(prevState => {
+        return { ...prevState, groupNum: partData.groupNum + 1 };
+      });
+    } else {
+      setPartData(prevState => {
+        return { ...prevState, groupNum: 0 };
+      });
+    }
+  };
+
   return (
     <div className="OverviewDisplay">
       <div id="machine-title" className="jumbotron machine-jumbotron">
@@ -178,6 +191,12 @@ export default function Overview({ machHandler, searchHandler }) {
                 onChange={setStartDate}
               />
             </div>
+            <div className="next-machgroup-button">
+              <button className="next-machgroup-button" onClick={changeGroup}>
+                next group
+              </button>
+            </div>
+            {/* <input type="number" defaultValue={5} onChange={setNumOfMachines} /> */}
           </div>
           <div className="overview-boxplots">
             <BoxPlotsAll
@@ -189,6 +208,7 @@ export default function Overview({ machHandler, searchHandler }) {
               tols={partData.tols}
               isAngleHole={partData.isAngleHole}
               startDate={partData.startDate}
+              groupNum={partData.groupNum}
             />
           </div>
         </div>
