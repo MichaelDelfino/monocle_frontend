@@ -30,6 +30,7 @@ export default function PartDisplay(props) {
     // } else {
     //   url = `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`;
     // }
+
     fetch(
       `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`
     )

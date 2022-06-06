@@ -299,30 +299,28 @@ export default function BoxPlotsAll({
   const setScales = (metric, parttype) => {
     let scales = {};
     if (metric === 'Diameter') {
-      {
-        if (parttype === '369P-01') {
-          scales = {
-            y: {
-              max: 0.022,
-              min: 0.017,
-              beginAtZero: true,
-            },
-            x: {
-              beginAtZero: true,
-            },
-          };
-        } else {
-          scales = {
-            y: {
-              max: 0.0195,
-              min: 0.015,
-              beginAtZero: true,
-            },
-            x: {
-              beginAtZero: true,
-            },
-          };
-        }
+      if (parttype === '369P-01') {
+        scales = {
+          y: {
+            max: 0.022,
+            min: 0.017,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
+      } else {
+        scales = {
+          y: {
+            max: 0.0195,
+            min: 0.015,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
       }
     } else if (metric === 'Position') {
       scales = {

@@ -2,49 +2,81 @@ import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import React, { useEffect, useState } from 'react';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
-Chart.register(...registerables, zoomPlugin);
+Chart.register(...registerables, zoomPlugin, annotationPlugin);
 
 export const LineGraph = ({ partData, metric }) => {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
-    let allCData,
-      allAData = [];
+    const getPartTols = async currentType => {
+      let scales = {};
+      let annotations = [];
 
-    if (metric === 'diameter') {
-      allCData = getCDiameters(partData);
-      allAData = getADiameters(partData);
-    } else {
-      allCData = getCPosition(partData);
-      allAData = getAPosition(partData);
-    }
+      const defFile = './config/partDefinitions.json';
+      let tolerances = {};
+      let isAngleHole = false;
 
-    const [borderColor, backgroundColor] = getPartColor(partData);
+      const response = await fetch(defFile);
+      const partDef = await response.json();
 
-    setGraphData({
-      tracking: partData.tracking,
-      machine: partData.machine,
-      partType: partData.parttype,
-      labels: Object.keys(partData.csidedata),
-      metric: metric,
-      datasets: [
-        {
-          label: 'C-Side',
-          data: allCData,
-          fill: false,
-          borderColor: borderColor,
-          backgroundColor: backgroundColor,
-        },
-        {
-          label: 'A-Side',
-          data: allAData,
-          fill: false,
-          borderColor: 'rgb(148, 148, 148, 1)',
-          backgroundColor: 'rgb(148, 148, 148, .2)',
-        },
-      ],
-    });
+      for (const part of partDef) {
+        if (String(part.partType).trim() === String(currentType).trim()) {
+          tolerances = part.tolerances;
+          isAngleHole = part.textFileSpecs.isAngleHole;
+        }
+      }
+      let allCData,
+        allAData = [];
+
+      if (metric === 'diameter') {
+        allCData = getCDiameters(partData);
+        allAData = getADiameters(partData);
+      } else {
+        allCData = getCPosition(partData);
+        allAData = getAPosition(partData);
+      }
+
+      const [borderColor, backgroundColor] = getPartColor(partData);
+      annotations = setAnnotations(
+        tolerances,
+        metric,
+        isAngleHole,
+        borderColor
+      );
+      scales = setScales(metric, partData.parttype);
+      console.log(annotations);
+
+      setGraphData({
+        tracking: partData.tracking,
+        machine: partData.machine,
+        partType: partData.parttype,
+        tolerances: tolerances,
+        isAngleHole: isAngleHole,
+        annotations: annotations,
+        scales: scales,
+        labels: Object.keys(partData.csidedata),
+        metric: metric,
+        datasets: [
+          {
+            label: 'C-Side',
+            data: allCData,
+            fill: false,
+            borderColor: borderColor,
+            backgroundColor: backgroundColor,
+          },
+          {
+            label: 'A-Side',
+            data: allAData,
+            fill: false,
+            borderColor: 'rgb(148, 148, 148, 1)',
+            backgroundColor: 'rgb(148, 148, 148, .2)',
+          },
+        ],
+      });
+    };
+    getPartTols(partData.parttype);
   }, [partData, metric]);
 
   // ***************Make methods into class that can be imported into Components***********
@@ -117,6 +149,133 @@ export const LineGraph = ({ partData, metric }) => {
     return [borderColor, backgroundColor];
   };
 
+  // TODO - refactor repeated code
+  const setAnnotations = (tols, metric, isAngleHole, borderColor) => {
+    const annotations = [];
+    if (metric === 'diameter') {
+      annotations.push(
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.diaNom - tols['c-side']?.diaMin,
+          yMax: tols['c-side']?.diaNom - tols['c-side']?.diaMin,
+          borderColor: borderColor,
+          borderWidth: 2,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.diaNom + tols['c-side']?.diaPlus,
+          yMax: tols['c-side']?.diaNom + tols['c-side']?.diaPlus,
+          borderColor: borderColor,
+          borderWidth: 2,
+          adjustScaleRange: true,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['a-side']?.diaNom - tols['a-side']?.diaMin,
+          yMax: tols['a-side']?.diaNom - tols['a-side']?.diaMin,
+          borderColor: 'rgb(148, 148, 148, 1)',
+          borderWidth: 2,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['a-side']?.diaNom + tols['a-side']?.diaPlus,
+          yMax: tols['a-side']?.diaNom + tols['a-side']?.diaPlus,
+          borderColor: 'rgb(148, 148, 148, 1)',
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+      // if (isAngleHole) {
+      //   annotations.push(
+      //     {
+      //       type: 'line',
+      //       mode: 'horizontal',
+      //       yMin: tols[side]?.diaNom - tols[side]?.diaMin + 0.0015,
+      //       yMax: tols[side]?.diaNom - tols[side]?.diaMin + 0.0015,
+      //       borderColor: 'rgb(75, 192, 192)',
+      //       backgroundColor: 'rgb(75, 192, 192)',
+      //       borderWidth: 2,
+      //     },
+      //     {
+      //       type: 'line',
+      //       mode: 'horizontal',
+      //       yMin: tols[side]?.diaNom + tols[side]?.diaPlus + 0.0015,
+      //       yMax: tols[side]?.diaNom + tols[side]?.diaPlus + 0.0015,
+      //       borderColor: 'rgb(75, 192, 192)',
+      //       backgroundColor: 'rgb(75, 192, 192)',
+      //       borderWidth: 2,
+      //       adjustScaleRange: true,
+      //     }
+      //   );
+      // }
+    } else if (metric === 'position') {
+      annotations.push(
+        {
+          mode: 'horizontal',
+          yMin: tols['c-side']?.posNom - tols['c-side']?.posMin,
+          yMax: tols['c-side']?.posNom - tols['c-side']?.posMin,
+          borderColor: borderColor,
+          borderWidth: 2,
+        },
+        {
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.posNom + tols['c-side']?.posPlus,
+          yMax: tols['c-side']?.posNom + tols['c-side']?.posPlus,
+          borderColor: borderColor,
+          borderWidth: 2,
+          adjustScaleRange: true,
+        }
+      );
+    }
+    return annotations;
+  };
+
+  const setScales = (metric, parttype) => {
+    let scales = {};
+    if (metric === 'diameter') {
+      if (parttype === '369P-01') {
+        scales = {
+          y: {
+            max: 0.022,
+            min: 0.017,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
+      } else {
+        scales = {
+          y: {
+            max: 0.0195,
+            min: 0.015,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
+      }
+    } else if (metric === 'position') {
+      scales = {
+        y: {
+          max: 0.01,
+          min: 0.0,
+          beginAtZero: true,
+        },
+        x: {
+          beginAtZero: true,
+        },
+      };
+    }
+    return scales;
+  };
+
   // Move options to a function that sets them
   return (
     <div>
@@ -125,33 +284,11 @@ export const LineGraph = ({ partData, metric }) => {
           data={graphData}
           options={{
             maintainAspectRatio: true,
+            scales: graphData.scales,
             plugins: {
-              // annotation: {
-              //   annotations: [
-              //     {
-              //       type: 'line',
-              //       yMin:
-              //         partData.tolerances['c-side']?.diaNom -
-              //         partData.tolerances['c-side']?.diaMin,
-              //       yMax:
-              //         partData.tolerances['c-side']?.diaNom -
-              //         partData.tolerances['c-side']?.diaMin,
-              //       borderColor: 'rgb(255, 99, 132)',
-              //       borderWidth: 2,
-              //     },
-              //     {
-              //       type: 'line',
-              //       yMin:
-              //         partData.tolerances['c-side']?.diaNom +
-              //         partData.tolerances['c-side']?.diaPlus,
-              //       yMax:
-              //         partData.tolerances['c-side']?.diaNom +
-              //         partData.tolerances['c-side']?.diaPlus,
-              //       borderColor: 'rgb(255, 99, 132)',
-              //       borderWidth: 2,
-              //     },
-              //   ],
-              // },
+              annotation: {
+                annotations: graphData.annotations,
+              },
               tooltip: {
                 enabled: true,
                 callbacks: {

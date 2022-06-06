@@ -6,70 +6,66 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 export const ScatterPlot = ({ partData }) => {
-  const [graphData, setgraphData] = useState(null);
+  const [graphData, setgraphData] = useState({
+    tracking: partData.tracking,
+    machine: partData.machine,
+    partType: partData.parttype,
+    tolerances: {},
+    labels: Object.keys(partData.csidedata),
+    datasets: [],
+  });
   useEffect(() => {
-    let allCPosData,
-      allAPosData = [];
+    const getPartTols = async currentType => {
+      let allCPosData = [];
 
-    allCPosData = getCPosition(partData);
-    allAPosData = getAPosition(partData);
+      const defFile = './config/partDefinitions.json';
+      let tolerances = {};
 
-    const [borderColor, backgroundColor] = getPartColor(partData);
+      const response = await fetch(defFile);
+      const partDef = await response.json();
 
-    setgraphData({
-      tracking: partData.tracking,
-      machine: partData.machine,
-      partType: partData.parttype,
-      labels: Object.keys(partData.csidedata),
-      datasets: [
-        {
-          label: 'C-Side',
-          data: allCPosData,
-          backgroundColor: context => {
-            let index = context.dataIndex;
-            let holes = Object.keys(partData.csidedata);
+      for (const part of partDef) {
+        if (String(part.partType).trim() === String(currentType).trim()) {
+          tolerances = part.tolerances;
+        }
+      }
 
-            return getOutTol(holes[index]).length ? 'red' : borderColor;
+      allCPosData = getCPosition(partData);
+      const [borderColor, backgroundColor] = getPartColor(partData);
+
+      setgraphData({
+        tracking: partData.tracking,
+        machine: partData.machine,
+        partType: partData.parttype,
+        tolerances: tolerances,
+        labels: Object.keys(partData.csidedata),
+        datasets: [
+          {
+            label: 'C-Side',
+            data: allCPosData,
+            backgroundColor: context => {
+              let index = context.dataIndex;
+              let holes = Object.keys(partData.csidedata);
+
+              return getOutTol(holes[index]).length ? 'red' : borderColor;
+            },
+            pointRadius: context => {
+              let index = context.dataIndex;
+              let holes = Object.keys(partData.csidedata);
+              return getOutTol(holes[index]).length ? 5 : 3;
+            },
+            pointHoverRadius: context => {
+              let index = context.dataIndex;
+              let holes = Object.keys(partData.csidedata);
+              return getOutTol(holes[index]).length ? 10 : 4;
+            },
+            borderColor: 'black',
+            borderWidth: 0.5,
           },
-          pointRadius: context => {
-            let index = context.dataIndex;
-            let holes = Object.keys(partData.csidedata);
-            return getOutTol(holes[index]).length ? 5 : 3;
-          },
-          pointHoverRadius: context => {
-            let index = context.dataIndex;
-            let holes = Object.keys(partData.csidedata);
-            return getOutTol(holes[index]).length ? 10 : 4;
-          },
-          borderColor: 'black',
-          borderWidth: 0.5,
-        },
-        // {
-        //   label: 'A-Side',
-        //   data: allAPosData,
-        //   backgroundColor: context => {
-        //     let index = context.dataIndex;
-        //     let holes = Object.keys(partData.aSideData);
-
-        //     return getOutTol(holes[index]).length
-        //       ? 'red'
-        //       : 'rgb(148, 148, 148, 1)';
-        //   },
-        //   pointRadius: context => {
-        //     let index = context.dataIndex;
-        //     let holes = Object.keys(partData.aSideData);
-        //     return getOutTol(holes[index]).length ? 5 : 3;
-        //   },
-        //   pointHoverRadius: context => {
-        //     let index = context.dataIndex;
-        //     let holes = Object.keys(partData.aSideData);
-        //     return getOutTol(holes[index]).length ? 10 : 4;
-        //   },
-        //   borderColor: 'black',
-        //   borderWidth: 0.5,
-        // },
-      ],
-    });
+        ],
+      });
+    };
+    getPartTols(partData.parttype);
   }, [partData]);
 
   // ***************Make methods into class that can be imported into Components***********
@@ -142,52 +138,54 @@ export const ScatterPlot = ({ partData }) => {
     return [borderColor, backgroundColor];
   };
 
-  // TODO - pull tols from json file, not obj to make dynamic
+  // TODO - pull tols from json file
   const getOutTol = hole => {
     let outTol = [];
     let cDia = partData.csidedata[hole]?.cDia;
     let aDia = partData.asidedata[hole]?.aDia;
     let cPos = partData.csidedata[hole]?.cXY;
     let aPos = partData.asidedata[hole]?.aXY;
-    if (
-      cDia >
-        partData.tolerances['c-side']['diaNom'] +
-          partData.tolerances['c-side']['diaPlus'] ||
-      cDia <
-        partData.tolerances['c-side']['diaNom'] -
-          partData.tolerances['c-side']['diaMin']
-    ) {
-      outTol.push('cDia');
-    }
-    if (
-      aDia >
-        partData.tolerances['a-side']['diaNom'] +
-          partData.tolerances['a-side']['diaPlus'] ||
-      aDia <
-        partData.tolerances['a-side']['diaNom'] -
-          partData.tolerances['a-side']['diaMin']
-    ) {
-      outTol.push('aDia');
-    }
-    if (
-      cPos >
-        partData.tolerances['c-side']['posNom'] +
-          partData.tolerances['c-side']['posPlus'] ||
-      cPos <
-        partData.tolerances['c-side']['posNom'] -
-          partData.tolerances['c-side']['posPlus']
-    ) {
-      outTol.push('cPos');
-    }
-    if (
-      aPos >
-        partData.tolerances['a-side']['posNom'] +
-          partData.tolerances['a-side']['posPlus'] ||
-      aPos <
-        partData.tolerances['a-side']['posNom'] -
-          partData.tolerances['a-side']['posPlus']
-    ) {
-      outTol.push('aPos');
+    if (Object.keys(graphData.tolerances).length) {
+      if (
+        cDia >
+          graphData.tolerances['c-side']['diaNom'] +
+            graphData.tolerances['c-side']['diaPlus'] ||
+        cDia <
+          graphData.tolerances['c-side']['diaNom'] -
+            graphData.tolerances['c-side']['diaMin']
+      ) {
+        outTol.push('cDia');
+      }
+      if (
+        aDia >
+          graphData.tolerances['a-side']['diaNom'] +
+            graphData.tolerances['a-side']['diaPlus'] ||
+        aDia <
+          graphData.tolerances['a-side']['diaNom'] -
+            graphData.tolerances['a-side']['diaMin']
+      ) {
+        outTol.push('aDia');
+      }
+      if (
+        cPos >
+          graphData.tolerances['c-side']['posNom'] +
+            graphData.tolerances['c-side']['posPlus'] ||
+        cPos <
+          graphData.tolerances['c-side']['posNom'] -
+            graphData.tolerances['c-side']['posPlus']
+      ) {
+        outTol.push('cPos');
+      }
+      if (
+        aPos >
+          graphData.tolerances['a-side']['posNom'] +
+            graphData.tolerances['a-side']['posPlus'] ||
+        aPos <
+          graphData.tolerances['a-side']['posNom'] -
+            graphData.tolerances['a-side']['posPlus']
+      ) {
+        outTol.push('aPos');
+      }
     }
     return outTol;
   };
