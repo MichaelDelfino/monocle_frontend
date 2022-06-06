@@ -468,5 +468,9 @@ form, .form-select:focus,
   fill: #2761cc;
 }
 .prev-machgroup-button {
-
+  display: flex;
+  justify-content: right;
+  vertical-align: top;
+  justify-items: right;
+  margin-bottom: 19px;
 }
