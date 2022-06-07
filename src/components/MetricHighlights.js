@@ -5,31 +5,43 @@ export const MetricHighlights = ({ partData }) => {
   const [tableData, setTableData] = useState(null);
 
   useEffect(() => {
-    let allCDia,
-      allADia,
-      allCPos,
-      allAPos = [];
+    const getPartTols = async currentType => {
+      let allCDia,
+        allADia,
+        allCPos,
+        allAPos = [];
+      let tolerances = {};
 
-    allCDia = getCDiameters(partData);
-    allADia = getADiameters(partData);
-    allCPos = getCPosition(partData);
-    allAPos = getAPosition(partData);
+      const defFile = './config/partDefinitions.json';
+      const response = await fetch(defFile);
+      const partDef = await response.json();
 
-    setTableData({
-      maxCDiameter: Math.max(...allCDia),
-      minCDiameter: Math.min(...allCDia),
-      maxADiameter: Math.max(...allADia),
-      minADiameter: Math.min(...allADia),
-      maxCPosition: Math.max(...allCPos),
-      minCPosition: Math.min(...allCPos),
-      maxAPosition: Math.max(...allAPos),
-      minAPosition: Math.min(...allAPos),
-    });
+      for (const part of partDef) {
+        if (String(part.partType).trim() === String(currentType).trim()) {
+          tolerances = part.tolerances;
+        }
+      }
 
-    if (tableData) {
-      setHighlightColors(partData, tableData);
-    }
-  }, [partData, tableData]);
+      allCDia = getCDiameters(partData);
+      allADia = getADiameters(partData);
+      allCPos = getCPosition(partData);
+      allAPos = getAPosition(partData);
+
+      setHighlightColors(tolerances, Math.max(...allCDia));
+
+      setTableData({
+        maxCDiameter: Math.max(...allCDia),
+        minCDiameter: Math.min(...allCDia),
+        maxADiameter: Math.max(...allADia),
+        minADiameter: Math.min(...allADia),
+        maxCPosition: Math.max(...allCPos),
+        minCPosition: Math.min(...allCPos),
+        maxAPosition: Math.max(...allAPos),
+        minAPosition: Math.min(...allAPos),
+      });
+    };
+    getPartTols(partData.parttype);
+  }, [partData]);
 
   // ***************Make methods into class that can be imported into Components***********
   // *************************************************************************************
@@ -66,75 +78,72 @@ export const MetricHighlights = ({ partData }) => {
   };
 
   // Refactor method to reduce repeated code
-  const setHighlightColors = (partData, tableData) => {
-    const lights = document.querySelectorAll('.light');
-    for (const el of lights) {
-      el.setAttribute('fill', '#20c997');
-    }
+  const setHighlightColors = (tolerances, maxCDiameter) => {
+    console.log(tolerances['c-side']['diaNom'], maxCDiameter);
 
-    if (
-      tableData.maxCDiameter >
-      partData.tolerances['c-side']['diaNom'] +
-        partData.tolerances['c-side']['diaPlus']
-    ) {
-      const maxCDiaColor = document.querySelector('.c-max-dia-light');
-      maxCDiaColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.maxADiameter >
-      partData.tolerances['a-side']['diaNom'] +
-        partData.tolerances['a-side']['diaPlus']
-    ) {
-      const maxADiaColor = document.querySelector('.a-max-dia-light');
-      maxADiaColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.minCDiameter <
-      partData.tolerances['c-side']['diaNom'] -
-        partData.tolerances['c-side']['diaMin']
-    ) {
-      const minCDiaColor = document.querySelector('.c-min-dia-light');
-      minCDiaColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.minADiameter <
-      partData.tolerances['a-side']['diaNom'] -
-        partData.tolerances['a-side']['diaMin']
-    ) {
-      const minADiaColor = document.querySelector('.a-min-dia-light');
-      minADiaColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.maxCPosition >
-      partData.tolerances['c-side']['posNom'] +
-        partData.tolerances['c-side']['posPlus']
-    ) {
-      const maxCPosColor = document.querySelector('.c-max-pos-light');
-      maxCPosColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.maxAPosition >
-      partData.tolerances['a-side']['posNom'] +
-        partData.tolerances['a-side']['posPlus']
-    ) {
-      const maxAPosColor = document.querySelector('.a-max-pos-light');
-      maxAPosColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.minCPosition <
-      partData.tolerances['c-side']['posNom'] -
-        partData.tolerances['c-side']['posMin']
-    ) {
-      const minCPosColor = document.querySelector('.c-min-pos-light');
-      minCPosColor.setAttribute('fill', '#f54242');
-    }
-    if (
-      tableData.minAPosition <
-      partData.tolerances['a-side']['posNom'] -
-        partData.tolerances['a-side']['posMin']
-    ) {
-      const minAPosColor = document.querySelector('.a-min-pos-light');
-      minAPosColor.setAttribute('fill', '#f54242');
+    if (tolerances.length) {
+      const lights = document.querySelectorAll('.light');
+      for (const el of lights) {
+        el.setAttribute('fill', '#20c997');
+      }
+
+      if (
+        maxCDiameter >
+        tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus']
+      ) {
+        console.log('yo fail');
+        const maxCDiaColor = document.querySelector('.c-max-dia-light');
+        maxCDiaColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.maxADiameter >
+        tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus']
+      ) {
+        const maxADiaColor = document.querySelector('.a-max-dia-light');
+        maxADiaColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.minCDiameter <
+        tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin']
+      ) {
+        const minCDiaColor = document.querySelector('.c-min-dia-light');
+        minCDiaColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.minADiameter <
+        tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin']
+      ) {
+        const minADiaColor = document.querySelector('.a-min-dia-light');
+        minADiaColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.maxCPosition >
+        tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus']
+      ) {
+        const maxCPosColor = document.querySelector('.c-max-pos-light');
+        maxCPosColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.maxAPosition >
+        tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus']
+      ) {
+        const maxAPosColor = document.querySelector('.a-max-pos-light');
+        maxAPosColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.minCPosition <
+        tolerances['c-side']['posNom'] - tolerances['c-side']['posMin']
+      ) {
+        const minCPosColor = document.querySelector('.c-min-pos-light');
+        minCPosColor.setAttribute('fill', '#f54242');
+      }
+      if (
+        tableData.minAPosition <
+        tolerances['a-side']['posNom'] - tolerances['a-side']['posMin']
+      ) {
+        const minAPosColor = document.querySelector('.a-min-pos-light');
+        minAPosColor.setAttribute('fill', '#f54242');
+      }
     }
   };
 

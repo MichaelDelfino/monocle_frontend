@@ -474,3 +474,10 @@ form, .form-select:focus,
   justify-items: right;
   margin-bottom: 19px;
 }
+
+#carousel-example-generic .carousel-control {
+  height: 26%;
+  top: 33%;
+  width: 86px;
+  background: black;
+  }

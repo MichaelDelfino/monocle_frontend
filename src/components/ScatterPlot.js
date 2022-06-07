@@ -17,9 +17,10 @@ export const ScatterPlot = ({ partData }) => {
   useEffect(() => {
     const getPartTols = async currentType => {
       let allCPosData = [];
+      let holePassFail = [];
+      let tolerances = {};
 
       const defFile = './config/partDefinitions.json';
-      let tolerances = {};
 
       const response = await fetch(defFile);
       const partDef = await response.json();
@@ -30,8 +31,13 @@ export const ScatterPlot = ({ partData }) => {
         }
       }
 
-      allCPosData = getCPosition(partData);
       const [borderColor, backgroundColor] = getPartColor(partData);
+      allCPosData = getCPosition(partData);
+      holePassFail = getOutTol(
+        tolerances,
+        partData.csidedata,
+        partData.asidedata
+      );
 
       setgraphData({
         tracking: partData.tracking,
@@ -39,6 +45,7 @@ export const ScatterPlot = ({ partData }) => {
         partType: partData.parttype,
         tolerances: tolerances,
         labels: Object.keys(partData.csidedata),
+        holePassFail: holePassFail,
         datasets: [
           {
             label: 'C-Side',
@@ -47,17 +54,17 @@ export const ScatterPlot = ({ partData }) => {
               let index = context.dataIndex;
               let holes = Object.keys(partData.csidedata);
 
-              return getOutTol(holes[index]).length ? 'red' : borderColor;
+              return holePassFail[holes[index]]?.length ? 'red' : borderColor;
             },
             pointRadius: context => {
               let index = context.dataIndex;
               let holes = Object.keys(partData.csidedata);
-              return getOutTol(holes[index]).length ? 5 : 3;
+              return holePassFail[holes[index]]?.length ? 5 : 3;
             },
             pointHoverRadius: context => {
               let index = context.dataIndex;
               let holes = Object.keys(partData.csidedata);
-              return getOutTol(holes[index]).length ? 10 : 4;
+              return holePassFail[holes[index]]?.length ? 10 : 4;
             },
             borderColor: 'black',
             borderWidth: 0.5,
@@ -138,54 +145,50 @@ export const ScatterPlot = ({ partData }) => {
     return [borderColor, backgroundColor];
   };
 
-  // TODO - pull tols from json file
-  const getOutTol = hole => {
-    let outTol = [];
-    let cDia = partData.csidedata[hole]?.cDia;
-    let aDia = partData.asidedata[hole]?.aDia;
-    let cPos = partData.csidedata[hole]?.cXY;
-    let aPos = partData.asidedata[hole]?.aXY;
-    if (Object.keys(graphData.tolerances).length) {
-      if (
-        cDia >
-          graphData.tolerances['c-side']['diaNom'] +
-            graphData.tolerances['c-side']['diaPlus'] ||
-        cDia <
-          graphData.tolerances['c-side']['diaNom'] -
-            graphData.tolerances['c-side']['diaMin']
-      ) {
-        outTol.push('cDia');
+  const getOutTol = (tolerances, csidedata, asidedata) => {
+    let outTol = {};
+
+    for (const hole of Object.keys(csidedata)) {
+      let holeFails = [];
+      // hole metrics
+      let cDia = partData.csidedata[hole]?.cDia;
+      let aDia = partData.asidedata[hole]?.aDia;
+      let cPos = partData.csidedata[hole]?.cXY;
+      let aPos = partData.asidedata[hole]?.aXY;
+
+      if (Object.keys(tolerances).length) {
+        if (
+          cDia >
+            tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus'] ||
+          cDia < tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin']
+        ) {
+          holeFails.push('cDia');
+        }
+        if (
+          aDia >
+            tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus'] ||
+          aDia < tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin']
+        ) {
+          holeFails.push('aDia');
+        }
+        if (
+          cPos >
+            tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus'] ||
+          cPos <
+            tolerances['c-side']['posNom'] - tolerances['c-side']['posPlus']
+        ) {
+          holeFails.push('cPos');
+        }
+        if (
+          aPos >
+            tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus'] ||
+          aPos <
+            tolerances['a-side']['posNom'] - tolerances['a-side']['posPlus']
+        ) {
+          holeFails.push('aPos');
+        }
       }
-      if (
-        aDia >
-          graphData.tolerances['a-side']['diaNom'] +
-            graphData.tolerances['a-side']['diaPlus'] ||
-        aDia <
-          graphData.tolerances['a-side']['diaNom'] -
-            graphData.tolerances['a-side']['diaMin']
-      ) {
-        outTol.push('aDia');
-      }
-      if (
-        cPos >
-          graphData.tolerances['c-side']['posNom'] +
-            graphData.tolerances['c-side']['posPlus'] ||
-        cPos <
-          graphData.tolerances['c-side']['posNom'] -
-            graphData.tolerances['c-side']['posPlus']
-      ) {
-        outTol.push('cPos');
-      }
-      if (
-        aPos >
-          graphData.tolerances['a-side']['posNom'] +
-            graphData.tolerances['a-side']['posPlus'] ||
-        aPos <
-          graphData.tolerances['a-side']['posNom'] -
-            graphData.tolerances['a-side']['posPlus']
-      ) {
-        outTol.push('aPos');
-      }
+      outTol[hole] = holeFails;
     }
     return outTol;
   };
@@ -214,22 +217,30 @@ export const ScatterPlot = ({ partData }) => {
                       let holes = Object.keys(partData.csidedata);
 
                       // if hole failed for any given metric
-                      if (getOutTol(holes[index])?.includes('cDia')) {
+                      if (
+                        graphData.holePassFail[holes[index]]?.includes('cDia')
+                      ) {
                         label.push(
                           'C-Dia: ' + partData.csidedata[holes[index]]?.cDia
                         );
                       }
-                      if (getOutTol(holes[index])?.includes('aDia')) {
+                      if (
+                        graphData.holePassFail[holes[index]]?.includes('aDia')
+                      ) {
                         label.push(
                           'A-Dia: ' + partData.asidedata[holes[index]]?.aDia
                         );
                       }
-                      if (getOutTol(holes[index])?.includes('cPos')) {
+                      if (
+                        graphData.holePassFail[holes[index]]?.includes('cPos')
+                      ) {
                         label.push(
                           'C-Pos: ' + partData.csidedata[holes[index]]?.cXY
                         );
                       }
-                      if (getOutTol(holes[index])?.includes('aPos')) {
+                      if (
+                        graphData.holePassFail[holes[index]]?.includes('aPos')
+                      ) {
                         label.push(
                           'A-Pos: ' + partData.asidedata[holes[index]]?.aXY
                         );

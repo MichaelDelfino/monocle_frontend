@@ -46,7 +46,6 @@ export const LineGraph = ({ partData, metric }) => {
         borderColor
       );
       scales = setScales(metric, partData.parttype);
-      console.log(annotations);
 
       setGraphData({
         tracking: partData.tracking,
@@ -241,8 +240,8 @@ export const LineGraph = ({ partData, metric }) => {
       if (parttype === '369P-01') {
         scales = {
           y: {
-            max: 0.022,
-            min: 0.017,
+            max: 0.024,
+            min: 0.016,
             beginAtZero: true,
           },
           x: {
