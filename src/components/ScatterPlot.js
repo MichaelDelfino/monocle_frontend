@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Scatter } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
+import React from "react";
+import { useState, useEffect } from "react";
+import { Scatter } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
@@ -20,7 +20,7 @@ export const ScatterPlot = ({ partData }) => {
       let holePassFail = [];
       let tolerances = {};
 
-      const defFile = './config/partDefinitions.json';
+      const defFile = "./config/partDefinitions.json";
 
       const response = await fetch(defFile);
       const partDef = await response.json();
@@ -48,13 +48,13 @@ export const ScatterPlot = ({ partData }) => {
         holePassFail: holePassFail,
         datasets: [
           {
-            label: 'C-Side',
+            label: "C-Side",
             data: allCPosData,
             backgroundColor: context => {
               let index = context.dataIndex;
               let holes = Object.keys(partData.csidedata);
 
-              return holePassFail[holes[index]]?.length ? 'red' : borderColor;
+              return holePassFail[holes[index]]?.length ? "red" : borderColor;
             },
             pointRadius: context => {
               let index = context.dataIndex;
@@ -66,7 +66,7 @@ export const ScatterPlot = ({ partData }) => {
               let holes = Object.keys(partData.csidedata);
               return holePassFail[holes[index]]?.length ? 10 : 4;
             },
-            borderColor: 'black',
+            borderColor: "black",
             borderWidth: 0.5,
           },
         ],
@@ -110,36 +110,36 @@ export const ScatterPlot = ({ partData }) => {
   };
 
   const getPartColor = data => {
-    let borderColor = '';
-    let backgroundColor = '';
+    let borderColor = "";
+    let backgroundColor = "";
 
-    if (String(data.parttype).trim() === '369P-01') {
-      borderColor = 'rgb(252, 186, 3, 1)';
-      backgroundColor = 'rgb(252, 186, 3, .2)';
-    } else if (String(data.parttype).trim() === '1789P-01') {
-      borderColor = 'rgb(2, 117, 216, 1)';
-      backgroundColor = 'rgb(2, 117, 216, .2)';
-    } else if (String(data.parttype).trim() === '2078P-01') {
-      borderColor = 'rgb(92, 184, 92, 1)';
-      backgroundColor = 'rgb(92, 184, 92, .2)';
-    } else if (String(data.parttype).trim() === '1534P-01') {
-      borderColor = 'rgb(219, 112, 4, 1)';
-      backgroundColor = 'rgb(219, 112, 4, .2)';
-    } else if (String(data.parttype).trim() === '1557P-01') {
-      borderColor = 'rgb(68, 242, 207, 1)';
-      backgroundColor = 'rgb(68, 242, 207, .2)';
-    } else if (String(data.parttype).trim() === '2129P-01') {
-      borderColor = 'rgb(252, 3, 102, 1)';
-      backgroundColor = 'rgb(252, 3, 102, .2)';
-    } else if (String(data.parttype).trim() === '2129P-02') {
-      borderColor = 'rgb(175, 104, 252, 1)';
-      backgroundColor = 'rgb(175, 104, 252, .2)';
-    } else if (String(data.parttype).trim() === '2129P-03') {
-      borderColor = 'rgb(1, 0, 3, 1)';
-      backgroundColor = 'rgb(1, 0, 3, .2)';
-    } else if (String(data.parttype).trim() === '1565P-01') {
-      borderColor = 'rgb(171, 194, 21, 1)';
-      backgroundColor = 'rgb(171, 194, 21, .2)';
+    if (String(data.parttype).trim() === "369P-01") {
+      borderColor = "rgb(252, 186, 3, 1)";
+      backgroundColor = "rgb(252, 186, 3, .2)";
+    } else if (String(data.parttype).trim() === "1789P-01") {
+      borderColor = "rgb(2, 117, 216, 1)";
+      backgroundColor = "rgb(2, 117, 216, .2)";
+    } else if (String(data.parttype).trim() === "2078P-01") {
+      borderColor = "rgb(92, 184, 92, 1)";
+      backgroundColor = "rgb(92, 184, 92, .2)";
+    } else if (String(data.parttype).trim() === "1534P-01") {
+      borderColor = "rgb(219, 112, 4, 1)";
+      backgroundColor = "rgb(219, 112, 4, .2)";
+    } else if (String(data.parttype).trim() === "1557P-01") {
+      borderColor = "rgb(68, 242, 207, 1)";
+      backgroundColor = "rgb(68, 242, 207, .2)";
+    } else if (String(data.parttype).trim() === "2129P-01") {
+      borderColor = "rgb(252, 3, 102, 1)";
+      backgroundColor = "rgb(252, 3, 102, .2)";
+    } else if (String(data.parttype).trim() === "2129P-02") {
+      borderColor = "rgb(175, 104, 252, 1)";
+      backgroundColor = "rgb(175, 104, 252, .2)";
+    } else if (String(data.parttype).trim() === "2129P-03") {
+      borderColor = "rgb(1, 0, 3, 1)";
+      backgroundColor = "rgb(1, 0, 3, .2)";
+    } else if (String(data.parttype).trim() === "1565P-01") {
+      borderColor = "rgb(171, 194, 21, 1)";
+      backgroundColor = "rgb(171, 194, 21, .2)";
     }
 
     return [borderColor, backgroundColor];
@@ -159,33 +159,31 @@ export const ScatterPlot = ({ partData }) => {
       if (Object.keys(tolerances).length) {
         if (
           cDia >
-            tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus'] ||
-          cDia < tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin']
+            tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"] ||
+          cDia < tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"]
         ) {
-          holeFails.push('cDia');
+          holeFails.push("cDia");
         }
         if (
           aDia >
-            tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus'] ||
-          aDia < tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin']
+            tolerances["a-side"]["diaNom"] + tolerances["a-side"]["diaPlus"] ||
+          aDia < tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"]
         ) {
-          holeFails.push('aDia');
+          holeFails.push("aDia");
         }
         if (
           cPos >
-            tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus'] ||
-          cPos <
-            tolerances['c-side']['posNom'] - tolerances['c-side']['posPlus']
+            tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"] ||
+          cPos < tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"]
         ) {
-          holeFails.push('cPos');
+          holeFails.push("cPos");
         }
         if (
           aPos >
-            tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus'] ||
-          aPos <
-            tolerances['a-side']['posNom'] - tolerances['a-side']['posPlus']
+            tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"] ||
+          aPos < tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
         ) {
-          holeFails.push('aPos');
+          holeFails.push("aPos");
         }
       }
       outTol[hole] = holeFails;
@@ -218,31 +216,31 @@ export const ScatterPlot = ({ partData }) => {
 
                       // if hole failed for any given metric
                       if (
-                        graphData.holePassFail[holes[index]]?.includes('cDia')
+                        graphData.holePassFail[holes[index]]?.includes("cDia")
                       ) {
                         label.push(
-                          'C-Dia: ' + partData.csidedata[holes[index]]?.cDia
+                          "C-Dia: " + partData.csidedata[holes[index]]?.cDia
                         );
                       }
                       if (
-                        graphData.holePassFail[holes[index]]?.includes('aDia')
+                        graphData.holePassFail[holes[index]]?.includes("aDia")
                       ) {
                         label.push(
-                          'A-Dia: ' + partData.asidedata[holes[index]]?.aDia
+                          "A-Dia: " + partData.asidedata[holes[index]]?.aDia
                         );
                       }
                       if (
-                        graphData.holePassFail[holes[index]]?.includes('cPos')
+                        graphData.holePassFail[holes[index]]?.includes("cPos")
                       ) {
                         label.push(
-                          'C-Pos: ' + partData.csidedata[holes[index]]?.cXY
+                          "C-Pos: " + partData.csidedata[holes[index]]?.cXY
                         );
                       }
                       if (
-                        graphData.holePassFail[holes[index]]?.includes('aPos')
+                        graphData.holePassFail[holes[index]]?.includes("aPos")
                       ) {
                         label.push(
-                          'A-Pos: ' + partData.asidedata[holes[index]]?.aXY
+                          "A-Pos: " + partData.asidedata[holes[index]]?.aXY
                         );
                       }
                       return label;
@@ -252,7 +250,7 @@ export const ScatterPlot = ({ partData }) => {
                 zoom: {
                   pan: {
                     enabled: true,
-                    modifierKey: 'ctrl',
+                    modifierKey: "ctrl",
                   },
                   zoom: {
                     wheel: {
@@ -261,22 +259,22 @@ export const ScatterPlot = ({ partData }) => {
                     pinch: {
                       enabled: true,
                     },
-                    mode: 'xy',
+                    mode: "xy",
                   },
                   limits: {
-                    x: { min: 'original', max: 'original' },
-                    y: { min: 'original', max: 'original' },
+                    x: { min: "original", max: "original" },
+                    y: { min: "original", max: "original" },
                   },
                 },
               },
               scales: {
                 y: {
                   beginAtZero: true,
-                  position: 'center',
+                  position: "center",
                 },
                 x: {
                   beginAtZero: true,
-                  position: 'center',
+                  position: "center",
                 },
               },
             }}
