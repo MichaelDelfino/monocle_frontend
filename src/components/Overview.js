@@ -123,6 +123,7 @@ export default function Overview({ machHandler }) {
       .replace("AM", "")
       .replace("PM", "")
       .trim();
+
     const splitDate = stringDate.split("/");
     const splitTime = stringTime.split(":");
     const todayDefault = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
