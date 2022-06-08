@@ -106,7 +106,7 @@ export default function Overview({ machHandler }) {
     });
   };
 
-  const getTodayFormattedString = date => {
+  const getFormattedDateStringFromUnix = date => {
     // req format: 2022-05-23T16:46
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
@@ -116,7 +116,7 @@ export default function Overview({ machHandler }) {
     });
     const stringTime = origDate
       .toLocaleTimeString("en-US", {
-        hour12: true,
+        hour12: false,
         hour: "2-digit",
         minute: "2-digit",
       })
@@ -146,6 +146,7 @@ export default function Overview({ machHandler }) {
       });
     }
   };
+
   const changeGroupPrev = () => {
     if (partData.groupNum === 0) {
       setPartData(prevState => {
@@ -231,7 +232,7 @@ export default function Overview({ machHandler }) {
                   className="form-control"
                   name="overview-date"
                   type="datetime-local"
-                  defaultValue={getTodayFormattedString(Date.now())}
+                  defaultValue={getFormattedDateStringFromUnix(Date.now())}
                   onChange={setStartDate}
                 />
               </div>
