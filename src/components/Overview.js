@@ -107,7 +107,7 @@ export default function Overview({ machHandler }) {
   };
 
   const getFormattedDateStringFromUnix = date => {
-    // req format: 2022-05-23T16:46
+    // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
       year: "numeric",
@@ -126,8 +126,8 @@ export default function Overview({ machHandler }) {
 
     const splitDate = stringDate.split("/");
     const splitTime = stringTime.split(":");
-    const todayDefault = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
-    return todayDefault;
+    const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
+    return formattedDate;
   };
 
   const setStartDate = e => {

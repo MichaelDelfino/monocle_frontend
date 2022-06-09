@@ -394,5 +394,38 @@
         "posMin": 9
       }
     }
+  },
+  {
+    "partType": "1787P-01",
+    "textFileSpecs": {
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": true,
+      "numHoles": 1010,
+      "cEnd": 4051,
+      "aEnd": 7953,
+      "diaString": "Dia",
+      "truePosString": "XYPos",
+      "xPosString": "XPos",
+      "yPosString": " YPos"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01
+      }
+    }
   }
 ]

@@ -261,7 +261,7 @@ export const LineGraph = ({ partData, metric }) => {
         };
       }
     } else if (metric === "position") {
-      if (parttype === "1565P-01") {
+      if (graphData.isAngleHole) {
         scales = {
           y: {
             max: 0.02,

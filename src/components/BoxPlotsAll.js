@@ -20,7 +20,6 @@ export default function BoxPlotsAll({
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
-    console.log(data);
     setGraphData(null);
     if (data.length) {
       let allHoleData = [];
@@ -30,7 +29,6 @@ export default function BoxPlotsAll({
       let groupedMachines = [];
 
       getMachineGroups(data, groupedMachines);
-      console.log(groupedMachines);
 
       if (metric === "Diameter") {
         allHoleData = getDiameters(groupedMachines[groupNum], side);
@@ -66,6 +64,7 @@ export default function BoxPlotsAll({
         datasets: datasets,
         scales: scales,
         annotations: annotations,
+        groupedMachines: groupedMachines,
       });
     }
   }, [data, side, metric, groupNum]);
@@ -82,6 +81,8 @@ export default function BoxPlotsAll({
             diameterArray.push({
               x: i,
               y: parseFloat(part.csidedata[hole]?.cDia),
+              tracking: part.tracking,
+              date: part.timestamp,
             });
           }
           i++;
@@ -94,6 +95,8 @@ export default function BoxPlotsAll({
             diameterArray.push({
               x: i,
               y: parseFloat(part.asidedata[hole]?.aDia),
+              tracking: part.tracking,
+              date: part.timestamp,
             });
           }
           i++;
@@ -116,6 +119,8 @@ export default function BoxPlotsAll({
             positionArray.push({
               x: i,
               y: parseFloat(part.csidedata[hole]?.cXY),
+              tracking: part.tracking,
+              date: part.timestamp,
             });
           }
           i++;
@@ -128,6 +133,8 @@ export default function BoxPlotsAll({
             positionArray.push({
               x: i,
               y: parseFloat(part.asidedata[hole]?.aXY),
+              tracking: part.tracking,
+              date: part.timestamp,
             });
           }
           i++;
@@ -220,6 +227,8 @@ export default function BoxPlotsAll({
       return {
         x: data.x + xJitter,
         y: data.y,
+        tracking: data.tracking,
+        date: data.date,
       };
     });
   };
@@ -347,6 +356,29 @@ export default function BoxPlotsAll({
     }
   };
 
+  const getFormattedDateStringFromUnix = date => {
+    // resulting format: 2022-05-23T16:46
+    console.log(String(date));
+    const origDate = new Date(String(date));
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const stringTime = origDate
+      .toLocaleTimeString("en-US", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace("AM", "")
+      .replace("PM", "")
+      .trim();
+
+    const formattedDate = `${stringDate} ${stringTime}`;
+    return formattedDate;
+  };
+
   // Move options to a function that sets them
   return (
     <div className="boxplot-all">
@@ -382,11 +414,12 @@ export default function BoxPlotsAll({
                   enabled: true,
                   callbacks: {
                     label: context => {
-                      console.log(context);
                       let index = context.dataIndex;
-                      let label = `Hole ${
-                        Object.keys(context.dataset.data)[index + 1]
-                      }: ${context.raw.y}`;
+                      let label = `Tracking: ${
+                        context.raw.tracking
+                      } Date: ${getFormattedDateStringFromUnix(
+                        context.raw.date
+                      )}`;
                       return label;
                     },
                   },
