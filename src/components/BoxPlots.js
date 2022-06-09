@@ -70,6 +70,8 @@ export default function BoxPlots({
           diameterArray.push({
             x: i + 0.5,
             y: parseFloat(part.csidedata[hole]?.cDia),
+            tracking: part.tracking,
+            date: part.timestamp,
           });
         }
         allDiametersArray.push(diameterArray);
@@ -176,6 +178,8 @@ export default function BoxPlots({
       return {
         x: data.x + xJitter,
         y: data.y,
+        tracking: data.tracking,
+        date: data.date,
       };
     });
   };
@@ -297,6 +301,28 @@ export default function BoxPlots({
     return annotations;
   };
 
+  const getFormattedDateStringFromUnix = date => {
+    // resulting format: 2022-05-23T16:46
+    const origDate = new Date(parseInt(date));
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const stringTime = origDate
+      .toLocaleTimeString("en-US", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace("AM", "")
+      .replace("PM", "")
+      .trim();
+
+    const formattedDate = `${stringDate} ${stringTime}`;
+    return formattedDate;
+  };
+
   // Move options to a function that sets them
   return (
     <div className="boxplot">
@@ -305,6 +331,12 @@ export default function BoxPlots({
           <Scatter
             data={graphData}
             options={{
+              // event param req even thought not used*******
+              onClick: (e, context) => {
+                if (context.length) {
+                  searchHandler(context[0]?.element.$context.raw.tracking);
+                }
+              },
               maintainAspectRatio: true,
               parsing: true,
               normalized: true,
@@ -324,13 +356,19 @@ export default function BoxPlots({
                   },
                 },
                 tooltip: {
-                  enabled: false,
+                  displayColors: false,
+                  mode: "nearest",
+                  intersect: true,
+                  enabled: true,
                   callbacks: {
+                    title: context => {
+                      const title = `${context[0].raw.tracking}`;
+                      return title;
+                    },
                     label: context => {
-                      let index = context.dataIndex;
-                      let label = `Hole ${
-                        Object.keys(context.dataset.data)[index + 1]
-                      }: ${context.raw.y}`;
+                      const label = `${getFormattedDateStringFromUnix(
+                        context.raw.date
+                      )}`;
                       return label;
                     },
                   },
