@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import BoxPlotsAll from "./BoxPlotsAll";
 
-export default function Overview({ machHandler }) {
+export default function Overview({ machHandler, searchHandler }) {
   const [partData, setPartData] = useState({
     partType: "369P-01",
     startDate: Date.now(),
@@ -265,6 +265,7 @@ export default function Overview({ machHandler }) {
               side={partData.side}
               metric={partData.metric}
               machHandler={machHandler}
+              searchHandler={searchHandler}
               partType={partData.partType}
               tols={partData.tols}
               isAngleHole={partData.isAngleHole}

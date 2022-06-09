@@ -11,6 +11,7 @@ export default function BoxPlotsAll({
   side,
   metric,
   machHandler,
+  searchHandler,
   partType,
   tols,
   isAngleHole,
@@ -358,7 +359,6 @@ export default function BoxPlotsAll({
 
   const getFormattedDateStringFromUnix = date => {
     // resulting format: 2022-05-23T16:46
-    console.log(String(date));
     const origDate = new Date(String(date));
     const stringDate = origDate.toLocaleDateString("en-US", {
       year: "numeric",
@@ -388,6 +388,12 @@ export default function BoxPlotsAll({
             data={graphData}
             width={"100%"}
             options={{
+              onClick: (e, context) => {
+                if (context.length) {
+                  console.log(context);
+                  searchHandler(context[0]?.element.$context.raw.tracking);
+                }
+              },
               maintainAspectRatio: false,
               animation: false,
               normalized: true,
