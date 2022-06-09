@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 export const SearchBar = ({ searchHandler }) => {
   useEffect(() => {});
@@ -10,24 +10,24 @@ export const SearchBar = ({ searchHandler }) => {
     const tracking = input.value;
 
     searchHandler(tracking);
-    input.value = '';
+    input.value = "";
   };
 
   const toggleHighlight = e => {
-    e.target.classList.toggle('active');
+    e.target.classList.toggle("active");
   };
 
   const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
       console.log(li.firstChild.classList);
-      li.firstChild.classList.remove('link-dark');
+      li.firstChild.classList.remove("link-dark");
     }
-    e.target.classList.toggle('link-dark');
+    e.target.classList.toggle("link-dark");
   };
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           Winbro - Monocle
         </a>
 
