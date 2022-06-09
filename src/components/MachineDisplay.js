@@ -260,6 +260,7 @@ export default function MachineDisplay({
                   <option value="1789P-01">1789P-01</option>
                   <option value="2078P-01">2078P-01</option>
                   <option value="1565P-01">1565P-01</option>
+                  <option value="1787P-01">1787P-01</option>
                 </select>
                 <select
                   id="form-select"
