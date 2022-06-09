@@ -1,8 +1,8 @@
-import { Line } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
-import React, { useEffect, useState } from "react";
-import annotationPlugin from "chartjs-plugin-annotation";
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+import React, { useEffect, useState } from 'react';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 Chart.register(...registerables, zoomPlugin, annotationPlugin);
 
@@ -14,7 +14,7 @@ export const LineGraph = ({ partData, metric }) => {
       let scales = {};
       let annotations = [];
 
-      const defFile = "./config/partDefinitions.json";
+      const defFile = './config/partDefinitions.json';
       let tolerances = {};
       let isAngleHole = false;
 
@@ -30,7 +30,7 @@ export const LineGraph = ({ partData, metric }) => {
       let allCData,
         allAData = [];
 
-      if (metric === "diameter") {
+      if (metric === 'diameter') {
         allCData = getCDiameters(partData);
         allAData = getADiameters(partData);
       } else {
@@ -59,18 +59,18 @@ export const LineGraph = ({ partData, metric }) => {
         metric: metric,
         datasets: [
           {
-            label: "C-Side",
+            label: 'C-Side',
             data: allCData,
             fill: false,
             borderColor: borderColor,
             backgroundColor: backgroundColor,
           },
           {
-            label: "A-Side",
+            label: 'A-Side',
             data: allAData,
             fill: false,
-            borderColor: "rgb(148, 148, 148, 1)",
-            backgroundColor: "rgb(148, 148, 148, .2)",
+            borderColor: 'rgb(148, 148, 148, 1)',
+            backgroundColor: 'rgb(148, 148, 148, .2)',
           },
         ],
       });
@@ -113,36 +113,36 @@ export const LineGraph = ({ partData, metric }) => {
   };
 
   const getPartColor = data => {
-    let borderColor = "";
-    let backgroundColor = "";
+    let borderColor = '';
+    let backgroundColor = '';
 
-    if (String(data.parttype).trim() === "369P-01") {
-      borderColor = "rgb(252, 186, 3, 1)";
-      backgroundColor = "rgb(252, 186, 3, .2)";
-    } else if (String(data.parttype).trim() === "1789P-01") {
-      borderColor = "rgb(2, 117, 216, 1)";
-      backgroundColor = "rgb(2, 117, 216, .2)";
-    } else if (String(data.parttype).trim() === "2078P-01") {
-      borderColor = "rgb(92, 184, 92, 1)";
-      backgroundColor = "rgb(92, 184, 92, .2)";
-    } else if (String(data.parttype).trim() === "1534P-01") {
-      borderColor = "rgb(219, 112, 4, 1)";
-      backgroundColor = "rgb(219, 112, 4, .2)";
-    } else if (String(data.parttype).trim() === "1557P-01") {
-      borderColor = "rgb(68, 242, 207, 1)";
-      backgroundColor = "rgb(68, 242, 207, .2)";
-    } else if (String(data.parttype).trim() === "2129P-01") {
-      borderColor = "rgb(252, 3, 102, 1)";
-      backgroundColor = "rgb(252, 3, 102, .2)";
-    } else if (String(data.parttype).trim() === "2129P-02") {
-      borderColor = "rgb(175, 104, 252, 1)";
-      backgroundColor = "rgb(175, 104, 252, .2)";
-    } else if (String(data.parttype).trim() === "2129P-03") {
-      borderColor = "rgb(1, 0, 3, 1)";
-      backgroundColor = "rgb(1, 0, 3, .2)";
-    } else if (String(data.parttype).trim() === "1565P-01") {
-      borderColor = "rgb(171, 194, 21, 1)";
-      backgroundColor = "rgb(171, 194, 21, .2)";
+    if (String(data.parttype).trim() === '369P-01') {
+      borderColor = 'rgb(252, 186, 3, 1)';
+      backgroundColor = 'rgb(252, 186, 3, .2)';
+    } else if (String(data.parttype).trim() === '1789P-01') {
+      borderColor = 'rgb(2, 117, 216, 1)';
+      backgroundColor = 'rgb(2, 117, 216, .2)';
+    } else if (String(data.parttype).trim() === '2078P-01') {
+      borderColor = 'rgb(92, 184, 92, 1)';
+      backgroundColor = 'rgb(92, 184, 92, .2)';
+    } else if (String(data.parttype).trim() === '1534P-01') {
+      borderColor = 'rgb(219, 112, 4, 1)';
+      backgroundColor = 'rgb(219, 112, 4, .2)';
+    } else if (String(data.parttype).trim() === '1557P-01') {
+      borderColor = 'rgb(68, 242, 207, 1)';
+      backgroundColor = 'rgb(68, 242, 207, .2)';
+    } else if (String(data.parttype).trim() === '2129P-01') {
+      borderColor = 'rgb(252, 3, 102, 1)';
+      backgroundColor = 'rgb(252, 3, 102, .2)';
+    } else if (String(data.parttype).trim() === '2129P-02') {
+      borderColor = 'rgb(175, 104, 252, 1)';
+      backgroundColor = 'rgb(175, 104, 252, .2)';
+    } else if (String(data.parttype).trim() === '2129P-03') {
+      borderColor = 'rgb(1, 0, 3, 1)';
+      backgroundColor = 'rgb(1, 0, 3, .2)';
+    } else if (String(data.parttype).trim() === '1565P-01') {
+      borderColor = 'rgb(171, 194, 21, 1)';
+      backgroundColor = 'rgb(171, 194, 21, .2)';
     }
 
     return [borderColor, backgroundColor];
@@ -151,39 +151,39 @@ export const LineGraph = ({ partData, metric }) => {
   // TODO - refactor repeated code
   const setAnnotations = (tols, metric, isAngleHole, borderColor) => {
     const annotations = [];
-    if (metric === "diameter") {
+    if (metric === 'diameter') {
       annotations.push(
         {
-          type: "line",
-          mode: "horizontal",
-          yMin: tols["c-side"]?.diaNom - tols["c-side"]?.diaMin,
-          yMax: tols["c-side"]?.diaNom - tols["c-side"]?.diaMin,
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.diaNom - tols['c-side']?.diaMin,
+          yMax: tols['c-side']?.diaNom - tols['c-side']?.diaMin,
           borderColor: borderColor,
           borderWidth: 2,
         },
         {
-          type: "line",
-          mode: "horizontal",
-          yMin: tols["c-side"]?.diaNom + tols["c-side"]?.diaPlus,
-          yMax: tols["c-side"]?.diaNom + tols["c-side"]?.diaPlus,
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.diaNom + tols['c-side']?.diaPlus,
+          yMax: tols['c-side']?.diaNom + tols['c-side']?.diaPlus,
           borderColor: borderColor,
           borderWidth: 2,
           adjustScaleRange: true,
         },
         {
-          type: "line",
-          mode: "horizontal",
-          yMin: tols["a-side"]?.diaNom - tols["a-side"]?.diaMin,
-          yMax: tols["a-side"]?.diaNom - tols["a-side"]?.diaMin,
-          borderColor: "rgb(148, 148, 148, 1)",
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['a-side']?.diaNom - tols['a-side']?.diaMin,
+          yMax: tols['a-side']?.diaNom - tols['a-side']?.diaMin,
+          borderColor: 'rgb(148, 148, 148, 1)',
           borderWidth: 2,
         },
         {
-          type: "line",
-          mode: "horizontal",
-          yMin: tols["a-side"]?.diaNom + tols["a-side"]?.diaPlus,
-          yMax: tols["a-side"]?.diaNom + tols["a-side"]?.diaPlus,
-          borderColor: "rgb(148, 148, 148, 1)",
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['a-side']?.diaNom + tols['a-side']?.diaPlus,
+          yMax: tols['a-side']?.diaNom + tols['a-side']?.diaPlus,
+          borderColor: 'rgb(148, 148, 148, 1)',
           borderWidth: 2,
           adjustScaleRange: true,
         }
@@ -211,20 +211,20 @@ export const LineGraph = ({ partData, metric }) => {
       //     }
       //   );
       // }
-    } else if (metric === "position") {
+    } else if (metric === 'position') {
       annotations.push(
         {
-          mode: "horizontal",
-          yMin: tols["c-side"]?.posNom - tols["c-side"]?.posMin,
-          yMax: tols["c-side"]?.posNom - tols["c-side"]?.posMin,
+          mode: 'horizontal',
+          yMin: tols['c-side']?.posNom - tols['c-side']?.posMin,
+          yMax: tols['c-side']?.posNom - tols['c-side']?.posMin,
           borderColor: borderColor,
           borderWidth: 2,
         },
         {
-          type: "line",
-          mode: "horizontal",
-          yMin: tols["c-side"]?.posNom + tols["c-side"]?.posPlus,
-          yMax: tols["c-side"]?.posNom + tols["c-side"]?.posPlus,
+          type: 'line',
+          mode: 'horizontal',
+          yMin: tols['c-side']?.posNom + tols['c-side']?.posPlus,
+          yMax: tols['c-side']?.posNom + tols['c-side']?.posPlus,
           borderColor: borderColor,
           borderWidth: 2,
           adjustScaleRange: true,
@@ -236,8 +236,8 @@ export const LineGraph = ({ partData, metric }) => {
 
   const setScales = (metric, parttype) => {
     let scales = {};
-    if (metric === "diameter") {
-      if (parttype === "369P-01") {
+    if (metric === 'diameter') {
+      if (parttype === '369P-01') {
         scales = {
           y: {
             max: 0.024,
@@ -260,7 +260,7 @@ export const LineGraph = ({ partData, metric }) => {
           },
         };
       }
-    } else if (metric === "position") {
+    } else if (metric === 'position') {
       if (graphData.isAngleHole) {
         scales = {
           y: {
@@ -305,7 +305,7 @@ export const LineGraph = ({ partData, metric }) => {
                 enabled: true,
                 callbacks: {
                   label: context => {
-                    let label = context.dataset.label + ": " + context.raw;
+                    let label = context.dataset.label + ': ' + context.raw;
                     return label;
                   },
                 },
@@ -313,7 +313,7 @@ export const LineGraph = ({ partData, metric }) => {
               zoom: {
                 pan: {
                   enabled: true,
-                  modifierKey: "ctrl",
+                  modifierKey: 'ctrl',
                 },
                 zoom: {
                   wheel: {
@@ -322,11 +322,11 @@ export const LineGraph = ({ partData, metric }) => {
                   pinch: {
                     enabled: true,
                   },
-                  mode: "xy",
+                  mode: 'xy',
                 },
                 limits: {
-                  x: { min: "original", max: "original" },
-                  y: { min: "original", max: "original" },
+                  x: { min: 'original', max: 'original' },
+                  y: { min: 'original', max: 'original' },
                 },
               },
             },
