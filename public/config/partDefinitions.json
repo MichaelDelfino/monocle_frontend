@@ -303,7 +303,7 @@
   {
     "partType": "1565P-01",
     "textFileSpecs": {
-      "version": "UV_3",
+      "version": "UV3",
       "includeAFlip": true,
       "cSideOnly": false,
       "isAngleHole": true,

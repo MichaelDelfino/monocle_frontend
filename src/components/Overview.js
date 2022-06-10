@@ -88,7 +88,7 @@ export default function Overview({ machHandler, searchHandler }) {
   const setPartType = e => {
     const partType = e.target.value;
     setPartData(prevState => {
-      return { ...prevState, partType: partType };
+      return { ...prevState, partType: partType, groupNum: 0 };
     });
   };
 
