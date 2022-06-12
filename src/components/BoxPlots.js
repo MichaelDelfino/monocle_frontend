@@ -84,6 +84,8 @@ export default function BoxPlots({
           diameterArray.push({
             x: i + 0.5,
             y: parseFloat(part.asidedata[hole]?.aDia),
+            tracking: part.tracking,
+            date: part.timestamp,
           });
         }
         allDiametersArray.push(diameterArray);
@@ -103,6 +105,8 @@ export default function BoxPlots({
           positionsArray.push({
             x: i + 0.5,
             y: parseFloat(part.csidedata[hole]?.cXY),
+            tracking: part.tracking,
+            date: part.timestamp,
           });
         }
         allPositionsArray.push(positionsArray);
@@ -115,6 +119,8 @@ export default function BoxPlots({
           positionsArray.push({
             x: i + 0.5,
             y: parseFloat(part.asidedata[hole]?.aXY),
+            tracking: part.tracking,
+            date: part.timestamp,
           });
         }
         allPositionsArray.push(positionsArray);
@@ -362,6 +368,7 @@ export default function BoxPlots({
                   enabled: true,
                   callbacks: {
                     title: context => {
+                      console.log(context[0].raw);
                       const title = `${context[0].raw.tracking}`;
                       return title;
                     },
