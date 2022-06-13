@@ -9,7 +9,7 @@ export const SearchBar = ({ searchHandler }) => {
     const [input] = e.target.children;
     const tracking = input.value;
 
-    searchHandler(tracking);
+    searchHandler(tracking.trim());
     input.value = "";
   };
 
