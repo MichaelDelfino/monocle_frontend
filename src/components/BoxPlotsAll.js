@@ -334,16 +334,29 @@ export default function BoxPlotsAll({
         };
       }
     } else if (metric === "Position") {
-      scales = {
-        y: {
-          max: 0.01,
-          min: 0.0,
-          beginAtZero: true,
-        },
-        x: {
-          beginAtZero: true,
-        },
-      };
+      if (isAngleHole) {
+        scales = {
+          y: {
+            max: 0.02,
+            min: 0.0,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
+      } else {
+        scales = {
+          y: {
+            max: 0.01,
+            min: 0.0,
+            beginAtZero: true,
+          },
+          x: {
+            beginAtZero: true,
+          },
+        };
+      }
     }
     return scales;
   };
