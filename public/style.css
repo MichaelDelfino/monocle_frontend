@@ -186,10 +186,6 @@ form,
   background-image: url("./img/silfex_disc.png");
 } */
 
-.doughnut {
-  width: 15%;
-}
-
 .drag-drop-area {
   height: 100%;
   padding: 50px;
@@ -487,4 +483,39 @@ form,
   top: 33%;
   width: 86px;
   background: black;
+}
+
+.stats-totals {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 25px;
+}
+
+.totals-column,
+.parttype-column {
+  width: 50%;
+}
+
+.pie-chart {
+  height: 100%;
+  margin-top: 20px;
+}
+
+.doughnut {
+  width: 50%;
+}
+
+.stats-time-period {
+  display: flex;
+  justify-content: center;
+}
+
+.stats-time-period {
+  margin-top: -25px;
+  margin-bottom: 25px;
+}
+
+.stats-totals {
+  margin-left: 40px;
 }
