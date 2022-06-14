@@ -20,16 +20,16 @@
         "diaPlus": 0.001,
         "diaMin": 0.001,
         "posNom": 0,
-        "posPlus": 0.0065,
-        "posMin": 0.0065
+        "posPlus": 0.01,
+        "posMin": 0.01
       },
       "a-side": {
         "diaNom": 0.0163,
         "diaPlus": 0.002,
         "diaMin": 0.002,
         "posNom": 0,
-        "posPlus": 0.0065,
-        "posMin": 0.0065
+        "posPlus": 0.0115,
+        "posMin": 0.0115
       }
     }
   },
@@ -155,16 +155,16 @@
         "diaPlus": 0.001,
         "diaMin": 0.001,
         "posNom": 0,
-        "posPlus": 0.0065,
-        "posMin": 0.0065
+        "posPlus": 0.01,
+        "posMin": 0.01
       },
       "a-side": {
         "diaNom": 0.0163,
         "diaPlus": 0.002,
-        "diaMin": 0.001,
+        "diaMin": 0.002,
         "posNom": 0,
-        "posPlus": 0.0065,
-        "posMin": 0.0065
+        "posPlus": 0.0115,
+        "posMin": 0.0115
       }
     }
   },
@@ -307,6 +307,8 @@
       "includeAFlip": true,
       "cSideOnly": false,
       "isAngleHole": true,
+      "angleHoleStart": 588,
+      "angleHoleEnd": 1268,
       "numHoles": 1268,
       "cEnd": 5083,
       "aEnd": 7437,
@@ -322,7 +324,13 @@
         "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "angled_diaNom": 0.017,
+        "angled_diaPlus": 0.0035,
+        "angled_diaMin": 0.0025,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
       },
       "a-side": {
         "diaNom": 0.0163,
@@ -330,7 +338,13 @@
         "diaMin": 0.0015,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "angled_diaNom": 0.0163,
+        "angled_diaPlus": 0.005,
+        "angled_diaMin": 0.005,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
       }
     }
   },
@@ -407,6 +421,8 @@
       "includeAFlip": true,
       "cSideOnly": false,
       "isAngleHole": true,
+      "angleHoleStart": 0,
+      "angleHoleEnd": 35,
       "numHoles": 1010,
       "cEnd": 4051,
       "aEnd": 7953,
@@ -422,7 +438,13 @@
         "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "angled_diaNom": 0.017,
+        "angled_diaPlus": 0.0042,
+        "angled_diaMin": 0.0029,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
       },
       "a-side": {
         "diaNom": 0.0163,
@@ -430,7 +452,13 @@
         "diaMin": 0.0015,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "angled_diaNom": 0.0163,
+        "angled_diaPlus": 0.005,
+        "angled_diaMin": 0.005,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
       }
     }
   },
