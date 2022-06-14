@@ -27,7 +27,6 @@ export default function QualStats() {
           return response.json();
         })
         .then(data => {
-          console.log(data);
           calcPassFail(data);
         })
         .catch(error => {
@@ -39,11 +38,18 @@ export default function QualStats() {
 
     const calcPassFail = async data => {
       const totalParts = data;
+      let isAngleHole = false;
+      let angleHoleStart = 0;
+      let angleHoleEnd = 0;
 
       let allCDia,
         allADia,
         allCPos,
-        allAPos = [];
+        allAPos,
+        allAngledCDia,
+        allAngledADia,
+        allAngledAPos,
+        allAngledCPos = [];
 
       let passedParts = [];
       let failedParts = [];
@@ -58,13 +64,35 @@ export default function QualStats() {
         for (const def of partDef) {
           if (String(def.partType).trim() === String(part.parttype).trim()) {
             tolerances = def.tolerances;
+            isAngleHole = def.isAngleHole;
+            angleHoleEnd = def.angleHoleEnd;
+            angleHoleStart = def.angleHoleStart;
           }
         }
-        allCDia = getCDiameters(part);
-        allADia = getADiameters(part);
-        allCPos = getCPosition(part);
-        allAPos = getAPosition(part);
 
+        if (isAngleHole) {
+          allAngledCDia = getCDiameters(
+            part.csidedata.slice(angleHoleStart, angleHoleEnd)
+          );
+          console.log(allAngledCDia);
+          allAngledADia = getADiameters(
+            part.csidedata.slice(angleHoleStart, angleHoleEnd)
+          );
+          allAngledCPos = getCPosition(
+            part.csidedata.slice(angleHoleStart, angleHoleEnd)
+          );
+          allAngledAPos = getAPosition(
+            part.csidedata.slice(angleHoleStart, angleHoleEnd)
+          );
+        }
+        allCDia = getCDiameters(part.csidedata);
+        allADia = getADiameters(part.csidedata);
+        allCPos = getCPosition(part.csidedata);
+        allAPos = getAPosition(part.csidedata);
+
+        // put in own method
+        if (part.isAngleHole) {
+        }
         if (
           Math.max(...allCDia) >
             tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"] ||
@@ -88,7 +116,6 @@ export default function QualStats() {
           passedParts.push(part);
         }
       }
-      console.log(totalParts, passedParts, failedParts);
       setPartData(prevState => {
         return {
           ...prevState,
@@ -110,7 +137,7 @@ export default function QualStats() {
   // *************************************************************************************
   const getCDiameters = data => {
     let diameterArray = [];
-    for (const hole of Object.values(data.csidedata)) {
+    for (const hole of Object.values(data)) {
       diameterArray.push(hole.cDia);
     }
     return diameterArray;
@@ -118,7 +145,7 @@ export default function QualStats() {
 
   const getCPosition = data => {
     let positionArray = [];
-    for (const hole of Object.values(data.csidedata)) {
+    for (const hole of Object.values(data)) {
       positionArray.push(hole.cXY);
     }
     return positionArray;
@@ -126,7 +153,7 @@ export default function QualStats() {
 
   const getADiameters = data => {
     let diameterArray = [];
-    for (const hole of Object.values(data.asidedata)) {
+    for (const hole of Object.values(data)) {
       diameterArray.push(hole.aDia);
     }
     return diameterArray;
@@ -134,7 +161,7 @@ export default function QualStats() {
 
   const getAPosition = data => {
     let positionArray = [];
-    for (const hole of Object.values(data.asidedata)) {
+    for (const hole of Object.values(data)) {
       positionArray.push(hole.aXY);
     }
     return positionArray;

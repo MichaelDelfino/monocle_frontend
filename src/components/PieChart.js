@@ -12,7 +12,6 @@ export default function PieChart({ passedParts, failedParts }) {
   }, [passedParts, failedParts]);
 
   const setDatasets = (passedParts, failedParts) => {
-    console.log(passedParts, failedParts);
     setPartData({
       labels: ["Pass", "Fail"],
       datasets: [
