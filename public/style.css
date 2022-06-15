@@ -493,9 +493,18 @@ form,
   gap: 25px;
 }
 
+
+
 .totals-column,
 .parttype-column {
   width: 50%;
+}
+
+.parttype-column:hover {
+  border-style:solid;
+  border-color:grey;
+  border-width: .5px;
+  border-radius: 10px;
 }
 
 .pie-chart {

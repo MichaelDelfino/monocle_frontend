@@ -4,7 +4,7 @@ import PieChart from './PieChart';
 
 // Use this component as base for modularization of "get" functions
 
-export default function QualStats() {
+export default function Forcast() {
   const [partData, setPartData] = useState({
     startDate: Date.now(),
     endDate: Date.now() - 86400000,
