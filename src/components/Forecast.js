@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import PieChart from "./PieChart";
+import PartList from "./PartList";
+import { LineGraph } from "./LineGraph";
 
 // Use this component as base for modularization of "get" functions
 
@@ -68,7 +70,6 @@ export default function Forcast() {
           }
         }
 
-        console.log(data.filter(part => part.parttype === "1787P-01"));
         allCDia = getCDiameters(part.csidedata);
         allADia = getADiameters(part.csidedata);
         allCPos = getCPosition(part.csidedata);
@@ -236,44 +237,245 @@ export default function Forcast() {
       {/* Need to try to make the part types dynamic, adding a new part type will require hard coding a new section */}
       <div className="stats-time-period display-5 lead">{partData.period}</div>
       {partData.totalParts ? (
-        <div className="stats-totals">
-          <div className="totals-column">
-            <p className="display-6 lead">Totals</p>
-            <div>Total: {partData.totalParts.length}</div>
-            <div>Passed: {partData.passedParts.length}</div>
-            <div>Failed: {partData.failedParts.length}</div>
-            <div>
-              <PieChart
-                passedParts={partData.passedParts}
-                failedParts={partData.failedParts}
-              />
+        <div className="stats-combo">
+          <div className="stats-totals">
+            <div className="totals-column">
+              <p className="display-6 lead">Totals</p>
+              <div>Total: {partData.totalParts.length}</div>
+              <div>Passed: {partData.passedParts.length}</div>
+              <div>Failed: {partData.failedParts.length}</div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts}
+                  failedParts={partData.failedParts}
+                />
+              </div>
+            </div>
+            <div
+              className="parttype-column"
+              data-toggle="collapse"
+              href="#collapse369"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapse369"
+            >
+              <p className="display-6 lead">369's</p>
+              <div>
+                Total:{" "}
+                {
+                  partData.totalParts.filter(
+                    part => part.parttype === "369P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Passed:{" "}
+                {
+                  partData.passedParts.filter(
+                    part => part.parttype === "369P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Failed:{" "}
+                {
+                  partData.failedParts.filter(
+                    part => part.parttype === "369P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts.filter(
+                    part => part.parttype === "369P-01"
+                  )}
+                  failedParts={partData.failedParts.filter(
+                    part => part.parttype === "369P-01"
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              className="parttype-column"
+              data-toggle="collapse"
+              href="#collapse1789"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapse1789"
+            >
+              <p className="display-6 lead">1789's</p>
+              <div>
+                Total:{" "}
+                {
+                  partData.totalParts.filter(
+                    part => part.parttype === "1789P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Passed:{" "}
+                {
+                  partData.passedParts.filter(
+                    part => part.parttype === "1789P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Failed:{" "}
+                {
+                  partData.failedParts.filter(
+                    part => part.parttype === "1789P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts.filter(
+                    part => part.parttype === "1789P-01"
+                  )}
+                  failedParts={partData.failedParts.filter(
+                    part => part.parttype === "1789P-01"
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              className="parttype-column"
+              data-toggle="collapse"
+              href="#collapse2078"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapse2078"
+            >
+              <p className="display-6 lead">2078's</p>
+              <div>
+                Total:{" "}
+                {
+                  partData.totalParts.filter(
+                    part => part.parttype === "2078P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Passed:{" "}
+                {
+                  partData.passedParts.filter(
+                    part => part.parttype === "2078P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Failed:{" "}
+                {
+                  partData.failedParts.filter(
+                    part => part.parttype === "2078P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts.filter(
+                    part => part.parttype === "2078P-01"
+                  )}
+                  failedParts={partData.failedParts.filter(
+                    part => part.parttype === "2078P-01"
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              className="parttype-column"
+              data-toggle="collapse"
+              href="#collapse1565"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapse1565"
+            >
+              <p className="display-6 lead">1565's</p>
+              <div>
+                Total:{" "}
+                {
+                  partData.totalParts.filter(
+                    part => part.parttype === "1565P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Passed:{" "}
+                {
+                  partData.passedParts.filter(
+                    part => part.parttype === "1565P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Failed:{" "}
+                {
+                  partData.failedParts.filter(
+                    part => part.parttype === "1565P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts.filter(
+                    part => part.parttype === "1565P-01"
+                  )}
+                  failedParts={partData.failedParts.filter(
+                    part => part.parttype === "1565P-01"
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              className="parttype-column"
+              data-toggle="collapse"
+              href="#collapse1787"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapse1787"
+            >
+              <p className="display-6 lead">1787's</p>
+              <div>
+                Total:{" "}
+                {
+                  partData.totalParts.filter(
+                    part => part.parttype === "1787P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Passed:{" "}
+                {
+                  partData.passedParts.filter(
+                    part => part.parttype === "1787P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                Failed:{" "}
+                {
+                  partData.failedParts.filter(
+                    part => part.parttype === "1787P-01"
+                  ).length
+                }
+              </div>
+              <div>
+                <PieChart
+                  passedParts={partData.passedParts.filter(
+                    part => part.parttype === "1787P-01"
+                  )}
+                  failedParts={partData.failedParts.filter(
+                    part => part.parttype === "1787P-01"
+                  )}
+                />
+              </div>
             </div>
           </div>
-          <div className="parttype-column">
-            <p className="display-6 lead">369's</p>
-            <div>
-              Total:{" "}
-              {
-                partData.totalParts.filter(part => part.parttype === "369P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Passed:{" "}
-              {
-                partData.passedParts.filter(part => part.parttype === "369P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Failed:{" "}
-              {
-                partData.failedParts.filter(part => part.parttype === "369P-01")
-                  .length
-              }
-            </div>
-            <div>
-              <PieChart
+          <hr></hr>
+          {partData.totalParts.length ? (
+            <div className="collapse" id="collapse369">
+              <PartList
                 passedParts={partData.passedParts.filter(
                   part => part.parttype === "369P-01"
                 )}
@@ -282,35 +484,12 @@ export default function Forcast() {
                 )}
               />
             </div>
-          </div>
-
-          <div className="parttype-column">
-            <p className="display-6 lead">1789's</p>
-            <div>
-              Total:{" "}
-              {
-                partData.totalParts.filter(part => part.parttype === "1789P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Passed:{" "}
-              {
-                partData.passedParts.filter(
-                  part => part.parttype === "1789P-01"
-                ).length
-              }
-            </div>
-            <div>
-              Failed:{" "}
-              {
-                partData.failedParts.filter(
-                  part => part.parttype === "1789P-01"
-                ).length
-              }
-            </div>
-            <div>
-              <PieChart
+          ) : (
+            <div></div>
+          )}
+          {partData.totalParts.length ? (
+            <div className="collapse" id="collapse1789">
+              <PartList
                 passedParts={partData.passedParts.filter(
                   part => part.parttype === "1789P-01"
                 )}
@@ -319,35 +498,12 @@ export default function Forcast() {
                 )}
               />
             </div>
-          </div>
-
-          <div className="parttype-column">
-            <p className="display-6 lead">2078's</p>
-            <div>
-              Total:{" "}
-              {
-                partData.totalParts.filter(part => part.parttype === "2078P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Passed:{" "}
-              {
-                partData.passedParts.filter(
-                  part => part.parttype === "2078P-01"
-                ).length
-              }
-            </div>
-            <div>
-              Failed:{" "}
-              {
-                partData.failedParts.filter(
-                  part => part.parttype === "2078P-01"
-                ).length
-              }
-            </div>
-            <div>
-              <PieChart
+          ) : (
+            <div></div>
+          )}
+          {partData.totalParts.length ? (
+            <div className="collapse" id="collapse2078">
+              <PartList
                 passedParts={partData.passedParts.filter(
                   part => part.parttype === "2078P-01"
                 )}
@@ -356,35 +512,12 @@ export default function Forcast() {
                 )}
               />
             </div>
-          </div>
-
-          <div className="parttype-column">
-            <p className="display-6 lead">1565's</p>
-            <div>
-              Total:{" "}
-              {
-                partData.totalParts.filter(part => part.parttype === "1565P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Passed:{" "}
-              {
-                partData.passedParts.filter(
-                  part => part.parttype === "1565P-01"
-                ).length
-              }
-            </div>
-            <div>
-              Failed:{" "}
-              {
-                partData.failedParts.filter(
-                  part => part.parttype === "1565P-01"
-                ).length
-              }
-            </div>
-            <div>
-              <PieChart
+          ) : (
+            <div></div>
+          )}
+          {partData.totalParts.length ? (
+            <div className="collapse" id="collapse1565">
+              <PartList
                 passedParts={partData.passedParts.filter(
                   part => part.parttype === "1565P-01"
                 )}
@@ -393,35 +526,12 @@ export default function Forcast() {
                 )}
               />
             </div>
-          </div>
-
-          <div className="parttype-column">
-            <p className="display-6 lead">1787's</p>
-            <div>
-              Total:{" "}
-              {
-                partData.totalParts.filter(part => part.parttype === "1787P-01")
-                  .length
-              }
-            </div>
-            <div>
-              Passed:{" "}
-              {
-                partData.passedParts.filter(
-                  part => part.parttype === "1787P-01"
-                ).length
-              }
-            </div>
-            <div>
-              Failed:{" "}
-              {
-                partData.failedParts.filter(
-                  part => part.parttype === "1787P-01"
-                ).length
-              }
-            </div>
-            <div>
-              <PieChart
+          ) : (
+            <div></div>
+          )}
+          {partData.totalParts.length ? (
+            <div className="collapse" id="collapse1787">
+              <PartList
                 passedParts={partData.passedParts.filter(
                   part => part.parttype === "1787P-01"
                 )}
@@ -430,7 +540,9 @@ export default function Forcast() {
                 )}
               />
             </div>
-          </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       ) : (
         <div></div>

@@ -493,17 +493,27 @@ form,
   gap: 25px;
 }
 
-
-
 .totals-column,
 .parttype-column {
   width: 50%;
 }
 
+.parttype-column:focus {
+  border-style: solid;
+  border-color: grey;
+  border-width: 0.5px;
+  border-radius: 10px;
+}
 .parttype-column:hover {
-  border-style:solid;
-  border-color:grey;
-  border-width: .5px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 0.5px;
+  border-radius: 10px;
+}
+.parttype-column:active {
+  border-style: solid;
+  border-color: #2761cc;
+  border-width: 0.5px;
   border-radius: 10px;
 }
 
@@ -533,3 +543,30 @@ form,
   margin-left: -5px;
 }
 
+.stats-combo {
+  display: flex;
+  flex-direction: column;
+}
+
+.part-list {
+  writing-mode: vertical-rl;
+  text-orientation: sideways-left;
+  transform: rotate(180deg);
+}
+.listed-part {
+  padding: 0;
+  margin: 0;
+  border-style: solid;
+  border-color: grey;
+  border-width: 0.5px;
+}
+.listed-part-passed:hover {
+  background-color: rgb(7, 237, 30, 0.2);
+}
+.listed-part-failed:hover {
+  background-color: rgb(235, 14, 14, 0.2);
+}
+
+.collapse {
+  width: 100%;
+}
