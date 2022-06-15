@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 export const SideBar = props => {
   const toggleHighlight = e => {
-    e.target.classList.toggle('active');
+    e.target.classList.toggle("active");
   };
   const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
       console.log(li.firstChild.classList);
-      li.firstChild.classList.remove('link-dark');
+      li.firstChild.classList.remove("link-dark");
     }
-    e.target.classList.toggle('link-dark');
+    e.target.classList.toggle("link-dark");
   };
 
   return (
@@ -23,7 +23,7 @@ export const SideBar = props => {
             aria-current="page"
             onMouseEnter={toggleHighlight}
             onMouseLeave={toggleHighlight}
-            onClick={props.sectionHandler.bind(null, 'home')}
+            onClick={props.sectionHandler.bind(null, "home")}
           >
             Home
           </a>
@@ -34,7 +34,7 @@ export const SideBar = props => {
             className="nav-link link-dark"
             onMouseEnter={toggleHighlight}
             onMouseLeave={toggleHighlight}
-            onClick={props.sectionHandler.bind(null, 'overview')}
+            onClick={props.sectionHandler.bind(null, "overview")}
           >
             Overview
           </a>
@@ -45,7 +45,7 @@ export const SideBar = props => {
             className="nav-link link-dark"
             onMouseEnter={toggleHighlight}
             onMouseLeave={toggleHighlight}
-            onClick={props.sectionHandler.bind(null, 'mach')}
+            onClick={props.sectionHandler.bind(null, "mach")}
           >
             Machine Display
           </a>
@@ -56,11 +56,22 @@ export const SideBar = props => {
             className="nav-link link-dark"
             onMouseEnter={toggleHighlight}
             onMouseLeave={toggleHighlight}
-            onClick={props.sectionHandler.bind(null, 'part')}
+            onClick={props.sectionHandler.bind(null, "part")}
           >
             Part Display
           </a>
         </li>
+        {/* <li>
+          <a
+            href="#"
+            className="nav-link link-dark"
+            onMouseEnter={toggleHighlight}
+            onMouseLeave={toggleHighlight}
+            onClick={props.sectionHandler.bind(null, "stats")}
+          >
+            Quality Stats
+          </a>
+        </li> */}
 
         {/* <li>
           <a

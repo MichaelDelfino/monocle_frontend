@@ -6,6 +6,7 @@ import PartDisplay from "./components/PartDisplay";
 import MachineDisplay from "./components/MachineDisplay";
 import OptionsDisplay from "./components/OptionsDisplay";
 import Overview from "./components/Overview";
+import Forecast from "./components/Forecast";
 
 export default function App() {
   const [pageData, setPageData] = useState({
@@ -102,6 +103,9 @@ export default function App() {
               ) : (
                 <div></div>
               )}
+            </div>
+            <div className="stats-display">
+              {pageData.section === "stats" ? <Forecast /> : <div></div>}
             </div>
             <div className="overview-display">
               {pageData.section === "overview" ? (
