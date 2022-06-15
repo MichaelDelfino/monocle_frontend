@@ -1,6 +1,6 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import PieChart from "./PieChart";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import PieChart from './PieChart';
 
 // Use this component as base for modularization of "get" functions
 
@@ -11,7 +11,7 @@ export default function QualStats() {
     totalParts: [],
     passedParts: [],
     failedParts: [],
-    period: "Today",
+    period: 'Today',
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function QualStats() {
           calcPassFail(data);
         })
         .catch(error => {
-          if (error.name === "AbortError") {
+          if (error.name === 'AbortError') {
             console.log(error);
           }
         });
@@ -39,17 +39,17 @@ export default function QualStats() {
     const calcPassFail = async data => {
       const totalParts = data;
       let isAngleHole = false;
-      let angleHoleStart = 0;
-      let angleHoleEnd = 0;
 
-      let allCDia,
-        allADia,
-        allCPos,
-        allAPos,
-        allAngledCDia,
-        allAngledADia,
-        allAngledAPos,
-        allAngledCPos = [];
+      // strange things happen with data-types if not declared individually...
+      // typescript ftw
+      let allCDia = [];
+      let allADia = [];
+      let allCPos = [];
+      let allAPos = [];
+      let allAngledCDia = [];
+      let allAngledADia = [];
+      let allAngledAPos = [];
+      let allAngledCPos = [];
 
       let passedParts = [];
       let failedParts = [];
@@ -57,59 +57,78 @@ export default function QualStats() {
       let tolerances = {};
 
       for (const part of data) {
-        const defFile = "./config/partDefinitions.json";
+        const defFile = './config/partDefinitions.json';
         const response = await fetch(defFile);
         const partDef = await response.json();
 
         for (const def of partDef) {
           if (String(def.partType).trim() === String(part.parttype).trim()) {
             tolerances = def.tolerances;
-            isAngleHole = def.isAngleHole;
-            angleHoleEnd = def.angleHoleEnd;
-            angleHoleStart = def.angleHoleStart;
+            isAngleHole = def.textFileSpecs.isAngleHole;
           }
         }
 
-        if (isAngleHole) {
-          allAngledCDia = getCDiameters(
-            part.csidedata.slice(angleHoleStart, angleHoleEnd)
-          );
-          console.log(allAngledCDia);
-          allAngledADia = getADiameters(
-            part.csidedata.slice(angleHoleStart, angleHoleEnd)
-          );
-          allAngledCPos = getCPosition(
-            part.csidedata.slice(angleHoleStart, angleHoleEnd)
-          );
-          allAngledAPos = getAPosition(
-            part.csidedata.slice(angleHoleStart, angleHoleEnd)
-          );
-        }
+        console.log(isAngleHole);
         allCDia = getCDiameters(part.csidedata);
         allADia = getADiameters(part.csidedata);
         allCPos = getCPosition(part.csidedata);
         allAPos = getAPosition(part.csidedata);
 
-        // put in own method
-        if (part.isAngleHole) {
+        if (isAngleHole) {
+          [allCDia, allAngledCDia] = extractAngledHoles(part.parttype, allCDia);
+          [allADia, allAngledADia] = extractAngledHoles(part.parttype, allADia);
+          [allCPos, allAngledCPos] = extractAngledHoles(part.parttype, allCPos);
+          [allAPos, allAngledAPos] = extractAngledHoles(part.parttype, allAPos);
+        }
+
+        // modularize this shit ->
+        if (isAngleHole) {
+          if (
+            Math.max(...allAngledCDia) >
+              tolerances['c-side']['angled_diaNom'] +
+                tolerances['c-side']['angled_diaPlus'] ||
+            Math.min(...allAngledCDia) <
+              tolerances['c-side']['angled_diaNom'] -
+                tolerances['c-side']['angled_diaMin'] ||
+            Math.max(...allAngledADia) >
+              tolerances['a-side']['diaNom'] +
+                tolerances['a-side']['diaPlus'] ||
+            Math.min(...allAngledADia) <
+              tolerances['a-side']['angled_diaNom'] -
+                tolerances['a-side']['angled_diaMin'] ||
+            Math.max(...allAngledCPos) >
+              tolerances['c-side']['angled_posNom'] +
+                tolerances['c-side']['angled_posPlus'] ||
+            Math.min(...allAngledCPos) <
+              tolerances['c-side']['angled_posNom'] -
+                tolerances['c-side']['angled_posMin'] ||
+            Math.max(...allAngledAPos) >
+              tolerances['a-side']['angled_posNom'] +
+                tolerances['a-side']['angled_posPlus'] ||
+            Math.min(...allAngledAPos) <
+              tolerances['a-side']['angled_posNom'] -
+                tolerances['a-side']['angled_posMin']
+          ) {
+            failedParts.push(part);
+          }
         }
         if (
           Math.max(...allCDia) >
-            tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"] ||
+            tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus'] ||
           Math.min(...allCDia) <
-            tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] ||
+            tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin'] ||
           Math.max(...allADia) >
-            tolerances["a-side"]["diaNom"] + tolerances["a-side"]["diaPlus"] ||
+            tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus'] ||
           Math.min(...allADia) <
-            tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] ||
+            tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin'] ||
           Math.max(...allCPos) >
-            tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"] ||
+            tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus'] ||
           Math.min(...allCPos) <
-            tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"] ||
+            tolerances['c-side']['posNom'] - tolerances['c-side']['posMin'] ||
           Math.max(...allAPos) >
-            tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"] ||
+            tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus'] ||
           Math.min(...allAPos) <
-            tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
+            tolerances['a-side']['posNom'] - tolerances['a-side']['posMin']
         ) {
           failedParts.push(part);
         } else {
@@ -135,6 +154,20 @@ export default function QualStats() {
 
   // ***************Make methods into class that can be imported into Components***********
   // *************************************************************************************
+  const extractAngledHoles = (parttype, data) => {
+    let angledholes = [];
+    let straightholes = [];
+    if (parttype === '1787P-01') {
+      angledholes = data.slice(0, 35);
+      straightholes = data.slice(35);
+    } else if (parttype === '1565P-01') {
+      angledholes = data.slice(588, 1268);
+      straightholes = data.slice(0, 588);
+    }
+
+    return [straightholes, angledholes];
+  };
+
   const getCDiameters = data => {
     let diameterArray = [];
     for (const hole of Object.values(data)) {
@@ -170,7 +203,7 @@ export default function QualStats() {
   const setPeriod = e => {
     const period = e.target.value;
     let timeOffset = 0;
-    if (partData.period === "Today") {
+    if (partData.period === 'Today') {
       timeOffset = 604800000;
     } else {
       timeOffset = 86400000;
@@ -190,7 +223,7 @@ export default function QualStats() {
         <div className="stats-info">
           <p className="display-4 lead">
             Quality Statistics
-            <span style={{ color: "rgb(39, 97, 204)" }}></span>
+            <span style={{ color: 'rgb(39, 97, 204)' }}></span>
           </p>
         </div>
       </div>
@@ -201,7 +234,7 @@ export default function QualStats() {
       {/* Conditionally render each part type's stats based on data within time period */}
       {/* Need to try to make the part types dynamic, adding a new part type will require hard coding a new section */}
       <div className="stats-time-period display-5 lead">{partData.period}</div>
-      {partData.totalParts.length ? (
+      {partData.totalParts ? (
         <div className="stats-totals">
           <div className="totals-column">
             <p className="display-6 lead">Totals</p>
@@ -215,215 +248,188 @@ export default function QualStats() {
               />
             </div>
           </div>
-          {partData.totalParts.filter(part => part.parttype === "369P-01")
-            .length ? (
-            <div className="parttype-column">
-              <p className="display-6 lead">369's</p>
-              <div>
-                Total:{" "}
-                {
-                  partData.totalParts.filter(part => part.parttype == "369P-01")
-                    .length
-                }
-              </div>
-              <div>
-                Passed:{" "}
-                {
-                  partData.passedParts.filter(
-                    part => part.parttype == "369P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Failed:{" "}
-                {
-                  partData.failedParts.filter(
-                    part => part.parttype == "369P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                <PieChart
-                  passedParts={partData.passedParts.filter(
-                    part => part.parttype === "369P-01"
-                  )}
-                  failedParts={partData.failedParts.filter(
-                    part => part.parttype === "369P-01"
-                  )}
-                />
-              </div>
+          <div className="parttype-column">
+            <p className="display-6 lead">369's</p>
+            <div>
+              Total:{' '}
+              {
+                partData.totalParts.filter(part => part.parttype === '369P-01')
+                  .length
+              }
             </div>
-          ) : (
-            <div></div>
-          )}
-          {partData.totalParts.filter(part => part.parttype === "1789P-01")
-            .length ? (
-            <div className="parttype-column">
-              <p className="display-6 lead">1789's</p>
-              <div>
-                Total:{" "}
-                {
-                  partData.totalParts.filter(
-                    part => part.parttype == "1789P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Passed:{" "}
-                {
-                  partData.passedParts.filter(
-                    part => part.parttype == "1789P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Failed:{" "}
-                {
-                  partData.failedParts.filter(
-                    part => part.parttype == "1789P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                <PieChart
-                  passedParts={partData.passedParts.filter(
-                    part => part.parttype === "1789P-01"
-                  )}
-                  failedParts={partData.failedParts.filter(
-                    part => part.parttype === "1789P-01"
-                  )}
-                />
-              </div>
+            <div>
+              Passed:{' '}
+              {
+                partData.passedParts.filter(part => part.parttype === '369P-01')
+                  .length
+              }
             </div>
-          ) : (
-            <div></div>
-          )}
-          {partData.totalParts.filter(part => part.parttype === "2078P-01")
-            .length ? (
-            <div className="parttype-column">
-              <p className="display-6 lead">2078's</p>
-              <div>
-                Total:{" "}
-                {
-                  partData.totalParts.filter(
-                    part => part.parttype == "2078P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Passed:{" "}
-                {
-                  partData.passedParts.filter(
-                    part => part.parttype == "2078P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Failed:{" "}
-                {
-                  partData.failedParts.filter(
-                    part => part.parttype == "2078P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                <PieChart
-                  passedParts={partData.passedParts.filter(
-                    part => part.parttype === "2078P-01"
-                  )}
-                  failedParts={partData.failedParts.filter(
-                    part => part.parttype === "2078P-01"
-                  )}
-                />
-              </div>
+            <div>
+              Failed:{' '}
+              {
+                partData.failedParts.filter(part => part.parttype === '369P-01')
+                  .length
+              }
             </div>
-          ) : (
-            <div></div>
-          )}
-          {partData.totalParts.filter(part => part.parttype === "1565P-01")
-            .length ? (
-            <div className="parttype-column">
-              <p className="display-6 lead">1565's</p>
-              <div>
-                Total:{" "}
-                {
-                  partData.totalParts.filter(
-                    part => part.parttype == "1565P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Passed:{" "}
-                {
-                  partData.passedParts.filter(
-                    part => part.parttype == "1565P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Failed:{" "}
-                {
-                  partData.failedParts.filter(
-                    part => part.parttype == "1565P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                <PieChart
-                  passedParts={partData.passedParts.filter(
-                    part => part.parttype === "1565P-01"
-                  )}
-                  failedParts={partData.failedParts.filter(
-                    part => part.parttype === "1565P-01"
-                  )}
-                />
-              </div>
+            <div>
+              <PieChart
+                passedParts={partData.passedParts.filter(
+                  part => part.parttype === '369P-01'
+                )}
+                failedParts={partData.failedParts.filter(
+                  part => part.parttype === '369P-01'
+                )}
+              />
             </div>
-          ) : (
-            <div></div>
-          )}
-          {partData.totalParts.filter(part => part.parttype === "1787P-01")
-            .length ? (
-            <div className="parttype-column">
-              <p className="display-6 lead">1787's</p>
-              <div>
-                Total:{" "}
-                {
-                  partData.totalParts.filter(
-                    part => part.parttype == "1787P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Passed:{" "}
-                {
-                  partData.passedParts.filter(
-                    part => part.parttype == "1787P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                Failed:{" "}
-                {
-                  partData.failedParts.filter(
-                    part => part.parttype == "1787P-01"
-                  ).length
-                }
-              </div>
-              <div>
-                <PieChart
-                  passedParts={partData.passedParts.filter(
-                    part => part.parttype === "1787P-01"
-                  )}
-                  failedParts={partData.failedParts.filter(
-                    part => part.parttype === "1787P-01"
-                  )}
-                />
-              </div>
+          </div>
+
+          <div className="parttype-column">
+            <p className="display-6 lead">1789's</p>
+            <div>
+              Total:{' '}
+              {
+                partData.totalParts.filter(part => part.parttype === '1789P-01')
+                  .length
+              }
             </div>
-          ) : (
-            <div></div>
-          )}
+            <div>
+              Passed:{' '}
+              {
+                partData.passedParts.filter(
+                  part => part.parttype === '1789P-01'
+                ).length
+              }
+            </div>
+            <div>
+              Failed:{' '}
+              {
+                partData.failedParts.filter(
+                  part => part.parttype === '1789P-01'
+                ).length
+              }
+            </div>
+            <div>
+              <PieChart
+                passedParts={partData.passedParts.filter(
+                  part => part.parttype === '1789P-01'
+                )}
+                failedParts={partData.failedParts.filter(
+                  part => part.parttype === '1789P-01'
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="parttype-column">
+            <p className="display-6 lead">2078's</p>
+            <div>
+              Total:{' '}
+              {
+                partData.totalParts.filter(part => part.parttype === '2078P-01')
+                  .length
+              }
+            </div>
+            <div>
+              Passed:{' '}
+              {
+                partData.passedParts.filter(
+                  part => part.parttype === '2078P-01'
+                ).length
+              }
+            </div>
+            <div>
+              Failed:{' '}
+              {
+                partData.failedParts.filter(
+                  part => part.parttype === '2078P-01'
+                ).length
+              }
+            </div>
+            <div>
+              <PieChart
+                passedParts={partData.passedParts.filter(
+                  part => part.parttype === '2078P-01'
+                )}
+                failedParts={partData.failedParts.filter(
+                  part => part.parttype === '2078P-01'
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="parttype-column">
+            <p className="display-6 lead">1565's</p>
+            <div>
+              Total:{' '}
+              {
+                partData.totalParts.filter(part => part.parttype === '1565P-01')
+                  .length
+              }
+            </div>
+            <div>
+              Passed:{' '}
+              {
+                partData.passedParts.filter(
+                  part => part.parttype === '1565P-01'
+                ).length
+              }
+            </div>
+            <div>
+              Failed:{' '}
+              {
+                partData.failedParts.filter(
+                  part => part.parttype === '1565P-01'
+                ).length
+              }
+            </div>
+            <div>
+              <PieChart
+                passedParts={partData.passedParts.filter(
+                  part => part.parttype === '1565P-01'
+                )}
+                failedParts={partData.failedParts.filter(
+                  part => part.parttype === '1565P-01'
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="parttype-column">
+            <p className="display-6 lead">1787's</p>
+            <div>
+              Total:{' '}
+              {
+                partData.totalParts.filter(part => part.parttype === '1787P-01')
+                  .length
+              }
+            </div>
+            <div>
+              Passed:{' '}
+              {
+                partData.passedParts.filter(
+                  part => part.parttype === '1787P-01'
+                ).length
+              }
+            </div>
+            <div>
+              Failed:{' '}
+              {
+                partData.failedParts.filter(
+                  part => part.parttype === '1787P-01'
+                ).length
+              }
+            </div>
+            <div>
+              <PieChart
+                passedParts={partData.passedParts.filter(
+                  part => part.parttype === '1787P-01'
+                )}
+                failedParts={partData.failedParts.filter(
+                  part => part.parttype === '1787P-01'
+                )}
+              />
+            </div>
+          </div>
         </div>
       ) : (
         <div></div>

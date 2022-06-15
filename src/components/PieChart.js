@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
+import React, { useEffect, useState } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(...registerables, zoomPlugin);
 
 export default function PieChart({ passedParts, failedParts }) {
@@ -13,15 +13,15 @@ export default function PieChart({ passedParts, failedParts }) {
 
   const setDatasets = (passedParts, failedParts) => {
     setPartData({
-      labels: ["Pass", "Fail"],
+      labels: ['Pass', 'Fail'],
       datasets: [
         {
-          label: "Pass Fail Distribution",
+          label: 'Pass Fail Distribution',
           data: [passedParts.length, failedParts.length],
-          backgroundColor: ["rgb(38, 240, 72, .2)", "rgb(235, 14, 14, .2)"],
-          borderColor: ["rgb(38, 240, 72, 1)", "rgb(235, 14, 14, 1)"],
-          hoverBackgroundColor: ["rgb(38, 240, 72, 1)", "rgb(235, 14, 14, 1)"],
-          hoverBorderColor: ["rgb(38, 240, 72, 1)", "rgb(235, 14, 14, 1)"],
+          backgroundColor: ['rgb(7, 237, 30, .2)', 'rgb(235, 14, 14, .2)'],
+          borderColor: ['rgb(7, 237, 30, 1)', 'rgb(235, 14, 14, 1)'],
+          hoverBackgroundColor: ['rgb(7, 237, 30, .4)', 'rgb(235, 14, 14, .4)'],
+          hoverBorderColor: ['rgb(7, 237, 30, 1)', 'rgb(235, 14, 14, 1)'],
           hoverOffset: 4,
         },
       ],
@@ -43,7 +43,7 @@ export default function PieChart({ passedParts, failedParts }) {
             }}
           />
         ) : (
-          "no data available"
+          'no data available'
         )}
       </div>
     </div>

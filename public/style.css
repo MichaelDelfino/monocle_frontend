@@ -489,6 +489,7 @@ form,
   display: flex;
   flex-direction: row;
   justify-content: center;
+  text-align: center;
   gap: 25px;
 }
 
@@ -500,6 +501,9 @@ form,
 .pie-chart {
   height: 100%;
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .doughnut {
@@ -517,5 +521,6 @@ form,
 }
 
 .stats-totals {
-  margin-left: 40px;
+  margin-left: -5px;
 }
+
