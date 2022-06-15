@@ -1,5 +1,5 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React from "react";
+import { useEffect, useState } from "react";
 
 export const MetricHighlights = ({ partData }) => {
   const [tableData, setTableData] = useState(null);
@@ -12,7 +12,7 @@ export const MetricHighlights = ({ partData }) => {
         allAPos = [];
       let tolerances = {};
 
-      const defFile = './config/partDefinitions.json';
+      const defFile = "./config/partDefinitions.json";
       const response = await fetch(defFile);
       const partDef = await response.json();
 
@@ -79,70 +79,67 @@ export const MetricHighlights = ({ partData }) => {
 
   // Refactor method to reduce repeated code
   const setHighlightColors = (tolerances, maxCDiameter) => {
-    console.log(tolerances['c-side']['diaNom'], maxCDiameter);
-
     if (tolerances.length) {
-      const lights = document.querySelectorAll('.light');
+      const lights = document.querySelectorAll(".light");
       for (const el of lights) {
-        el.setAttribute('fill', '#20c997');
+        el.setAttribute("fill", "#20c997");
       }
 
       if (
         maxCDiameter >
-        tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus']
+        tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"]
       ) {
-        console.log('yo fail');
-        const maxCDiaColor = document.querySelector('.c-max-dia-light');
-        maxCDiaColor.setAttribute('fill', '#f54242');
+        const maxCDiaColor = document.querySelector(".c-max-dia-light");
+        maxCDiaColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.maxADiameter >
-        tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus']
+        tolerances["a-side"]["diaNom"] + tolerances["a-side"]["diaPlus"]
       ) {
-        const maxADiaColor = document.querySelector('.a-max-dia-light');
-        maxADiaColor.setAttribute('fill', '#f54242');
+        const maxADiaColor = document.querySelector(".a-max-dia-light");
+        maxADiaColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.minCDiameter <
-        tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin']
+        tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"]
       ) {
-        const minCDiaColor = document.querySelector('.c-min-dia-light');
-        minCDiaColor.setAttribute('fill', '#f54242');
+        const minCDiaColor = document.querySelector(".c-min-dia-light");
+        minCDiaColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.minADiameter <
-        tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin']
+        tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"]
       ) {
-        const minADiaColor = document.querySelector('.a-min-dia-light');
-        minADiaColor.setAttribute('fill', '#f54242');
+        const minADiaColor = document.querySelector(".a-min-dia-light");
+        minADiaColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.maxCPosition >
-        tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus']
+        tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"]
       ) {
-        const maxCPosColor = document.querySelector('.c-max-pos-light');
-        maxCPosColor.setAttribute('fill', '#f54242');
+        const maxCPosColor = document.querySelector(".c-max-pos-light");
+        maxCPosColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.maxAPosition >
-        tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus']
+        tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"]
       ) {
-        const maxAPosColor = document.querySelector('.a-max-pos-light');
-        maxAPosColor.setAttribute('fill', '#f54242');
+        const maxAPosColor = document.querySelector(".a-max-pos-light");
+        maxAPosColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.minCPosition <
-        tolerances['c-side']['posNom'] - tolerances['c-side']['posMin']
+        tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"]
       ) {
-        const minCPosColor = document.querySelector('.c-min-pos-light');
-        minCPosColor.setAttribute('fill', '#f54242');
+        const minCPosColor = document.querySelector(".c-min-pos-light");
+        minCPosColor.setAttribute("fill", "#f54242");
       }
       if (
         tableData.minAPosition <
-        tolerances['a-side']['posNom'] - tolerances['a-side']['posMin']
+        tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
       ) {
-        const minAPosColor = document.querySelector('.a-min-pos-light');
-        minAPosColor.setAttribute('fill', '#f54242');
+        const minAPosColor = document.querySelector(".a-min-pos-light");
+        minAPosColor.setAttribute("fill", "#f54242");
       }
     }
   };

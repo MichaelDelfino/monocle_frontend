@@ -61,7 +61,7 @@ export const SideBar = props => {
             Part Display
           </a>
         </li>
-        <li>
+        {/* <li>
           <a
             href="#"
             className="nav-link link-dark"
@@ -71,7 +71,7 @@ export const SideBar = props => {
           >
             Quality Stats
           </a>
-        </li>
+        </li> */}
 
         {/* <li>
           <a

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import PieChart from './PieChart';
+import React from "react";
+import { useState, useEffect } from "react";
+import PieChart from "./PieChart";
 
 // Use this component as base for modularization of "get" functions
 
@@ -11,7 +11,7 @@ export default function Forcast() {
     totalParts: [],
     passedParts: [],
     failedParts: [],
-    period: 'Today',
+    period: "Today",
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Forcast() {
           calcPassFail(data);
         })
         .catch(error => {
-          if (error.name === 'AbortError') {
+          if (error.name === "AbortError") {
             console.log(error);
           }
         });
@@ -57,7 +57,7 @@ export default function Forcast() {
       let tolerances = {};
 
       for (const part of data) {
-        const defFile = './config/partDefinitions.json';
+        const defFile = "./config/partDefinitions.json";
         const response = await fetch(defFile);
         const partDef = await response.json();
 
@@ -68,7 +68,7 @@ export default function Forcast() {
           }
         }
 
-        console.log(isAngleHole);
+        console.log(data.filter(part => part.parttype === "1787P-01"));
         allCDia = getCDiameters(part.csidedata);
         allADia = getADiameters(part.csidedata);
         allCPos = getCPosition(part.csidedata);
@@ -85,50 +85,51 @@ export default function Forcast() {
         if (isAngleHole) {
           if (
             Math.max(...allAngledCDia) >
-              tolerances['c-side']['angled_diaNom'] +
-                tolerances['c-side']['angled_diaPlus'] ||
+              tolerances["c-side"]["angled_diaNom"] +
+                tolerances["c-side"]["angled_diaPlus"] ||
             Math.min(...allAngledCDia) <
-              tolerances['c-side']['angled_diaNom'] -
-                tolerances['c-side']['angled_diaMin'] ||
+              tolerances["c-side"]["angled_diaNom"] -
+                tolerances["c-side"]["angled_diaMin"] ||
             Math.max(...allAngledADia) >
-              tolerances['a-side']['diaNom'] +
-                tolerances['a-side']['diaPlus'] ||
+              tolerances["a-side"]["diaNom"] +
+                tolerances["a-side"]["diaPlus"] ||
             Math.min(...allAngledADia) <
-              tolerances['a-side']['angled_diaNom'] -
-                tolerances['a-side']['angled_diaMin'] ||
+              tolerances["a-side"]["angled_diaNom"] -
+                tolerances["a-side"]["angled_diaMin"] ||
             Math.max(...allAngledCPos) >
-              tolerances['c-side']['angled_posNom'] +
-                tolerances['c-side']['angled_posPlus'] ||
+              tolerances["c-side"]["angled_posNom"] +
+                tolerances["c-side"]["angled_posPlus"] ||
             Math.min(...allAngledCPos) <
-              tolerances['c-side']['angled_posNom'] -
-                tolerances['c-side']['angled_posMin'] ||
+              tolerances["c-side"]["angled_posNom"] -
+                tolerances["c-side"]["angled_posMin"] ||
             Math.max(...allAngledAPos) >
-              tolerances['a-side']['angled_posNom'] +
-                tolerances['a-side']['angled_posPlus'] ||
+              tolerances["a-side"]["angled_posNom"] +
+                tolerances["a-side"]["angled_posPlus"] ||
             Math.min(...allAngledAPos) <
-              tolerances['a-side']['angled_posNom'] -
-                tolerances['a-side']['angled_posMin']
+              tolerances["a-side"]["angled_posNom"] -
+                tolerances["a-side"]["angled_posMin"]
           ) {
             failedParts.push(part);
+            continue;
           }
         }
         if (
           Math.max(...allCDia) >
-            tolerances['c-side']['diaNom'] + tolerances['c-side']['diaPlus'] ||
+            tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"] ||
           Math.min(...allCDia) <
-            tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin'] ||
+            tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] ||
           Math.max(...allADia) >
-            tolerances['a-side']['diaNom'] + tolerances['a-side']['diaPlus'] ||
+            tolerances["a-side"]["diaNom"] + tolerances["a-side"]["diaPlus"] ||
           Math.min(...allADia) <
-            tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin'] ||
+            tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] ||
           Math.max(...allCPos) >
-            tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus'] ||
+            tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"] ||
           Math.min(...allCPos) <
-            tolerances['c-side']['posNom'] - tolerances['c-side']['posMin'] ||
+            tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"] ||
           Math.max(...allAPos) >
-            tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus'] ||
+            tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"] ||
           Math.min(...allAPos) <
-            tolerances['a-side']['posNom'] - tolerances['a-side']['posMin']
+            tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
         ) {
           failedParts.push(part);
         } else {
@@ -157,10 +158,10 @@ export default function Forcast() {
   const extractAngledHoles = (parttype, data) => {
     let angledholes = [];
     let straightholes = [];
-    if (parttype === '1787P-01') {
+    if (parttype === "1787P-01") {
       angledholes = data.slice(0, 35);
       straightholes = data.slice(35);
-    } else if (parttype === '1565P-01') {
+    } else if (parttype === "1565P-01") {
       angledholes = data.slice(588, 1268);
       straightholes = data.slice(0, 588);
     }
@@ -203,7 +204,7 @@ export default function Forcast() {
   const setPeriod = e => {
     const period = e.target.value;
     let timeOffset = 0;
-    if (partData.period === 'Today') {
+    if (partData.period === "Today") {
       timeOffset = 604800000;
     } else {
       timeOffset = 86400000;
@@ -223,7 +224,7 @@ export default function Forcast() {
         <div className="stats-info">
           <p className="display-4 lead">
             Quality Statistics
-            <span style={{ color: 'rgb(39, 97, 204)' }}></span>
+            <span style={{ color: "rgb(39, 97, 204)" }}></span>
           </p>
         </div>
       </div>
@@ -251,33 +252,33 @@ export default function Forcast() {
           <div className="parttype-column">
             <p className="display-6 lead">369's</p>
             <div>
-              Total:{' '}
+              Total:{" "}
               {
-                partData.totalParts.filter(part => part.parttype === '369P-01')
+                partData.totalParts.filter(part => part.parttype === "369P-01")
                   .length
               }
             </div>
             <div>
-              Passed:{' '}
+              Passed:{" "}
               {
-                partData.passedParts.filter(part => part.parttype === '369P-01')
+                partData.passedParts.filter(part => part.parttype === "369P-01")
                   .length
               }
             </div>
             <div>
-              Failed:{' '}
+              Failed:{" "}
               {
-                partData.failedParts.filter(part => part.parttype === '369P-01')
+                partData.failedParts.filter(part => part.parttype === "369P-01")
                   .length
               }
             </div>
             <div>
               <PieChart
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '369P-01'
+                  part => part.parttype === "369P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '369P-01'
+                  part => part.parttype === "369P-01"
                 )}
               />
             </div>
@@ -286,35 +287,35 @@ export default function Forcast() {
           <div className="parttype-column">
             <p className="display-6 lead">1789's</p>
             <div>
-              Total:{' '}
+              Total:{" "}
               {
-                partData.totalParts.filter(part => part.parttype === '1789P-01')
+                partData.totalParts.filter(part => part.parttype === "1789P-01")
                   .length
               }
             </div>
             <div>
-              Passed:{' '}
+              Passed:{" "}
               {
                 partData.passedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 ).length
               }
             </div>
             <div>
-              Failed:{' '}
+              Failed:{" "}
               {
                 partData.failedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 ).length
               }
             </div>
             <div>
               <PieChart
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 )}
               />
             </div>
@@ -323,35 +324,35 @@ export default function Forcast() {
           <div className="parttype-column">
             <p className="display-6 lead">2078's</p>
             <div>
-              Total:{' '}
+              Total:{" "}
               {
-                partData.totalParts.filter(part => part.parttype === '2078P-01')
+                partData.totalParts.filter(part => part.parttype === "2078P-01")
                   .length
               }
             </div>
             <div>
-              Passed:{' '}
+              Passed:{" "}
               {
                 partData.passedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 ).length
               }
             </div>
             <div>
-              Failed:{' '}
+              Failed:{" "}
               {
                 partData.failedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 ).length
               }
             </div>
             <div>
               <PieChart
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 )}
               />
             </div>
@@ -360,35 +361,35 @@ export default function Forcast() {
           <div className="parttype-column">
             <p className="display-6 lead">1565's</p>
             <div>
-              Total:{' '}
+              Total:{" "}
               {
-                partData.totalParts.filter(part => part.parttype === '1565P-01')
+                partData.totalParts.filter(part => part.parttype === "1565P-01")
                   .length
               }
             </div>
             <div>
-              Passed:{' '}
+              Passed:{" "}
               {
                 partData.passedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 ).length
               }
             </div>
             <div>
-              Failed:{' '}
+              Failed:{" "}
               {
                 partData.failedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 ).length
               }
             </div>
             <div>
               <PieChart
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 )}
               />
             </div>
@@ -397,35 +398,35 @@ export default function Forcast() {
           <div className="parttype-column">
             <p className="display-6 lead">1787's</p>
             <div>
-              Total:{' '}
+              Total:{" "}
               {
-                partData.totalParts.filter(part => part.parttype === '1787P-01')
+                partData.totalParts.filter(part => part.parttype === "1787P-01")
                   .length
               }
             </div>
             <div>
-              Passed:{' '}
+              Passed:{" "}
               {
                 partData.passedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 ).length
               }
             </div>
             <div>
-              Failed:{' '}
+              Failed:{" "}
               {
                 partData.failedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 ).length
               }
             </div>
             <div>
               <PieChart
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 )}
               />
             </div>
