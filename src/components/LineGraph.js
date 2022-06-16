@@ -14,10 +14,13 @@ export const LineGraph = ({ partData, metric, order }) => {
       let scales = {};
       let annotations = [];
       let drillOrder = [];
+      let euclidMachs = [];
+      let isEuclid = false;
 
       // define part def file and drill order file
       const defFile = "./config/partDefinitions.json";
       const orderFile = "./config/drillOrder.json";
+      const euclidList = "./config/euclidMachs.json";
 
       let tolerances = {};
       let isAngleHole = false;
@@ -30,6 +33,14 @@ export const LineGraph = ({ partData, metric, order }) => {
       const orderResponse = await fetch(orderFile);
       const orderDef = await orderResponse.json();
 
+      // fetch euclid machs
+      const euclidResponse = await fetch(euclidList);
+      const euclidDef = await euclidResponse.json();
+
+      if (euclidDef.includes(partData.machine)) {
+        isEuclid = true;
+      }
+
       // pull correct info from both part def file and drill order file
       // based on part type
       for (const part of partDef) {
@@ -40,7 +51,10 @@ export const LineGraph = ({ partData, metric, order }) => {
       }
 
       for (const part of orderDef) {
-        if (String(part.partType).trim() === String(currentType).trim()) {
+        if (
+          String(part.partType).trim() === String(currentType).trim() &&
+          part.isEuclid === isEuclid
+        ) {
           drillOrder = part.drillOrder;
         }
       }
@@ -48,6 +62,7 @@ export const LineGraph = ({ partData, metric, order }) => {
       let allCData,
         allAData = [];
 
+      console.log(isEuclid);
       if (metric === "diameter") {
         allCData = getCDiameters(partData, order, drillOrder);
         allAData = getADiameters(partData, order, drillOrder);
