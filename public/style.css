@@ -237,6 +237,7 @@ form,
   display: flex;
   flex-direction: row;
   width: 43%;
+  gap: 20px;
 }
 
 .version {

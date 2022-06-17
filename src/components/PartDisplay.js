@@ -545,8 +545,8 @@ export default function PartDisplay(props) {
                           onChange={changeOrder}
                           value={partData.order}
                         >
-                          <option value="insp">Inspection</option>
-                          <option value="drill">Drill</option>
+                          <option value="insp">Inspection Order</option>
+                          <option value="drill">Drill Order</option>
                         </select>
                         {/* <select
                           id="form-select"

@@ -17,7 +17,7 @@ export const LineGraph = ({ partData, metric, order }) => {
       let euclidMachs = [];
       let isEuclid = false;
 
-      // define part def file and drill order file
+      // define part def file, drill order file, and euclid machs file
       const defFile = "./config/partDefinitions.json";
       const orderFile = "./config/drillOrder.json";
       const euclidList = "./config/euclidMachs.json";
