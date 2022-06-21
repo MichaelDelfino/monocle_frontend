@@ -41,6 +41,7 @@ export default function Forcast() {
     const calcPassFail = async data => {
       const totalParts = data;
       let isAngleHole = false;
+      let includesAFlip = false;
 
       // strange things happen with data-types if not declared individually...
       // typescript ftw
@@ -67,13 +68,20 @@ export default function Forcast() {
           if (String(def.partType).trim() === String(part.parttype).trim()) {
             tolerances = def.tolerances;
             isAngleHole = def.textFileSpecs.isAngleHole;
+            includesAFlip = def.textFileSpecs.includesAFlip;
           }
         }
 
         allCDia = getCDiameters(part.csidedata);
-        allADia = getADiameters(part.csidedata);
         allCPos = getCPosition(part.csidedata);
-        allAPos = getAPosition(part.csidedata);
+        allAPos = getAPosition(part.asidedata);
+
+        // Use a-flip diameters if available
+        if (includesAFlip) {
+          allADia = getADiameters(part.aflipdata);
+        } else {
+          allADia = getADiameters(part.asidedata);
+        }
 
         if (isAngleHole) {
           [allCDia, allAngledCDia] = extractAngledHoles(part.parttype, allCDia);
@@ -138,6 +146,7 @@ export default function Forcast() {
         }
       }
       setPartData(prevState => {
+        console.log(totalParts);
         return {
           ...prevState,
           totalParts: totalParts,

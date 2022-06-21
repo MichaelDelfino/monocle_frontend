@@ -102,39 +102,6 @@
     }
   },
   {
-    "partType": "1534P-01",
-    "textFileSpecs": {
-      "includeAFlip": true,
-      "cSideOnly": false,
-      "isAngleHole": false,
-      "numHoles": 346,
-      "cEnd": 1396,
-      "aEnd": 2783,
-      "diaString": "Diameter",
-      "truePosString": " Position ",
-      "xPosString": "X Position",
-      "yPosString": "Y Position"
-    },
-    "tolerances": {
-      "c-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
-      },
-      "a-side": {
-        "diaNom": 0.0,
-        "diaPlus": 0.0,
-        "diaMin": 0.0,
-        "posNom": 0,
-        "posPlus": 0.0,
-        "posMin": 0.0
-      }
-    }
-  },
-  {
     "partType": "2078P-01",
     "textFileSpecs": {
       "version": "EV1",
@@ -165,39 +132,6 @@
         "posNom": 0,
         "posPlus": 0.0115,
         "posMin": 0.0115
-      }
-    }
-  },
-  {
-    "partType": "1557P-01",
-    "textFileSpecs": {
-      "includeAFlip": true,
-      "cSideOnly": false,
-      "isAngleHole": false,
-      "numHoles": 671,
-      "cEnd": 2695,
-      "aEnd": 5380,
-      "diaString": "Dia",
-      "truePosString": "True",
-      "xPosString": "X",
-      "yPosString": "Y"
-    },
-    "tolerances": {
-      "c-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
-      },
-      "a-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
       }
     }
   },
@@ -345,72 +279,6 @@
         "angled_posNom": 0,
         "angled_posPlus": 0.018,
         "angled_posMin": 0.018
-      }
-    }
-  },
-  {
-    "partType": "817P-01",
-    "textFileSpecs": {
-      "includeAFlip": true,
-      "cSideOnly": false,
-      "isAngleHole": false,
-      "numHoles": 849,
-      "cEnd": 3406,
-      "aEnd": 6803,
-      "diaString": "DIA",
-      "truePosString": "XY POS",
-      "xPosString": "XPOS",
-      "yPosString": "YPOS"
-    },
-    "tolerances": {
-      "c-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
-      },
-      "a-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
-      }
-    }
-  },
-  {
-    "partType": "317P-01",
-    "textFileSpecs": {
-      "includeAFlip": false,
-      "cSideOnly": false,
-      "isAngleHole": false,
-      "numHoles": 996,
-      "cEnd": 3995,
-      "aEnd": 7980,
-      "diaString": "Dia",
-      "truePosString": "True",
-      "xPosString": "X",
-      "yPosString": "Y"
-    },
-    "tolerances": {
-      "c-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
-      },
-      "a-side": {
-        "diaNom": 9,
-        "diaPlus": 9,
-        "diaMin": 9,
-        "posNom": 0,
-        "posPlus": 9,
-        "posMin": 9
       }
     }
   },
