@@ -20,7 +20,7 @@ export default function Forcast() {
     const abortController = new AbortController();
 
     // Modularize other components' fetches like so
-    const getWeekData = async (startDate, endDate) => {
+    const getQualData = async (startDate, endDate) => {
       fetch(
         `https://salty-inlet-93542.herokuapp.com/parts/?flag=stats&startDate=${startDate}&endDate=${endDate}`,
         { signal: AbortController.signal }
@@ -29,7 +29,7 @@ export default function Forcast() {
           return response.json();
         })
         .then(data => {
-          calcPassFail(data);
+          segregateParts(data);
         })
         .catch(error => {
           if (error.name === "AbortError") {
@@ -38,110 +38,15 @@ export default function Forcast() {
         });
     };
 
-    const calcPassFail = async data => {
+    const segregateParts = data => {
       const totalParts = data;
-      let isAngleHole = false;
-      let includesAFlip = false;
-
-      // strange things happen with data-types if not declared individually...
-      // typescript ftw
-      let allCDia = [];
-      let allADia = [];
-      let allCPos = [];
-      let allAPos = [];
-      let allAngledCDia = [];
-      let allAngledADia = [];
-      let allAngledAPos = [];
-      let allAngledCPos = [];
-
       let passedParts = [];
       let failedParts = [];
 
-      let tolerances = {};
-
       for (const part of data) {
-        const defFile = "./config/partDefinitions.json";
-        const response = await fetch(defFile);
-        const partDef = await response.json();
-
-        for (const def of partDef) {
-          if (String(def.partType).trim() === String(part.parttype).trim()) {
-            tolerances = def.tolerances;
-            isAngleHole = def.textFileSpecs.isAngleHole;
-            includesAFlip = def.textFileSpecs.includesAFlip;
-          }
-        }
-
-        allCDia = getCDiameters(part.csidedata);
-        allCPos = getCPosition(part.csidedata);
-        allAPos = getAPosition(part.asidedata);
-
-        // Use a-flip diameters if available
-        if (includesAFlip) {
-          allADia = getADiameters(part.aflipdata);
-        } else {
-          allADia = getADiameters(part.asidedata);
-        }
-
-        if (isAngleHole) {
-          [allCDia, allAngledCDia] = extractAngledHoles(part.parttype, allCDia);
-          [allADia, allAngledADia] = extractAngledHoles(part.parttype, allADia);
-          [allCPos, allAngledCPos] = extractAngledHoles(part.parttype, allCPos);
-          [allAPos, allAngledAPos] = extractAngledHoles(part.parttype, allAPos);
-        }
-
-        // modularize this shit ->
-        if (isAngleHole) {
-          if (
-            Math.max(...allAngledCDia) >
-              tolerances["c-side"]["angled_diaNom"] +
-                tolerances["c-side"]["angled_diaPlus"] ||
-            Math.min(...allAngledCDia) <
-              tolerances["c-side"]["angled_diaNom"] -
-                tolerances["c-side"]["angled_diaMin"] ||
-            Math.max(...allAngledADia) >
-              tolerances["a-side"]["diaNom"] +
-                tolerances["a-side"]["diaPlus"] ||
-            Math.min(...allAngledADia) <
-              tolerances["a-side"]["angled_diaNom"] -
-                tolerances["a-side"]["angled_diaMin"] ||
-            Math.max(...allAngledCPos) >
-              tolerances["c-side"]["angled_posNom"] +
-                tolerances["c-side"]["angled_posPlus"] ||
-            Math.min(...allAngledCPos) <
-              tolerances["c-side"]["angled_posNom"] -
-                tolerances["c-side"]["angled_posMin"] ||
-            Math.max(...allAngledAPos) >
-              tolerances["a-side"]["angled_posNom"] +
-                tolerances["a-side"]["angled_posPlus"] ||
-            Math.min(...allAngledAPos) <
-              tolerances["a-side"]["angled_posNom"] -
-                tolerances["a-side"]["angled_posMin"]
-          ) {
-            failedParts.push(part);
-            continue;
-          }
-        }
-        if (
-          Math.max(...allCDia) >
-            tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"] ||
-          Math.min(...allCDia) <
-            tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] ||
-          Math.max(...allADia) >
-            tolerances["a-side"]["diaNom"] + tolerances["a-side"]["diaPlus"] ||
-          Math.min(...allADia) <
-            tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] ||
-          Math.max(...allCPos) >
-            tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"] ||
-          Math.min(...allCPos) <
-            tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"] ||
-          Math.max(...allAPos) >
-            tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"] ||
-          Math.min(...allAPos) <
-            tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
-        ) {
+        if (part.fail) {
           failedParts.push(part);
-        } else {
+        } else if (!part.fail) {
           passedParts.push(part);
         }
       }
@@ -156,7 +61,7 @@ export default function Forcast() {
       });
     };
 
-    getWeekData(partData.startDate, partData.endDate);
+    getQualData(partData.startDate, partData.endDate);
 
     return () => {
       abortController.abort();
