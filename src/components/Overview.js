@@ -1,14 +1,14 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import BoxPlotsAll from "./BoxPlotsAll";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import BoxPlotsAll from './BoxPlotsAll';
 
 export default function Overview({ machHandler, searchHandler }) {
   const [partData, setPartData] = useState({
-    partType: "369P-01",
+    partType: '369P-01',
     startDate: Date.now(),
     machineData: [],
-    side: "c-side",
-    metric: "Diameter",
+    side: 'c-side',
+    metric: 'Diameter',
     tols: {},
     isAngleHole: false,
     groupNum: 0,
@@ -22,8 +22,8 @@ export default function Overview({ machHandler, searchHandler }) {
     });
 
     const getMachinesData = async currentType => {
-      const machDefFile = "./config/machDefinitions.json";
-      const partDefFile = "./config/partDefinitions.json";
+      const machDefFile = './config/machDefinitions.json';
+      const partDefFile = './config/partDefinitions.json';
 
       let fetchArray = [];
       let tolerances = {};
@@ -72,7 +72,7 @@ export default function Overview({ machHandler, searchHandler }) {
           });
         })
         .catch(error => {
-          if (error.name === "AbortError") {
+          if (error.name === 'AbortError') {
             console.log(error);
           }
         });
@@ -109,23 +109,23 @@ export default function Overview({ machHandler, searchHandler }) {
   const getFormattedDateStringFromUnix = date => {
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
+    const stringDate = origDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
     const stringTime = origDate
-      .toLocaleTimeString("en-US", {
+      .toLocaleTimeString('en-US', {
         hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       })
-      .replace("AM", "")
-      .replace("PM", "")
+      .replace('AM', '')
+      .replace('PM', '')
       .trim();
 
-    const splitDate = stringDate.split("/");
-    const splitTime = stringTime.split(":");
+    const splitDate = stringDate.split('/');
+    const splitTime = stringTime.split(':');
     const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
     return formattedDate;
   };
@@ -169,7 +169,7 @@ export default function Overview({ machHandler, searchHandler }) {
         <div className="machine-info">
           <p className="display-4 lead">
             {partData.partType}
-            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
           </p>
 
           <p className="display-4 lead">Process Overview</p>

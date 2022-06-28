@@ -575,3 +575,22 @@ form,
 .collapse {
   width: 100%;
 }
+
+.week-selectors {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 16%;
+  width: 16%;
+}
+.week-title {
+  display:flex;
+  flex-direction: column;
+}
+
+.start-end-date {
+  display: flex;
+  flex-direction: row;
+}
