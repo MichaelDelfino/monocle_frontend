@@ -263,6 +263,7 @@ export const ScatterPlot = ({ partData }) => {
           <Scatter
             data={graphData}
             options={{
+              aspectRatio: 1,
               plugins: {
                 legend: {
                   display: false,

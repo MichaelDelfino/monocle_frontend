@@ -177,10 +177,14 @@ form,
   justify-content: center;
 }
 
-.line-graph,
-.scatter-graph {
+.line-graph {
   height: 100%;
   width: 100%;
+}
+
+.scatter-graph {
+  height: 60%;
+  width: 60%;
 }
 
 /* silfex position plot background image */
