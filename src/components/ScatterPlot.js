@@ -55,7 +55,7 @@ export const ScatterPlot = ({ partData }) => {
               let index = context.dataIndex;
               let holes = Object.keys(partData.csidedata);
 
-              return holePassFail[holes[index]]?.length ? "red" : borderColor;
+              return holePassFail[holes[index]]?.length ? "red" : "#20c997";
             },
             pointRadius: context => {
               let index = context.dataIndex;
@@ -264,6 +264,9 @@ export const ScatterPlot = ({ partData }) => {
             data={graphData}
             options={{
               plugins: {
+                legend: {
+                  display: false,
+                },
                 tooltip: {
                   enabled: true,
                   callbacks: {
