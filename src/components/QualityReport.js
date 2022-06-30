@@ -1,12 +1,12 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import PieChart from './PieChart';
-import PartList from './PartList';
-import BarChart from './BarChart';
+import React from "react";
+import { useState, useEffect } from "react";
+import PieChart from "./PieChart";
+import PartList from "./PartList";
+import BarChart from "./BarChart";
 
 // Use this component as base for modularization of "get" functions
 
-export default function Forcast() {
+export default function QualityReport() {
   const getCurrentWeekNumber = () => {
     //define a date object variable that will take the current system date
     const todaydate = new Date();
@@ -26,10 +26,12 @@ export default function Forcast() {
     //define a date object variable that will take the current system date
     const todaydate = new Date();
 
-    //find the year of the current date
+    // Get the beginning of the year
+    // Jan 1 starts on Sat, offset by two days to begin Week One on following Mon
     let oneJan = new Date(todaydate.getFullYear(), 0, 1);
+    let startOfWkOne = Date.parse(oneJan) + 86400000 * 2;
 
-    const weekEnd = Date.parse(oneJan) + 604800000 * (week - 2);
+    const weekEnd = startOfWkOne + 604800000 * (week - 2);
 
     const weekStart = weekEnd + 604800000;
 
@@ -65,7 +67,7 @@ export default function Forcast() {
           segregateParts(data);
         })
         .catch(error => {
-          if (error.name === 'AbortError') {
+          if (error.name === "AbortError") {
             console.log(error);
           }
         });
@@ -84,7 +86,6 @@ export default function Forcast() {
         }
       }
       setPartData(prevState => {
-        console.log(totalParts);
         return {
           ...prevState,
           weekStartDate: weekStartDate,
@@ -113,10 +114,10 @@ export default function Forcast() {
   const extractAngledHoles = (parttype, data) => {
     let angledholes = [];
     let straightholes = [];
-    if (parttype === '1787P-01') {
+    if (parttype === "1787P-01") {
       angledholes = data.slice(0, 35);
       straightholes = data.slice(35);
-    } else if (parttype === '1565P-01') {
+    } else if (parttype === "1565P-01") {
       angledholes = data.slice(588, 1268);
       straightholes = data.slice(0, 588);
     }
@@ -159,7 +160,7 @@ export default function Forcast() {
   const setPeriod = e => {
     const period = e.target.value;
     let timeOffset = 0;
-    if (partData.period === 'Today') {
+    if (partData.period === "Today") {
       timeOffset = 604800000;
     } else {
       timeOffset = 86400000;
@@ -175,11 +176,11 @@ export default function Forcast() {
 
   const changeWeek = operator => {
     const weekNum = partData.weekNumber;
-    if (operator === '+') {
+    if (operator === "+") {
       setPartData(prevState => {
         return { ...prevState, weekNumber: weekNum + 1 };
       });
-    } else if (operator === '-') {
+    } else if (operator === "-") {
       setPartData(prevState => {
         return { ...prevState, weekNumber: weekNum - 1 };
       });
@@ -189,9 +190,9 @@ export default function Forcast() {
   const getFormattedDateStringFromUnix = date => {
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString('en-US', {
-      month: 'long',
-      day: '2-digit',
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      month: "long",
+      day: "2-digit",
     });
     return stringDate;
   };
@@ -202,7 +203,7 @@ export default function Forcast() {
         <div className="stats-info">
           <p className="display-4 lead">
             Quality Statistics
-            <span style={{ color: 'rgb(39, 97, 204)' }}></span>
+            <span style={{ color: "rgb(39, 97, 204)" }}></span>
           </p>
         </div>
       </div>
@@ -211,13 +212,13 @@ export default function Forcast() {
       {/* Need to try to make the part types dynamic, adding a new part type will require hard coding a new section */}
       <div className="week-title">
         <div className="week-selectors">
-          <div className="prev-machgroup-button">
+          {/* <div className="prev-machgroup-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
               className="bi bi-chevron-double-left prev-group-arrow"
               viewBox="0 0 15 15"
-              onClick={changeWeek.bind(null, '-')}
+              onClick={changeWeek.bind(null, "-")}
             >
               <path
                 fillRule="evenodd"
@@ -228,17 +229,19 @@ export default function Forcast() {
                 d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
               />
             </svg>
-          </div>
+          </div> */}
+          <button onClick={changeWeek.bind(null, "-")}>prev</button>
           <div className="stats-time-period display-5 lead">
             Week {partData.weekNumber}
           </div>
-          <div className="next-machgroup-button">
+          <button onClick={changeWeek.bind(null, "+")}>next</button>
+          {/* <div className="next-machgroup-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
               className="bi bi-chevron-double-right next-group-arrow"
               viewBox="0 0 15 15"
-              onClick={changeWeek.bind(null, '+')}
+              onClick={changeWeek.bind(null, "+")}
             >
               <path
                 fillRule="evenodd"
@@ -249,7 +252,7 @@ export default function Forcast() {
                 d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
               />
             </svg>
-          </div>
+          </div> */}
         </div>
         <div className="start-end-date">
           <p className="lead">
@@ -260,10 +263,16 @@ export default function Forcast() {
           </p>
         </div>
       </div>
-      <BarChart
-        passedParts={partData.passedParts}
-        failedParts={partData.failedParts}
-      />
+      {partData.passedParts.length ? (
+        <BarChart
+          passedParts={partData.passedParts}
+          failedParts={partData.failedParts}
+          weekStart={partData.weekStartDate}
+          weekEnd={partData.weekEndDate}
+        />
+      ) : (
+        <div></div>
+      )}
       {partData.totalParts ? (
         <div className="stats-combo">
           <div className="stats-totals">
@@ -289,36 +298,36 @@ export default function Forcast() {
             >
               <p className="display-6 lead">369's</p>
               <div>
-                Total:{' '}
+                Total:{" "}
                 {
                   partData.totalParts.filter(
-                    part => part.parttype === '369P-01'
+                    part => part.parttype === "369P-01"
                   ).length
                 }
               </div>
               <div>
-                Passed:{' '}
+                Passed:{" "}
                 {
                   partData.passedParts.filter(
-                    part => part.parttype === '369P-01'
+                    part => part.parttype === "369P-01"
                   ).length
                 }
               </div>
               <div>
-                Failed:{' '}
+                Failed:{" "}
                 {
                   partData.failedParts.filter(
-                    part => part.parttype === '369P-01'
+                    part => part.parttype === "369P-01"
                   ).length
                 }
               </div>
               <div>
                 <PieChart
                   passedParts={partData.passedParts.filter(
-                    part => part.parttype === '369P-01'
+                    part => part.parttype === "369P-01"
                   )}
                   failedParts={partData.failedParts.filter(
-                    part => part.parttype === '369P-01'
+                    part => part.parttype === "369P-01"
                   )}
                 />
               </div>
@@ -333,36 +342,36 @@ export default function Forcast() {
             >
               <p className="display-6 lead">1789's</p>
               <div>
-                Total:{' '}
+                Total:{" "}
                 {
                   partData.totalParts.filter(
-                    part => part.parttype === '1789P-01'
+                    part => part.parttype === "1789P-01"
                   ).length
                 }
               </div>
               <div>
-                Passed:{' '}
+                Passed:{" "}
                 {
                   partData.passedParts.filter(
-                    part => part.parttype === '1789P-01'
+                    part => part.parttype === "1789P-01"
                   ).length
                 }
               </div>
               <div>
-                Failed:{' '}
+                Failed:{" "}
                 {
                   partData.failedParts.filter(
-                    part => part.parttype === '1789P-01'
+                    part => part.parttype === "1789P-01"
                   ).length
                 }
               </div>
               <div>
                 <PieChart
                   passedParts={partData.passedParts.filter(
-                    part => part.parttype === '1789P-01'
+                    part => part.parttype === "1789P-01"
                   )}
                   failedParts={partData.failedParts.filter(
-                    part => part.parttype === '1789P-01'
+                    part => part.parttype === "1789P-01"
                   )}
                 />
               </div>
@@ -377,36 +386,36 @@ export default function Forcast() {
             >
               <p className="display-6 lead">2078's</p>
               <div>
-                Total:{' '}
+                Total:{" "}
                 {
                   partData.totalParts.filter(
-                    part => part.parttype === '2078P-01'
+                    part => part.parttype === "2078P-01"
                   ).length
                 }
               </div>
               <div>
-                Passed:{' '}
+                Passed:{" "}
                 {
                   partData.passedParts.filter(
-                    part => part.parttype === '2078P-01'
+                    part => part.parttype === "2078P-01"
                   ).length
                 }
               </div>
               <div>
-                Failed:{' '}
+                Failed:{" "}
                 {
                   partData.failedParts.filter(
-                    part => part.parttype === '2078P-01'
+                    part => part.parttype === "2078P-01"
                   ).length
                 }
               </div>
               <div>
                 <PieChart
                   passedParts={partData.passedParts.filter(
-                    part => part.parttype === '2078P-01'
+                    part => part.parttype === "2078P-01"
                   )}
                   failedParts={partData.failedParts.filter(
-                    part => part.parttype === '2078P-01'
+                    part => part.parttype === "2078P-01"
                   )}
                 />
               </div>
@@ -421,36 +430,36 @@ export default function Forcast() {
             >
               <p className="display-6 lead">1565's</p>
               <div>
-                Total:{' '}
+                Total:{" "}
                 {
                   partData.totalParts.filter(
-                    part => part.parttype === '1565P-01'
+                    part => part.parttype === "1565P-01"
                   ).length
                 }
               </div>
               <div>
-                Passed:{' '}
+                Passed:{" "}
                 {
                   partData.passedParts.filter(
-                    part => part.parttype === '1565P-01'
+                    part => part.parttype === "1565P-01"
                   ).length
                 }
               </div>
               <div>
-                Failed:{' '}
+                Failed:{" "}
                 {
                   partData.failedParts.filter(
-                    part => part.parttype === '1565P-01'
+                    part => part.parttype === "1565P-01"
                   ).length
                 }
               </div>
               <div>
                 <PieChart
                   passedParts={partData.passedParts.filter(
-                    part => part.parttype === '1565P-01'
+                    part => part.parttype === "1565P-01"
                   )}
                   failedParts={partData.failedParts.filter(
-                    part => part.parttype === '1565P-01'
+                    part => part.parttype === "1565P-01"
                   )}
                 />
               </div>
@@ -465,36 +474,36 @@ export default function Forcast() {
             >
               <p className="display-6 lead">1787's</p>
               <div>
-                Total:{' '}
+                Total:{" "}
                 {
                   partData.totalParts.filter(
-                    part => part.parttype === '1787P-01'
+                    part => part.parttype === "1787P-01"
                   ).length
                 }
               </div>
               <div>
-                Passed:{' '}
+                Passed:{" "}
                 {
                   partData.passedParts.filter(
-                    part => part.parttype === '1787P-01'
+                    part => part.parttype === "1787P-01"
                   ).length
                 }
               </div>
               <div>
-                Failed:{' '}
+                Failed:{" "}
                 {
                   partData.failedParts.filter(
-                    part => part.parttype === '1787P-01'
+                    part => part.parttype === "1787P-01"
                   ).length
                 }
               </div>
               <div>
                 <PieChart
                   passedParts={partData.passedParts.filter(
-                    part => part.parttype === '1787P-01'
+                    part => part.parttype === "1787P-01"
                   )}
                   failedParts={partData.failedParts.filter(
-                    part => part.parttype === '1787P-01'
+                    part => part.parttype === "1787P-01"
                   )}
                 />
               </div>
@@ -505,10 +514,10 @@ export default function Forcast() {
             <div className="collapse" id="collapse369">
               <PartList
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '369P-01'
+                  part => part.parttype === "369P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '369P-01'
+                  part => part.parttype === "369P-01"
                 )}
               />
             </div>
@@ -519,10 +528,10 @@ export default function Forcast() {
             <div className="collapse" id="collapse1789">
               <PartList
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1789P-01'
+                  part => part.parttype === "1789P-01"
                 )}
               />
             </div>
@@ -533,10 +542,10 @@ export default function Forcast() {
             <div className="collapse" id="collapse2078">
               <PartList
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '2078P-01'
+                  part => part.parttype === "2078P-01"
                 )}
               />
             </div>
@@ -547,10 +556,10 @@ export default function Forcast() {
             <div className="collapse" id="collapse1565">
               <PartList
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1565P-01'
+                  part => part.parttype === "1565P-01"
                 )}
               />
             </div>
@@ -561,10 +570,10 @@ export default function Forcast() {
             <div className="collapse" id="collapse1787">
               <PartList
                 passedParts={partData.passedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 )}
                 failedParts={partData.failedParts.filter(
-                  part => part.parttype === '1787P-01'
+                  part => part.parttype === "1787P-01"
                 )}
               />
             </div>
