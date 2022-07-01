@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import BoxPlots from './BoxPlots';
+import React, { useEffect, useState } from "react";
+import BoxPlots from "./BoxPlots";
 
 export default function MachineDisplay({
   searchHandler,
@@ -25,8 +25,7 @@ export default function MachineDisplay({
     const abortController = new AbortController();
 
     const getPartTols = async currentType => {
-      console.log(partData);
-      const defFile = './config/partDefinitions.json';
+      const defFile = "./config/partDefinitions.json";
       let tolerances = {};
       let isAngleHole = false;
 
@@ -63,7 +62,7 @@ export default function MachineDisplay({
           });
         })
         .catch(error => {
-          if (error.name === 'AbortError') {
+          if (error.name === "AbortError") {
             console.log(error);
           }
         });
@@ -123,36 +122,36 @@ export default function MachineDisplay({
   };
 
   const getPartColor = partType => {
-    let borderColor = '';
-    let backgroundColor = '';
+    let borderColor = "";
+    let backgroundColor = "";
 
-    if (String(partType).trim() === '369P-01') {
-      borderColor = 'rgb(252, 186, 3, 1)';
-      backgroundColor = 'rgb(252, 186, 3, .2)';
-    } else if (String(partType).trim() === '1789P-01') {
-      borderColor = 'rgb(2, 117, 216, 1)';
-      backgroundColor = 'rgb(2, 117, 216, .2)';
-    } else if (String(partType).trim() === '2078P-01') {
-      borderColor = 'rgb(92, 184, 92, 1)';
-      backgroundColor = 'rgb(92, 184, 92, .2)';
-    } else if (String(partType).trim() === '1534P-01') {
-      borderColor = 'rgb(219, 112, 4, 1)';
-      backgroundColor = 'rgb(219, 112, 4, .2)';
-    } else if (String(partType).trim() === '1557P-01') {
-      borderColor = 'rgb(68, 242, 207, 1)';
-      backgroundColor = 'rgb(68, 242, 207, .2)';
-    } else if (String(partType).trim() === '2129P-01') {
-      borderColor = 'rgb(252, 3, 102, 1)';
-      backgroundColor = 'rgb(252, 3, 102, .2)';
-    } else if (String(partType).trim() === '2129P-02') {
-      borderColor = 'rgb(175, 104, 252, 1)';
-      backgroundColor = 'rgb(175, 104, 252, .2)';
-    } else if (String(partType).trim() === '2129P-03') {
-      borderColor = 'rgb(1, 0, 3, 1)';
-      backgroundColor = 'rgb(1, 0, 3, .2)';
-    } else if (String(partType).trim() === '1565P-01') {
-      borderColor = 'rgb(171, 194, 21, 1)';
-      backgroundColor = 'rgb(171, 194, 21, .2)';
+    if (String(partType).trim() === "369P-01") {
+      borderColor = "rgb(252, 186, 3, 1)";
+      backgroundColor = "rgb(252, 186, 3, .2)";
+    } else if (String(partType).trim() === "1789P-01") {
+      borderColor = "rgb(2, 117, 216, 1)";
+      backgroundColor = "rgb(2, 117, 216, .2)";
+    } else if (String(partType).trim() === "2078P-01") {
+      borderColor = "rgb(92, 184, 92, 1)";
+      backgroundColor = "rgb(92, 184, 92, .2)";
+    } else if (String(partType).trim() === "1534P-01") {
+      borderColor = "rgb(219, 112, 4, 1)";
+      backgroundColor = "rgb(219, 112, 4, .2)";
+    } else if (String(partType).trim() === "1557P-01") {
+      borderColor = "rgb(68, 242, 207, 1)";
+      backgroundColor = "rgb(68, 242, 207, .2)";
+    } else if (String(partType).trim() === "2129P-01") {
+      borderColor = "rgb(252, 3, 102, 1)";
+      backgroundColor = "rgb(252, 3, 102, .2)";
+    } else if (String(partType).trim() === "2129P-02") {
+      borderColor = "rgb(175, 104, 252, 1)";
+      backgroundColor = "rgb(175, 104, 252, .2)";
+    } else if (String(partType).trim() === "2129P-03") {
+      borderColor = "rgb(1, 0, 3, 1)";
+      backgroundColor = "rgb(1, 0, 3, .2)";
+    } else if (String(partType).trim() === "1565P-01") {
+      borderColor = "rgb(171, 194, 21, 1)";
+      backgroundColor = "rgb(171, 194, 21, .2)";
     }
 
     return [borderColor, backgroundColor];
@@ -161,22 +160,22 @@ export default function MachineDisplay({
   const getFormattedDateStringFromUnix = date => {
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
     const stringTime = origDate
-      .toLocaleTimeString('en-US', {
+      .toLocaleTimeString("en-US", {
         hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
       })
-      .replace('AM', '')
-      .replace('PM', '')
+      .replace("AM", "")
+      .replace("PM", "")
       .trim();
-    const splitDate = stringDate.split('/');
-    const splitTime = stringTime.split(':');
+    const splitDate = stringDate.split("/");
+    const splitTime = stringTime.split(":");
     const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
     return formattedDate;
   };
@@ -194,7 +193,7 @@ export default function MachineDisplay({
         <div className="machine-info">
           <p className="display-4 lead">
             {partData.machine}
-            <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
+            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
           </p>
           <p className="display-4 lead">Machine Display</p>
           {/* <p className="display-4 lead">

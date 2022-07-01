@@ -5,7 +5,7 @@ import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-export const ScatterPlot = ({ partData }) => {
+export const ScatterPlot = ({ partData, measureMode }) => {
   const [graphData, setgraphData] = useState({
     tracking: partData.tracking,
     machine: partData.machine,
@@ -13,6 +13,8 @@ export const ScatterPlot = ({ partData }) => {
     tolerances: {},
     labels: Object.keys(partData.csidedata),
     datasets: [],
+    point_1: null,
+    point_2: null,
   });
   useEffect(() => {
     const getPartTols = async currentType => {
@@ -33,6 +35,9 @@ export const ScatterPlot = ({ partData }) => {
 
       const [borderColor, backgroundColor] = getPartColor(partData);
       allCPosData = getCPosition(partData);
+
+      // nomCPosData = getNomCPosition(partData);
+
       holePassFail = getOutTol(
         tolerances,
         partData.csidedata,
@@ -49,7 +54,7 @@ export const ScatterPlot = ({ partData }) => {
         holePassFail: holePassFail,
         datasets: [
           {
-            label: "C-Side",
+            label: "Actual",
             data: allCPosData,
             backgroundColor: context => {
               let index = context.dataIndex;
@@ -152,7 +157,6 @@ export const ScatterPlot = ({ partData }) => {
   const getOutTol = (tolerances, csidedata, asidedata, parttype) => {
     let outTol = {};
     let count = 0;
-    console.log(parttype);
 
     for (const hole of Object.keys(csidedata)) {
       let holeFails = [];
@@ -255,15 +259,75 @@ export const ScatterPlot = ({ partData }) => {
     return outTol;
   };
 
+  const convertRadToDeg = radians => {
+    const deg = (radians * 180) / Math.PI;
+    return deg;
+  };
+
+  const getAngleOfSeparation = (deg_1, deg_2) => {
+    let angleArray = [];
+    angleArray.push(Math.round(Math.abs(deg_1 - deg_2)));
+    angleArray.push(Math.round(Math.abs(angleArray[0] - 360)));
+    setgraphData(prevState => {
+      return { ...prevState, thetaPrime: Math.min(...angleArray) };
+    });
+    return Math.min(...angleArray);
+  };
+
   // Move options to a function that sets them
   return (
     <div>
       {graphData ? (
         <div>
+          {graphData.thetaPrime ? <h1>{graphData.thetaPrime}</h1> : <div></div>}
+          {measureMode ? <h1>choose two points</h1> : <div></div>}
           <Scatter
             data={graphData}
             options={{
               aspectRatio: 1,
+              onClick: (e, context) => {
+                console.log(context);
+                if (context.length && measureMode) {
+                  if (!graphData.point_1) {
+                    setgraphData(prevState => {
+                      return {
+                        ...prevState,
+                        point_1: convertRadToDeg(
+                          Math.atan2(
+                            context[0]?.element["$context"]?.parsed.y,
+                            context[0]?.element["$context"]?.parsed.x
+                          )
+                        ),
+                      };
+                    });
+                  } else if (!graphData.point_2) {
+                    setgraphData(prevState => {
+                      return {
+                        ...prevState,
+                        point_2: convertRadToDeg(
+                          Math.atan2(
+                            context[0]?.element["$context"]?.parsed.y,
+                            context[0]?.element["$context"]?.parsed.x
+                          )
+                        ),
+                      };
+                    });
+                  }
+                  if (graphData.point_1 && graphData.point_2) {
+                    console.log(
+                      getAngleOfSeparation(graphData.point_1, graphData.point_2)
+                    );
+                    setgraphData(prevState => {
+                      return {
+                        ...prevState,
+                        point_1: null,
+                        point_2: null,
+                        measureMode: false,
+                      };
+                    });
+                  }
+                }
+              },
               plugins: {
                 legend: {
                   display: false,

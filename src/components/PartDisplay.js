@@ -52,6 +52,7 @@ export default function PartDisplay(props) {
             metric: "diameter",
             side: "c-side",
             order: "insp",
+            measureMode: false,
           });
         }
       })
@@ -88,6 +89,8 @@ export default function PartDisplay(props) {
           part: part,
           metric: "diameter",
           side: "c-side",
+          order: "insp",
+          measureMode: false,
         });
       });
     });
@@ -486,6 +489,19 @@ export default function PartDisplay(props) {
     });
   };
 
+  const setMeasureMode = () => {
+    let newMode = false;
+    if (partData.measureMode === false) {
+      newMode = true;
+      console.log("measuring...choose two points");
+    } else {
+      console.log("measuring off...");
+    }
+    setPartData(prevState => {
+      return { ...prevState, measureMode: newMode };
+    });
+  };
+
   return (
     <div className="PartDisplay">
       {partData ? (
@@ -589,10 +605,11 @@ export default function PartDisplay(props) {
                   </div>
                   <div className="carousel-item">
                     <div className="linegraph-and-buttons">
+                      <button onClick={setMeasureMode}>Measure Angle</button>
                       <div className="scatter-graph">
                         <ScatterPlot
                           partData={partData.part}
-                          side={partData.side}
+                          measureMode={partData.measureMode}
                         />
                       </div>
                     </div>

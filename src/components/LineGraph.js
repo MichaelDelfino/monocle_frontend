@@ -62,7 +62,6 @@ export const LineGraph = ({ partData, metric, order }) => {
       let allCData,
         allAData = [];
 
-      console.log(isEuclid);
       if (metric === "diameter") {
         allCData = getCDiameters(partData, order, drillOrder);
         allAData = getADiameters(partData, order, drillOrder);
