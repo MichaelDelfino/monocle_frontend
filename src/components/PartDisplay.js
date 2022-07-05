@@ -492,13 +492,21 @@ export default function PartDisplay(props) {
   const setMeasureMode = () => {
     let newMode = false;
     if (partData.measureMode === false) {
+      setTheta(null);
       newMode = true;
       console.log("measuring...choose two points");
     } else {
+      setTheta(null);
       console.log("measuring off...");
     }
     setPartData(prevState => {
       return { ...prevState, measureMode: newMode };
+    });
+  };
+
+  const setTheta = theta => {
+    setPartData(prevState => {
+      return { ...prevState, theta: theta };
     });
   };
 
@@ -605,11 +613,42 @@ export default function PartDisplay(props) {
                   </div>
                   <div className="carousel-item">
                     <div className="linegraph-and-buttons">
-                      <button onClick={setMeasureMode}>Measure Angle</button>
+                      <div id="angle-btn " className="angle-btn-and-points">
+                        <button
+                          className="btn btn-outline-primary angle-btn"
+                          onClick={setMeasureMode}
+                        >
+                          {partData.measureMode ? (
+                            <span className="btn-text">Reset</span>
+                          ) : (
+                            <span className="btn-text">Measure Angle</span>
+                          )}
+                        </button>
+                        <div>
+                          {partData.measureMode && !partData.theta ? (
+                            <span className="lead display-6 angle-text">
+                              Select two points...
+                            </span>
+                          ) : (
+                            <span className="lead display-6 angle-text"></span>
+                          )}
+                        </div>
+                        <div>
+                          {partData.measureMode && partData.theta ? (
+                            <span className="lead display-6 angle-text">
+                              {partData.theta}&#176; of separation
+                            </span>
+                          ) : (
+                            <p></p>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="scatter-graph">
                         <ScatterPlot
                           partData={partData.part}
                           measureMode={partData.measureMode}
+                          setTheta={setTheta}
                         />
                       </div>
                     </div>

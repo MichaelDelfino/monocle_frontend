@@ -75,7 +75,9 @@ form,
 .form-select:focus,
 .form-control:focus,
 #form-select:focus,
-.form-select-lg:focus {
+.form-select-lg:focus,
+.angle-btn,
+.angle-btn:focus {
   border-color: #2761cc;
   box-shadow: none;
 }
@@ -538,4 +540,25 @@ form,
 
 .stats-totals {
   margin-left: -5px;
+}
+
+.angle-btn-and-points {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+.angle-btn,
+#angle-btn {
+  border-radius: 30px;
+  width: 150px;
+}
+
+.angle-text {
+  font-weight: 500;
+}
+
+.btn-text {
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }

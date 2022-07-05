@@ -5,7 +5,7 @@ import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-export const ScatterPlot = ({ partData, measureMode }) => {
+export const ScatterPlot = ({ partData, measureMode, setTheta }) => {
   const [graphData, setgraphData] = useState({
     tracking: partData.tracking,
     machine: partData.machine,
@@ -17,10 +17,16 @@ export const ScatterPlot = ({ partData, measureMode }) => {
     point_2: null,
   });
   useEffect(() => {
+    if (!measureMode) {
+      setgraphData(prevState => {
+        return { ...prevState, point_1: null, point_2: null };
+      });
+    }
     const getPartTols = async currentType => {
       let allCPosData = [];
       let holePassFail = [];
       let tolerances = {};
+      let datasets = [];
 
       const defFile = "./config/partDefinitions.json";
 
@@ -45,41 +51,71 @@ export const ScatterPlot = ({ partData, measureMode }) => {
         partData.parttype
       );
 
-      setgraphData({
-        tracking: partData.tracking,
-        machine: partData.machine,
-        partType: partData.parttype,
-        tolerances: tolerances,
-        labels: Object.keys(partData.csidedata),
-        holePassFail: holePassFail,
-        datasets: [
-          {
-            label: "Actual",
-            data: allCPosData,
-            backgroundColor: context => {
-              let index = context.dataIndex;
-              let holes = Object.keys(partData.csidedata);
+      datasets = [
+        {
+          type: "scatter",
+          label: "Actual",
+          data: allCPosData,
+          backgroundColor: context => {
+            let index = context.dataIndex;
+            let holes = Object.keys(partData.csidedata);
 
-              return holePassFail[holes[index]]?.length ? "red" : "#20c997";
-            },
-            pointRadius: context => {
-              let index = context.dataIndex;
-              let holes = Object.keys(partData.csidedata);
-              return holePassFail[holes[index]]?.length ? 5 : 3;
-            },
-            pointHoverRadius: context => {
-              let index = context.dataIndex;
-              let holes = Object.keys(partData.csidedata);
-              return holePassFail[holes[index]]?.length ? 10 : 4;
-            },
-            borderColor: "black",
-            borderWidth: 0.5,
+            return holePassFail[holes[index]]?.length ? "red" : "#20c997";
           },
-        ],
+          pointRadius: context => {
+            let index = context.dataIndex;
+            let holes = Object.keys(partData.csidedata);
+            return holePassFail[holes[index]]?.length ? 5 : 3;
+          },
+          pointHoverRadius: context => {
+            let index = context.dataIndex;
+            let holes = Object.keys(partData.csidedata);
+            return holePassFail[holes[index]]?.length ? 10 : 4;
+          },
+          borderColor: "black",
+          borderWidth: 0.5,
+        },
+      ];
+
+      if (graphData.point_1) {
+        datasets.push({
+          type: "line",
+          labels: ["a", "b"],
+          borderColor: "rgb(32, 3, 84, 1)",
+          backgroundColor: "rgb(32, 3, 84, .2)",
+          data: [graphData.point_1, { x: 0, y: 0 }],
+        });
+      }
+      if (graphData.point_2) {
+        datasets.push({
+          type: "line",
+          labels: ["b", "c"],
+          borderColor: "rgb(32, 3, 84, 1)",
+          backgroundColor: "rgb(32, 3, 84, .2)",
+          data: [{ x: 0, y: 0 }, graphData.point_2],
+        });
+
+        getAngleOfSeparation(
+          convertRadToDeg(Math.atan2(graphData.point_1.x, graphData.point_1.y)),
+          convertRadToDeg(Math.atan2(graphData.point_2.x, graphData.point_2.y))
+        );
+      }
+
+      setgraphData(prevState => {
+        return {
+          ...prevState,
+          tracking: partData.tracking,
+          machine: partData.machine,
+          partType: partData.parttype,
+          tolerances: tolerances,
+          labels: Object.keys(partData.csidedata),
+          holePassFail: holePassFail,
+          datasets: datasets,
+        };
       });
     };
     getPartTols(partData.parttype);
-  }, [partData]);
+  }, [partData, graphData.point_1, graphData.point_2, measureMode]);
 
   // ***************Make methods into class that can be imported into Components***********
   // *************************************************************************************
@@ -268,9 +304,10 @@ export const ScatterPlot = ({ partData, measureMode }) => {
     let angleArray = [];
     angleArray.push(Math.round(Math.abs(deg_1 - deg_2)));
     angleArray.push(Math.round(Math.abs(angleArray[0] - 360)));
-    setgraphData(prevState => {
-      return { ...prevState, thetaPrime: Math.min(...angleArray) };
-    });
+    // setgraphData(prevState => {
+    //   return { ...prevState, thetaPrime: Math.min(...angleArray) };
+    // });
+    setTheta(Math.min(...angleArray));
     return Math.min(...angleArray);
   };
 
@@ -279,53 +316,55 @@ export const ScatterPlot = ({ partData, measureMode }) => {
     <div>
       {graphData ? (
         <div>
-          {graphData.thetaPrime ? <h1>{graphData.thetaPrime}</h1> : <div></div>}
-          {measureMode ? <h1>choose two points</h1> : <div></div>}
           <Scatter
             data={graphData}
             options={{
               aspectRatio: 1,
               onClick: (e, context) => {
-                console.log(context);
                 if (context.length && measureMode) {
                   if (!graphData.point_1) {
                     setgraphData(prevState => {
                       return {
                         ...prevState,
-                        point_1: convertRadToDeg(
-                          Math.atan2(
-                            context[0]?.element["$context"]?.parsed.y,
-                            context[0]?.element["$context"]?.parsed.x
-                          )
-                        ),
+                        point_1: {
+                          x: context[0]?.element["$context"]?.parsed.x,
+                          y: context[0]?.element["$context"]?.parsed.y,
+                        },
                       };
                     });
                   } else if (!graphData.point_2) {
                     setgraphData(prevState => {
                       return {
                         ...prevState,
-                        point_2: convertRadToDeg(
-                          Math.atan2(
-                            context[0]?.element["$context"]?.parsed.y,
-                            context[0]?.element["$context"]?.parsed.x
-                          )
-                        ),
+                        point_2: {
+                          x: context[0]?.element["$context"]?.parsed.x,
+                          y: context[0]?.element["$context"]?.parsed.y,
+                        },
                       };
                     });
                   }
-                  if (graphData.point_1 && graphData.point_2) {
-                    console.log(
-                      getAngleOfSeparation(graphData.point_1, graphData.point_2)
-                    );
-                    setgraphData(prevState => {
-                      return {
-                        ...prevState,
-                        point_1: null,
-                        point_2: null,
-                        measureMode: false,
-                      };
-                    });
-                  }
+                  // if (graphData.point_1 && graphData.point_2) {
+                  //   console.log(
+                  //     getAngleOfSeparation(
+                  //       convertRadToDeg(
+                  //         graphData.point_1.x,
+                  //         graphData.point_1.y
+                  //       ),
+                  //       convertRadToDeg(
+                  //         graphData.point_2.x,
+                  //         graphData.point_2.y
+                  //       )
+                  //     )
+                  //   );
+                  //   setgraphData(prevState => {
+                  //     return {
+                  //       ...prevState,
+                  //       point_1: null,
+                  //       point_2: null,
+                  //       measureMode: false,
+                  //     };
+                  //   });
+                  // }
                 }
               },
               plugins: {
