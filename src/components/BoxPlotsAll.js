@@ -348,7 +348,7 @@ export default function BoxPlotsAll({
       } else {
         scales = {
           y: {
-            max: 0.01,
+            max: 0.015,
             min: 0.0,
             beginAtZero: true,
           },
