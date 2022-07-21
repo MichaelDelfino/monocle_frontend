@@ -212,6 +212,7 @@ export const LineGraph = ({ partData, metric, order }) => {
 
   // TODO - refactor repeated code
   const setAnnotations = (tols, metric, isAngleHole, borderColor) => {
+    console.log(tols);
     const annotations = [];
     if (metric === "diameter") {
       annotations.push(
