@@ -348,7 +348,9 @@ form,
 .c-dia-highlights,
 .c-pos-highlights,
 .a-dia-highlights,
-.a-pos-highlights {
+.a-pos-highlights,
+.c-avg-highlights,
+.a-avg-highlights {
   display: flex;
   flex-direction: row;
   gap: 10px;

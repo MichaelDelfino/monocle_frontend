@@ -112,6 +112,8 @@ export default function PartDisplay(props) {
           partType = "817P-01";
         } else if (line.includes("-317-")) {
           partType = "317P-01";
+        } else if (line.includes("-109-")) {
+          partType = "109";
         } else {
           partType = String(line.substring(9, 17));
         }
@@ -170,7 +172,6 @@ export default function PartDisplay(props) {
         textFileSpecs = part.textFileSpecs;
         tolerances = part.tolerances;
 
-        console.log(textFileSpecs);
         return [textFileSpecs, tolerances];
       }
     }
@@ -187,6 +188,7 @@ export default function PartDisplay(props) {
 
     for (const line of textFile) {
       // C Side Data
+      // Create array of angle hole "signifiers" to look for
       if (!line.includes("Ellipse")) {
         if (
           line.includes(textFileSpecs.diaString) &&
@@ -443,7 +445,6 @@ export default function PartDisplay(props) {
   const tfParser = async (textFile, mtime, cSideOnly) => {
     //Get header info from text file
     const headerInfo = getHeaderInfo(textFile, mtime);
-    console.log(headerInfo);
 
     //Get line numbers and other file specifics for given part type
     const [textFileSpecs, tolerances] = await getTextFileSpecs(
@@ -655,7 +656,11 @@ export default function PartDisplay(props) {
                   </div>
                   <div className="carousel-item">
                     <div className="linegraph-and-buttons">
-                      <MetricHighlights partData={partData.part} />
+                      {partData.part ? (
+                        <MetricHighlights partData={partData.part} />
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -19,26 +19,55 @@ export const MetricHighlights = ({ partData }) => {
       for (const part of partDef) {
         if (String(part.partType).trim() === String(currentType).trim()) {
           tolerances = part.tolerances;
+          setTableData(prevState => {
+            return { ...prevState, tolerances: tolerances };
+          });
         }
       }
 
+      // get arrays of hole data, returns string elements for some reason...
       allCDia = getCDiameters(partData);
       allADia = getADiameters(partData);
       allCPos = getCPosition(partData);
       allAPos = getAPosition(partData);
 
-      setHighlightColors(tolerances, Math.max(...allCDia));
+      // convert arrays to floats for averaging
+      const allCDia_float = allCDia.map(a => parseFloat(a));
+      const allADia_float = allADia.map(a => parseFloat(a));
+      const allCPos_float = allCPos.map(a => parseFloat(a));
+      const allAPos_float = allAPos.map(a => parseFloat(a));
 
-      setTableData({
-        maxCDiameter: Math.max(...allCDia),
-        minCDiameter: Math.min(...allCDia),
-        maxADiameter: Math.max(...allADia),
-        minADiameter: Math.min(...allADia),
-        maxCPosition: Math.max(...allCPos),
-        minCPosition: Math.min(...allCPos),
-        maxAPosition: Math.max(...allAPos),
-        minAPosition: Math.min(...allAPos),
+      // get averages of each array
+      const avgCDiameter =
+        allCDia_float.reduce((a, b) => a + b) / allCDia.length;
+      const avgADiameter =
+        allADia_float.reduce((a, b) => a + b) / allADia.length;
+      const avgCPosition =
+        allCPos_float.reduce((a, b) => a + b) / allCPos.length;
+      const avgAPosition =
+        allAPos_float.reduce((a, b) => a + b) / allAPos.length;
+
+      setTableData(prevState => {
+        return {
+          ...prevState,
+          maxCDiameter: Math.max(...allCDia),
+          minCDiameter: Math.min(...allCDia),
+          maxADiameter: Math.max(...allADia),
+          minADiameter: Math.min(...allADia),
+          maxCPosition: Math.max(...allCPos),
+          minCPosition: Math.min(...allCPos),
+          maxAPosition: Math.max(...allAPos),
+          minAPosition: Math.min(...allAPos),
+          avgCDiameter: avgCDiameter.toFixed(5),
+          avgADiameter: avgADiameter.toFixed(5),
+          avgCPosition: avgCPosition.toFixed(5),
+          avgAPosition: avgAPosition.toFixed(5),
+        };
       });
+      if (tableData.tolerances) {
+        console.log(tableData.tolerances);
+        setHighlightColors(tableData.tolerances);
+      }
     };
     getPartTols(partData.parttype);
   }, [partData]);
@@ -78,7 +107,7 @@ export const MetricHighlights = ({ partData }) => {
   };
 
   // Refactor method to reduce repeated code
-  const setHighlightColors = (tolerances, maxCDiameter) => {
+  const setHighlightColors = tolerances => {
     if (tolerances.length) {
       const lights = document.querySelectorAll(".light");
       for (const el of lights) {
@@ -86,7 +115,7 @@ export const MetricHighlights = ({ partData }) => {
       }
 
       if (
-        maxCDiameter >
+        tableData.maxCDiameter >
         tolerances["c-side"]["diaNom"] + tolerances["c-side"]["diaPlus"]
       ) {
         const maxCDiaColor = document.querySelector(".c-max-dia-light");
@@ -258,6 +287,60 @@ export const MetricHighlights = ({ partData }) => {
               </div>
             </div>
           </div>
+          <div className="c-avg-highlights">
+            <div className="card">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <rect
+                  className="light c-max-dia-light"
+                  width="100%"
+                  height="100%"
+                  fill="#20c997"
+                ></rect>
+              </svg>
+              <div className="card-body placeholder-glow">
+                <h5 className="card-title">Avg Diameter</h5>
+                {tableData && isFinite(tableData.avgCDiameter) ? (
+                  <p className="card-text">{tableData.avgCDiameter}</p>
+                ) : (
+                  <span className="card-text placeholder col-9"></span>
+                )}
+              </div>
+            </div>
+            <div className="card" aria-hidden="true">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <rect
+                  className="light c-min-dia-light "
+                  width="100%"
+                  height="100%"
+                  fill="#20c997"
+                ></rect>
+              </svg>
+              <div className="card-body placeholder-glow">
+                <h5 className="card-title">Avg Position</h5>
+                {tableData && isFinite(tableData.avgCPosition) ? (
+                  <p className="card-text">{tableData.avgCPosition}</p>
+                ) : (
+                  <span className="card-text placeholder col-9"></span>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="a-side-highlight-table">
@@ -366,6 +449,60 @@ export const MetricHighlights = ({ partData }) => {
                 <h5 className="card-title">Min Position</h5>
                 {tableData && isFinite(tableData.minAPosition) ? (
                   <p className="card-text">{tableData.minAPosition}</p>
+                ) : (
+                  <span className="card-text placeholder col-9"></span>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="a-avg-highlights">
+            <div className="card">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <rect
+                  className="light c-max-dia-light"
+                  width="100%"
+                  height="100%"
+                  fill="#20c997"
+                ></rect>
+              </svg>
+              <div className="card-body placeholder-glow">
+                <h5 className="card-title">Avg Diameter</h5>
+                {tableData && isFinite(tableData.avgADiameter) ? (
+                  <p className="card-text">{tableData.avgADiameter}</p>
+                ) : (
+                  <span className="card-text placeholder col-9"></span>
+                )}
+              </div>
+            </div>
+            <div className="card" aria-hidden="true">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <rect
+                  className="light c-min-dia-light "
+                  width="100%"
+                  height="100%"
+                  fill="#20c997"
+                ></rect>
+              </svg>
+              <div className="card-body placeholder-glow">
+                <h5 className="card-title">Avg Position</h5>
+                {tableData && isFinite(tableData.avgAPosition) ? (
+                  <p className="card-text">{tableData.avgAPosition}</p>
                 ) : (
                   <span className="card-text placeholder col-9"></span>
                 )}

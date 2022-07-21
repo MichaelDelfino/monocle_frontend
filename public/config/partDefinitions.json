@@ -563,5 +563,62 @@
         "posMin": 0.0065
       }
     }
+  },
+  {
+    "partType": "109",
+    "textFileSpecs": {
+      "version": "EV1",
+      "includeAFlip": false,
+      "cSideOnly": false,
+      "isAngleHole": true,
+      "angleHoleStart": 796,
+      "angleHoleEnd": 1883,
+      "numHoles": 468,
+      "cEnd": 1883,
+      "aEnd": 3756,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "_X_",
+      "yPosString": "_Y_"
+    },
+    "tolerances": {
+      "useMeanNom": true,
+      "c-side": {
+        "meanNom": 0.017,
+        "meanPlus": 0.001,
+        "meanMin": 0.001,
+        "indvPlus": 0.001,
+        "indvMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01,
+        "angled_meanNom": 0.017,
+        "angled_meanPlus": 0.002,
+        "angled_meanMin": 0.001,
+        "angled_indvPlus": 0.0042,
+        "angled_indvMin": 0.0029,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
+      },
+      "a-side": {
+        "meanNom": 0.0163,
+        "meanPlus": 0.0015,
+        "meanMin": 0.0015,
+        "indvPlus": 0.0015,
+        "indvMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01,
+        "angled_meanNom": 0.0163,
+        "angled_meanPlus": 0.005,
+        "angled_meanMin": 0.005,
+        "angled_indvPlus": 0.005,
+        "angled_indvMin": 0.005,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
+      }
+    }
   }
 ]
