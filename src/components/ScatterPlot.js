@@ -202,9 +202,12 @@ export const ScatterPlot = ({ partData, measureMode, setTheta }) => {
       let cPos = csidedata[hole]?.cXY;
       let aPos = asidedata[hole]?.aXY;
 
+      // fix for angle hole scatter tols
+      // TODO - better to use angle hole start/end and isAngleHole instead
       if (
         (parttype === "1787P-01" && count < 35) ||
-        (parttype === "1565P-01" && count > 588)
+        (parttype === "1565P-01" && count > 588) ||
+        (parttype === "109" && count > 197)
       ) {
         if (Object.keys(tolerances).length) {
           if (
