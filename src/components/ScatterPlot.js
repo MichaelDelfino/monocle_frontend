@@ -207,7 +207,7 @@ export const ScatterPlot = ({ partData, measureMode, setTheta }) => {
       if (
         (parttype === "1787P-01" && count < 35) ||
         (parttype === "1565P-01" && count > 588) ||
-        (parttype === "109" && count > 197)
+        (parttype === "109" && count > 196)
       ) {
         if (Object.keys(tolerances).length) {
           if (
