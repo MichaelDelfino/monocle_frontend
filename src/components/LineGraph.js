@@ -338,7 +338,7 @@ export const LineGraph = ({ partData, metric, order }) => {
       } else {
         scales = {
           y: {
-            max: 0.01,
+            max: 0.013,
             min: 0.0,
             beginAtZero: true,
           },
