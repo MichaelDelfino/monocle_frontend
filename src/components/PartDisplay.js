@@ -115,7 +115,7 @@ export default function PartDisplay(props) {
         } else if (line.includes("-109-")) {
           partType = "109";
         } else {
-          partType = String(line.substring(9, 17));
+          partType = String(line.substring(9, 17)).trim();
         }
         // Get version number
         version = String(
