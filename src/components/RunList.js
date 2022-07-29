@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { LineGraph } from "./LineGraph";
 
 export default function RunList(
   searchHandler,
@@ -12,6 +13,7 @@ export default function RunList(
   const [partData, setPartData] = useState({
     machine: "WAM 136",
     startDate: 1659114327003,
+    selectedPart: "3979386",
   });
 
   useEffect(() => {
@@ -64,23 +66,10 @@ export default function RunList(
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
+      month: "long",
       day: "2-digit",
     });
-    const stringTime = origDate
-      .toLocaleTimeString("en-US", {
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-      .replace("AM", "")
-      .replace("PM", "")
-      .trim();
-    const splitDate = stringDate.split("/");
-    const splitTime = stringTime.split(":");
-    const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
-    return formattedDate;
+    return date;
   };
 
   // Function that says for each part in data, create a <tr> inside <tbody>
@@ -91,13 +80,13 @@ export default function RunList(
       const table = document.querySelector("#table-body");
       // create new row and data elements
       const newRow = document.createElement("tr");
-      const newTracking = document.createElement("th");
-      const newPartType = document.createElement("th");
-      const newDate = document.createElement("th");
+      const newTracking = document.createElement("td");
+      const newPartType = document.createElement("td");
+      const newDate = document.createElement("td");
       // give new row some values
       newTracking.textContent = part.tracking;
       newPartType.textContent = part.parttype;
-      newDate.textContent = getFormattedDateStringFromUnix(part.timestamp);
+      newDate.textContent = part.timestamp;
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
       newRow.appendChild(newPartType);
@@ -108,7 +97,7 @@ export default function RunList(
 
   return (
     <div className="table-responsive">
-      <table className="table">
+      <table className="table table-hover">
         <thead>
           <tr>
             <th scope="col">Tracking No.</th>
@@ -118,6 +107,7 @@ export default function RunList(
         </thead>
         <tbody id="table-body"></tbody>
       </table>
+      {/* <LineGraph partData={partData.parts[0]} /> */}
     </div>
   );
 }
