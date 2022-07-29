@@ -40,7 +40,7 @@ export default function MachineDisplay({
       }
 
       fetch(
-        `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach-page`,
+        `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach`,
         {
           signal: abortController.signal,
         }
