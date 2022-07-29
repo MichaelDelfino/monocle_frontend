@@ -61,6 +61,17 @@ export const SideBar = props => {
             Part Display
           </a>
         </li>
+        <li>
+          <a
+            href="#"
+            className="nav-link link-dark"
+            onMouseEnter={toggleHighlight}
+            onMouseLeave={toggleHighlight}
+            onClick={props.sectionHandler.bind(null, "list")}
+          >
+            Run List
+          </a>
+        </li>
         {/* <li>
           <a
             href="#"
