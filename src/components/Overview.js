@@ -37,7 +37,7 @@ export default function Overview({ machHandler, searchHandler }) {
 
       for (const mach of machines) {
         fetchArray.push(
-          `https://salty-inlet-93542.herokuapp.com/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}`
+          `https://salty-inlet-93542.herokuapp.com/parts/?parttype=${partData.partType}&machine=${mach}&timestamp=${partData.startDate}&flag=mach`
         );
       }
 

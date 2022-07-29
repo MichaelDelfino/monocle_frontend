@@ -106,7 +106,18 @@ export default function App() {
               )}
             </div>
             <div className="list-display">
-              {pageData.section === "list" ? <RunList /> : <div></div>}
+              {pageData.section === "list" ? (
+                <RunList
+                  searchHandler={searchHandler}
+                  machine={pageData.machine}
+                  parttype={pageData.parttype}
+                  side={pageData.side}
+                  metric={pageData.metric}
+                  startDate={pageData.startDate}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
             <div className="stats-display">
               {pageData.section === "stats" ? <Forecast /> : <div></div>}
