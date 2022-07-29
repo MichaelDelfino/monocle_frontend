@@ -564,3 +564,18 @@ form,
   text-align: center;
   justify-content: center;
 }
+
+thead,
+tbody {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+tbody {
+  height: 200px;
+  overflow: auto;
+  text-align: center;
+}
