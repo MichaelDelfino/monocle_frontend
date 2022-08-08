@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { LineGraph } from "./LineGraph";
+import React, { useState, useEffect } from 'react';
+import { LineGraph } from './LineGraph';
 
 export default function RunList(
   searchHandler,
@@ -11,9 +11,11 @@ export default function RunList(
 ) {
   // Hardcoded values for testing purposes only
   const [partData, setPartData] = useState({
-    machine: "WAM 136",
+    machine: 'WAM 136',
     startDate: 1659114327003,
-    selectedPart: "3979386",
+    selectedPart: '',
+    metric: 'diameter',
+    order: 'insp',
   });
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export default function RunList(
           populateTableData(data);
         })
         .catch(error => {
-          if (error.name === "AbortError") {
+          if (error.name === 'AbortError') {
             console.log(error);
           }
         });
@@ -65,11 +67,25 @@ export default function RunList(
   const getFormattedDateStringFromUnix = date => {
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString("en-US", {
-      month: "long",
-      day: "2-digit",
+    const stringDate = origDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: '2-digit',
     });
     return date;
+  };
+
+  const changeMetric = e => {
+    const metric = e.target.value;
+    setPartData(prevState => {
+      return { ...prevState, metric: metric };
+    });
+  };
+
+  const changeOrder = e => {
+    const order = e.target.value;
+    setPartData(prevState => {
+      return { ...prevState, order: order };
+    });
   };
 
   // Function that says for each part in data, create a <tr> inside <tbody>
@@ -77,12 +93,12 @@ export default function RunList(
     console.log(parts);
     for (const part of parts) {
       // get table parent to append children to
-      const table = document.querySelector("#table-body");
+      const table = document.querySelector('#table-body');
       // create new row and data elements
-      const newRow = document.createElement("tr");
-      const newTracking = document.createElement("td");
-      const newPartType = document.createElement("td");
-      const newDate = document.createElement("td");
+      const newRow = document.createElement('tr');
+      const newTracking = document.createElement('td');
+      const newPartType = document.createElement('td');
+      const newDate = document.createElement('td');
       // give new row some values
       newTracking.textContent = part.tracking;
       newPartType.textContent = part.parttype;
@@ -92,6 +108,13 @@ export default function RunList(
       newRow.appendChild(newPartType);
       newRow.appendChild(newDate);
       table.appendChild(newRow);
+      // add onClick functionality
+      newRow.onclick = () => {
+        let rowTracking = newRow.firstChild.textContent;
+        setPartData(prevState => {
+          return { ...prevState, selectedPart: rowTracking };
+        });
+      };
     }
   };
 
@@ -107,7 +130,59 @@ export default function RunList(
         </thead>
         <tbody id="table-body"></tbody>
       </table>
-      {/* <LineGraph partData={partData.parts[0]} /> */}
+      <div className="linegraph-params">
+        <select
+          id="form-select"
+          className="form-select form-select mb-3"
+          aria-label=".form-select example"
+          onChange={changeMetric}
+          value={partData.metric}
+        >
+          <option value="diameter">Diameter</option>
+          <option value="position">Position</option>
+        </select>
+        <select
+          id="form-select"
+          className="form-select form-select mb-3"
+          aria-label=".form-select example"
+          onChange={changeOrder}
+          value={partData.order}
+        >
+          <option value="insp">Inspection Order</option>
+          <option value="drill">Drill Order</option>
+        </select>
+        {/* <select
+                          id="form-select"
+                          className="form-select form-select mb-3"
+                          aria-label=".form-select example"
+                          onChange={changeOrder}
+                        >
+                          <option value="inspect">Inspection Order</option>
+                          <option value="drill">Drill Order</option>
+                        </select> */}
+      </div>
+      {partData.selectedPart.length ? (
+        <div>
+          <p>{partData.selectedPart}</p>
+          {console.log(
+            partData.parts.filter(obj => {
+              return obj.tracking === partData.selectedPart;
+            })[0]
+          )}
+          <LineGraph
+            className="run-line"
+            partData={
+              partData.parts.filter(obj => {
+                return obj.tracking === partData.selectedPart;
+              })[0]
+            }
+            metric={partData.metric}
+            order={partData.order}
+          />
+        </div>
+      ) : (
+        <p></p>
+      )}
     </div>
   );
 }
