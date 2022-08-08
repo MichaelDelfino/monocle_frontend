@@ -13,7 +13,7 @@ export default function App() {
   const [pageData, setPageData] = useState({
     section: "home",
     tracking: "",
-    machine: "WAM 101",
+    machine: "WAM 136",
     parttype: "369P-01",
     side: "c-side",
     metric: "Diameter",
@@ -108,9 +108,7 @@ export default function App() {
             <div className="list-display">
               {pageData.section === "list" ? (
                 <RunList
-                  searchHandler={searchHandler}
                   machine={pageData.machine}
-                  parttype={pageData.parttype}
                   side={pageData.side}
                   metric={pageData.metric}
                   startDate={pageData.startDate}

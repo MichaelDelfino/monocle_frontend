@@ -575,10 +575,92 @@ tbody {
 }
 
 tbody {
-  height: 200px;
+  height: 100%;
   overflow: auto;
   text-align: center;
 }
-.run-line{
 
+/* refers to screen size 125% */
+@media (-webkit-device-pixel-ratio: 1.25) {
+  #list-content,
+  .list-content {
+    display: flex;
+    flex-direction: row;
+    height: 61.5%;
+    gap: 100px;
+  }
+}
+/* refers to screen size 100% */
+@media (-webkit-device-pixel-ratio: 1) {
+  #list-content,
+  .list-content {
+    display: flex;
+    flex-direction: row;
+    height: 70%;
+    gap: 100px;
+  }
+}
+
+#table-responsive,
+.table-responsive,
+.run-list-table {
+  width: 33%;
+}
+
+.run-list-charts {
+  height: 100%;
+  width: 60%;
+  overflow: auto;
+  align-items: center;
+  align-content: center;
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+  .run-line {
+    height: 85%;
+    margin-right: 20px;
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 1) {
+  .run-line {
+    height: 75%;
+    margin-right: 20px;
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+  .run-scatter {
+    margin-left: 135px;
+    height: 65%;
+    width: 65%;
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 1) {
+  .run-scatter {
+    margin-left: 135px;
+    height: 65%;
+    width: 65%;
+  }
+}
+
+#list-linegraph-params,
+.list-linegraph-params {
+  width: 100%;
+}
+
+/* this doesnt work */
+#run-mach-select,
+.run-mach-select,
+.mach-select {
+  width: 50%;
+  border-radius: 30px;
+}
+
+.list-display {
+  height: 100%;
+}
+.run-list-main {
+  height: 100%;
 }
