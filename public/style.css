@@ -565,15 +565,44 @@ form,
   justify-content: center;
 }
 
-thead,
+#list-linegraph-params,
+.list-linegraph-params {
+  width: 100%;
+}
+
+.run-list-main {
+  height: 100%;
+}
+
+table {
+  text-align: left;
+  position: relative;
+}
+thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  box-shadow: 1px 0px #000, 0 1px #000;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
 tbody {
   display: block;
   justify-content: center;
   align-items: center;
   align-content: center;
   text-align: center;
+  width: 100%;
 }
-
+tr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+}
 tbody {
   height: 100%;
   overflow: auto;
@@ -589,7 +618,35 @@ tbody {
     height: 61.5%;
     gap: 100px;
   }
+  #table-responsive,
+  .table-responsive,
+  .run-list-table {
+    width: 32%;
+  }
+  .run-list-charts {
+    height: 100%;
+    width: 60%;
+    overflow: auto;
+    align-items: center;
+    align-content: center;
+  }
+  .run-line {
+    height: 85%;
+    margin-right: 25px;
+  }
+  .run-scatter {
+    margin-left: 135px;
+    height: 65%;
+    width: 65%;
+  }
 }
+
+.list-params {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 /* refers to screen size 100% */
 @media (-webkit-device-pixel-ratio: 1) {
   #list-content,
@@ -599,37 +656,54 @@ tbody {
     height: 70%;
     gap: 100px;
   }
-}
-
-#table-responsive,
-.table-responsive,
-.run-list-table {
-  width: 33%;
-}
-
-.run-list-charts {
-  height: 100%;
-  width: 60%;
-  overflow: auto;
-  align-items: center;
-  align-content: center;
-}
-
-@media (-webkit-device-pixel-ratio: 1.25) {
-  .run-line {
-    height: 85%;
-    margin-right: 20px;
+  #table-responsive,
+  .table-responsive,
+  .run-list-table {
+    width: 24.5%;
   }
-}
-
-@media (-webkit-device-pixel-ratio: 1) {
+  .run-list-charts {
+    height: 100%;
+    width: 60%;
+    overflow: auto;
+    align-items: center;
+    align-content: center;
+    margin-left: 125px;
+  }
   .run-line {
     height: 75%;
-    margin-right: 20px;
+    margin-right: 25px;
+  }
+  .run-scatter {
+    margin-left: 135px;
+    height: 65%;
+    width: 65%;
   }
 }
-
-@media (-webkit-device-pixel-ratio: 1.25) {
+/* refers to screen size 150% */
+@media (-webkit-device-pixel-ratio: 1.5) {
+  #list-content,
+  .list-content {
+    display: flex;
+    flex-direction: row;
+    height: 78.5%;
+    gap: 100px;
+  }
+  #table-responsive,
+  .table-responsive,
+  .run-list-table {
+    width: 17%;
+  }
+  .run-list-charts {
+    height: 100%;
+    width: 60%;
+    overflow: auto;
+    align-items: center;
+    align-content: center;
+  }
+  .run-line {
+    height: 65%;
+    margin-right: 25px;
+  }
   .run-scatter {
     margin-left: 135px;
     height: 65%;
@@ -637,30 +711,11 @@ tbody {
   }
 }
 
-@media (-webkit-device-pixel-ratio: 1) {
-  .run-scatter {
-    margin-left: 135px;
-    height: 65%;
-    width: 65%;
-  }
-}
-
-#list-linegraph-params,
-.list-linegraph-params {
-  width: 100%;
-}
-
-/* this doesnt work */
-#run-mach-select,
-.run-mach-select,
+#mach-select,
 .mach-select {
-  width: 50%;
-  border-radius: 30px;
+  width: 20%;
 }
 
-.list-display {
-  height: 100%;
-}
-.run-list-main {
-  height: 100%;
-}
+/* .table-headers {
+  gap: 20px;
+} */

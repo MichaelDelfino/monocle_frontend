@@ -64,14 +64,39 @@ export default function RunList(machine, metric, startDate) {
     // resulting format:
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
-      month: "long",
+      month: "short",
       day: "2-digit",
       year: "numeric",
     });
     const stringTime = origDate.toLocaleTimeString("en-US", {
       hour12: true,
+      hour: "2-digit",
+      minute: "2-digit",
     });
     return [stringDate, stringTime];
+  };
+
+  const getFormattedDateStringFromUnixForSelector = date => {
+    // resulting format: 2022-05-23T16:46
+    const origDate = new Date(date);
+    const stringDate = origDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const stringTime = origDate
+      .toLocaleTimeString("en-US", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace("AM", "")
+      .replace("PM", "")
+      .trim();
+    const splitDate = stringDate.split("/");
+    const splitTime = stringTime.split(":");
+    const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
+    return formattedDate;
   };
 
   const changeMetric = e => {
@@ -136,7 +161,6 @@ export default function RunList(machine, metric, startDate) {
         part.asidedata,
         part.parttype
       );
-      console.log(outTol);
       // if there is a metric out of tol, fail = true
       Object.values(outTol).forEach(arr => {
         if (arr.length) {
@@ -158,11 +182,6 @@ export default function RunList(machine, metric, startDate) {
       newTracking.textContent = part.tracking;
       newPartType.textContent = part.parttype;
       newDate.textContent = date + " " + time;
-
-      // const [backgroundColor, borderColor] = getPartColor(part.parttype);
-
-      // newRow.style.backgroundColor = backgroundColor;
-      // newRow.style.borderColor = borderColor;
 
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
@@ -352,6 +371,12 @@ export default function RunList(machine, metric, startDate) {
     return outTol;
   };
 
+  const setStartDate = e => {
+    setPartData(prevState => {
+      return { ...prevState, startDate: Date.parse(e.target.value) };
+    });
+  };
+
   return (
     <div className="run-list-main">
       <div id="machine-title" className="jumbotron machine-jumbotron">
@@ -361,58 +386,60 @@ export default function RunList(machine, metric, startDate) {
             <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
             {partData.selectedPart}
           </p>
-          {/* <p className="display-4 lead">
-              {partData.partType}
-              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            </p>
-            <p className="display-4 lead">
-              {partData.side[0].toUpperCase() +
-                partData.side.substring(1, 2) +
-                partData.side[2].toUpperCase() +
-                partData.side.substring(3)}
-              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            </p>
-            <p className="display-4 lead">{partData.metric} </p> */}
         </div>
       </div>
-      <select
-        name="mach-select"
-        id="run-mach-select form-select"
-        className="run-mach-select mach-select form-select mb-3 "
-        aria-label=".form-select example"
-        value={partData.machine}
-        onChange={setMachine}
-      >
-        {/* All machines option, different query required? */}
-        {/* <option value="%">All Machines</option> */}
-        <option value="WAM 101">WAM 101</option>
-        <option value="WAM 106">WAM 106</option>
-        <option value="WAM 110">WAM 110</option>
-        <option value="WAM 116">WAM 116</option>
-        <option value="WAM 120">WAM 120</option>
-        <option value="WAM 132">WAM 132</option>
-        <option value="WAM 134">WAM 134</option>
-        <option value="WAM 136">WAM 136</option>
-        <option value="WAM 137">WAM 137</option>
-        <option value="WAM 138">WAM 138</option>
-        <option value="WAM 139">WAM 139</option>
-        <option value="WAM 140">WAM 140</option>
-        <option value="WAM 141">WAM 141</option>
-        <option value="WAM 142">WAM 142</option>
-        <option value="WAM 143">WAM 143</option>
-        <option value="WAM 144">WAM 144</option>
-        <option value="WAM 145">WAM 145</option>
-        <option value="WAM 901">WAM 901</option>
-        <option value="WAM 902">WAM 902</option>
-        <option value="WAM 903">WAM 903</option>
-        <option value="WAM 904">WAM 904</option>
-      </select>
+      <div className="list-params">
+        <select
+          name="parttype-select"
+          id="form-select mach-select"
+          className="form-select form-select mach-select mb-3"
+          aria-label=".form-select example"
+          value={partData.machine}
+          onChange={setMachine}
+        >
+          {/* All machines option, different query required? */}
+          {/* <option value="%">All Machines</option> */}
+          <option value="WAM 101">WAM 101</option>
+          <option value="WAM 106">WAM 106</option>
+          <option value="WAM 110">WAM 110</option>
+          <option value="WAM 116">WAM 116</option>
+          <option value="WAM 120">WAM 120</option>
+          <option value="WAM 132">WAM 132</option>
+          <option value="WAM 134">WAM 134</option>
+          <option value="WAM 136">WAM 136</option>
+          <option value="WAM 137">WAM 137</option>
+          <option value="WAM 138">WAM 138</option>
+          <option value="WAM 139">WAM 139</option>
+          <option value="WAM 140">WAM 140</option>
+          <option value="WAM 141">WAM 141</option>
+          <option value="WAM 142">WAM 142</option>
+          <option value="WAM 143">WAM 143</option>
+          <option value="WAM 144">WAM 144</option>
+          <option value="WAM 145">WAM 145</option>
+          <option value="WAM 901">WAM 901</option>
+          <option value="WAM 902">WAM 902</option>
+          <option value="WAM 903">WAM 903</option>
+          <option value="WAM 904">WAM 904</option>
+        </select>
+        <div className="overview-date-input">
+          <input
+            id="form-select"
+            className="form-control"
+            name="overview-date"
+            type="datetime-local"
+            defaultValue={getFormattedDateStringFromUnixForSelector(
+              partData.startDate
+            )}
+            onChange={setStartDate}
+          />
+        </div>
+      </div>
       <div className="list-content" id="list-content">
         <div className="table-responsive run-list-table" id="table-responsive">
           <table className="table table-hover">
             <thead>
-              <tr>
-                <th scope="col">Tracking No.</th>
+              <tr className="table-headers">
+                <th scope="col">Tracking</th>
                 <th scope="col">Part Type</th>
                 <th scope="col">Date</th>
               </tr>
