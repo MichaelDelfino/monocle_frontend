@@ -23,6 +23,7 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
+    console.log(props.tracking);
     // Set development environments to fetch localhost instead of hosted server
     // let url = "";
     // if (process.env.NODE_ENV === "development") {

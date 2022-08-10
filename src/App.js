@@ -4,9 +4,7 @@ import { SideBar } from "./components/SideBar";
 import Home from "./components/Home";
 import PartDisplay from "./components/PartDisplay";
 import MachineDisplay from "./components/MachineDisplay";
-import OptionsDisplay from "./components/OptionsDisplay";
 import Overview from "./components/Overview";
-import Forecast from "./components/Forecast";
 import RunList from "./components/RunList";
 
 export default function App() {
@@ -23,7 +21,7 @@ export default function App() {
   useEffect(() => {
     setPageData({
       section: pageData.section,
-      tracking: "",
+      tracking: pageData.tracking,
       machine: "WAM 101",
       parttype: "369P-01",
       side: "c-side",

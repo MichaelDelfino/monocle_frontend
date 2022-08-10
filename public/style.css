@@ -598,7 +598,7 @@ tbody {
 }
 tr {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   align-content: center;
   width: 100%;
@@ -679,43 +679,13 @@ tbody {
     width: 65%;
   }
 }
-/* refers to screen size 150% */
-@media (-webkit-device-pixel-ratio: 1.5) {
-  #list-content,
-  .list-content {
-    display: flex;
-    flex-direction: row;
-    height: 78.5%;
-    gap: 100px;
-  }
-  #table-responsive,
-  .table-responsive,
-  .run-list-table {
-    width: 17%;
-  }
-  .run-list-charts {
-    height: 100%;
-    width: 60%;
-    overflow: auto;
-    align-items: center;
-    align-content: center;
-  }
-  .run-line {
-    height: 65%;
-    margin-right: 25px;
-  }
-  .run-scatter {
-    margin-left: 135px;
-    height: 65%;
-    width: 65%;
-  }
+
+.table-headers {
+  display: flex;
+  justify-content: flex-start;
+  gap: 25px;
 }
 
-#mach-select,
 .mach-select {
-  width: 20%;
+  width: 19%;
 }
-
-/* .table-headers {
-  gap: 20px;
-} */

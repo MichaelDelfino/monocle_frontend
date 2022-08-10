@@ -64,7 +64,7 @@ export default function RunList(machine, metric, startDate) {
     // resulting format:
     const origDate = new Date(date);
     const stringDate = origDate.toLocaleDateString("en-US", {
-      month: "short",
+      month: "numeric",
       day: "2-digit",
       year: "numeric",
     });
@@ -389,38 +389,40 @@ export default function RunList(machine, metric, startDate) {
         </div>
       </div>
       <div className="list-params">
-        <select
-          name="parttype-select"
-          id="form-select mach-select"
-          className="form-select form-select mach-select mb-3"
-          aria-label=".form-select example"
-          value={partData.machine}
-          onChange={setMachine}
-        >
-          {/* All machines option, different query required? */}
-          {/* <option value="%">All Machines</option> */}
-          <option value="WAM 101">WAM 101</option>
-          <option value="WAM 106">WAM 106</option>
-          <option value="WAM 110">WAM 110</option>
-          <option value="WAM 116">WAM 116</option>
-          <option value="WAM 120">WAM 120</option>
-          <option value="WAM 132">WAM 132</option>
-          <option value="WAM 134">WAM 134</option>
-          <option value="WAM 136">WAM 136</option>
-          <option value="WAM 137">WAM 137</option>
-          <option value="WAM 138">WAM 138</option>
-          <option value="WAM 139">WAM 139</option>
-          <option value="WAM 140">WAM 140</option>
-          <option value="WAM 141">WAM 141</option>
-          <option value="WAM 142">WAM 142</option>
-          <option value="WAM 143">WAM 143</option>
-          <option value="WAM 144">WAM 144</option>
-          <option value="WAM 145">WAM 145</option>
-          <option value="WAM 901">WAM 901</option>
-          <option value="WAM 902">WAM 902</option>
-          <option value="WAM 903">WAM 903</option>
-          <option value="WAM 904">WAM 904</option>
-        </select>
+        <div className="mach-select">
+          <select
+            name="parttype-select"
+            id="form-select"
+            className="form-select mb-3"
+            aria-label=".form-select example"
+            value={partData.machine}
+            onChange={setMachine}
+          >
+            {/* All machines option, different query required? */}
+            {/* <option value="%">All Machines</option> */}
+            <option value="WAM 101">WAM 101</option>
+            <option value="WAM 106">WAM 106</option>
+            <option value="WAM 110">WAM 110</option>
+            <option value="WAM 116">WAM 116</option>
+            <option value="WAM 120">WAM 120</option>
+            <option value="WAM 132">WAM 132</option>
+            <option value="WAM 134">WAM 134</option>
+            <option value="WAM 136">WAM 136</option>
+            <option value="WAM 137">WAM 137</option>
+            <option value="WAM 138">WAM 138</option>
+            <option value="WAM 139">WAM 139</option>
+            <option value="WAM 140">WAM 140</option>
+            <option value="WAM 141">WAM 141</option>
+            <option value="WAM 142">WAM 142</option>
+            <option value="WAM 143">WAM 143</option>
+            <option value="WAM 144">WAM 144</option>
+            <option value="WAM 145">WAM 145</option>
+            <option value="WAM 901">WAM 901</option>
+            <option value="WAM 902">WAM 902</option>
+            <option value="WAM 903">WAM 903</option>
+            <option value="WAM 904">WAM 904</option>
+          </select>
+        </div>
         <div className="overview-date-input">
           <input
             id="form-select"
