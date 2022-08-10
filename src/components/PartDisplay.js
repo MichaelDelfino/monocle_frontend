@@ -23,6 +23,7 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
+    console.log(props.tracking);
     // Set development environments to fetch localhost instead of hosted server
     // let url = "";
     // if (process.env.NODE_ENV === "development") {
@@ -588,6 +589,7 @@ export default function PartDisplay(props) {
                           partData={partData.part}
                           metric={partData.metric}
                           order={partData.order}
+                          zoom={true}
                         />
                       </div>
                       {/* <div className="metric-buttons">
@@ -650,6 +652,7 @@ export default function PartDisplay(props) {
                           partData={partData.part}
                           measureMode={partData.measureMode}
                           setTheta={setTheta}
+                          zoom={false}
                         />
                       </div>
                     </div>

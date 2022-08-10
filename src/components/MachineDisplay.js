@@ -13,7 +13,7 @@ export default function MachineDisplay({
     parts: [],
     machine: machine,
     partType: parttype,
-    numOfParts: 5,
+    numOfParts: 9, // this isn't used, hardcoded at server level
     metric: metric,
     side: side,
     startDate: startDate,

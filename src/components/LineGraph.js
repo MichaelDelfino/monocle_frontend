@@ -6,7 +6,7 @@ import annotationPlugin from "chartjs-plugin-annotation";
 
 Chart.register(...registerables, zoomPlugin, annotationPlugin);
 
-export const LineGraph = ({ partData, metric, order }) => {
+export const LineGraph = ({ partData, metric, order, zoom }) => {
   const [graphData, setGraphData] = useState(null);
 
   useEffect(() => {
@@ -380,7 +380,7 @@ export const LineGraph = ({ partData, metric, order }) => {
                 },
                 zoom: {
                   wheel: {
-                    enabled: true,
+                    enabled: zoom,
                   },
                   pinch: {
                     enabled: true,

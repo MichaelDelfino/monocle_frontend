@@ -4,9 +4,8 @@ import { SideBar } from "./components/SideBar";
 import Home from "./components/Home";
 import PartDisplay from "./components/PartDisplay";
 import MachineDisplay from "./components/MachineDisplay";
-import OptionsDisplay from "./components/OptionsDisplay";
 import Overview from "./components/Overview";
-import Forecast from "./components/Forecast";
+import RunList from "./components/RunList";
 
 export default function App() {
   const [pageData, setPageData] = useState({
@@ -21,15 +20,25 @@ export default function App() {
 
   useEffect(() => {
     setPageData({
-      section: "home",
-      tracking: "",
+      section: pageData.section,
+      tracking: pageData.tracking,
       machine: "WAM 101",
       parttype: "369P-01",
       side: "c-side",
       metric: "Diameter",
       startDate: Date.now(),
     });
-  }, []);
+
+    // resize list-display height to fix scaling bug
+    // ONLY if page is selected...breaks otherwise
+    if (pageData.section === "list") {
+      const listDisplay = document.querySelector(".list-display");
+      listDisplay.style.height = "100%";
+    } else {
+      const listDisplay = document.querySelector(".list-display");
+      listDisplay.style.height = null;
+    }
+  }, [pageData.section]);
 
   const updateSection = section => {
     setPageData(prevState => {
@@ -90,6 +99,19 @@ export default function App() {
                 <div></div>
               )}
             </div>
+            <div className="list-display">
+              {pageData.section === "list" ? (
+                <RunList
+                  machine={pageData.machine}
+                  parttype={pageData.parttype}
+                  side={pageData.side}
+                  metric={pageData.metric}
+                  startDate={pageData.startDate}
+                />
+              ) : (
+                <div></div>
+              )}
+            </div>
             <div className="mach-display">
               {pageData.section === "mach" ? (
                 <MachineDisplay
@@ -104,22 +126,13 @@ export default function App() {
                 <div></div>
               )}
             </div>
-            <div className="stats-display">
-              {pageData.section === "stats" ? <Forecast /> : <div></div>}
-            </div>
+
             <div className="overview-display">
               {pageData.section === "overview" ? (
                 <Overview
                   machHandler={machHandler}
                   searchHandler={searchHandler}
                 />
-              ) : (
-                <div></div>
-              )}
-            </div>
-            <div className="options-display">
-              {pageData.section === "options" ? (
-                <OptionsDisplay />
               ) : (
                 <div></div>
               )}
