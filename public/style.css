@@ -621,6 +621,7 @@ tbody {
   #table-responsive,
   .table-responsive,
   .run-list-table {
+    margin-top: 15px;
     width: 32%;
   }
   .run-list-charts {
@@ -629,6 +630,7 @@ tbody {
     overflow: auto;
     align-items: center;
     align-content: center;
+    margin-top: 20px;
   }
   .run-line {
     height: 85%;
@@ -645,6 +647,7 @@ tbody {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  border-bottom: 1px solid black;
 }
 
 /* refers to screen size 100% */
@@ -659,6 +662,7 @@ tbody {
   #table-responsive,
   .table-responsive,
   .run-list-table {
+    margin-top: 15px;
     width: 24.5%;
   }
   .run-list-charts {
@@ -668,6 +672,7 @@ tbody {
     align-items: center;
     align-content: center;
     margin-left: 125px;
+    margin-top: 20px;
   }
   .run-line {
     height: 75%;
@@ -688,4 +693,7 @@ tbody {
 
 .mach-select {
   width: 19%;
+}
+.graph-placeholder {
+  margin-top: 20px;
 }

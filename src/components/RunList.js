@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LineGraph } from "./LineGraph";
 import { ScatterPlot } from "./ScatterPlot";
 
-export default function RunList(machine, metric, startDate) {
+export default function RunList() {
   // Hardcoded values for testing purposes only
   const [partData, setPartData] = useState({
     machine: "WAM 101",
@@ -372,9 +372,18 @@ export default function RunList(machine, metric, startDate) {
   };
 
   const setStartDate = e => {
-    setPartData(prevState => {
-      return { ...prevState, startDate: Date.parse(e.target.value) };
-    });
+    console.log(e.target.value);
+    if (!e.target.value.length) {
+      const date = new Date(1982, 4, 1).valueOf();
+      setPartData(prevState => {
+        return { ...prevState, selectedPart: "", startDate: date };
+      });
+    } else {
+      const date = e.target.value;
+      setPartData(prevState => {
+        return { ...prevState, startDate: Date.parse(date) };
+      });
+    }
   };
 
   return (
