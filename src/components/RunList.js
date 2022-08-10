@@ -179,6 +179,7 @@ export default function RunList() {
 
       // give new row some values and styling
       newRow.style.width = "100%";
+      newRow.style.cursor = "pointer";
       newTracking.textContent = part.tracking;
       newPartType.textContent = part.parttype;
       newDate.textContent = date + " " + time;
