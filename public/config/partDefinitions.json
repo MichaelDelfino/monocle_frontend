@@ -55,7 +55,10 @@
         "diaMin": 0.0015,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0184,
+        "diaMax_warn": 0.0199,
+        "pos_warn": 0.005
       },
       "a-side": {
         "diaNom": 0.019,
@@ -63,7 +66,10 @@
         "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0173,
+        "diaMax_warn": 0.0195,
+        "pos_warn": 0.007
       }
     }
   },
@@ -89,7 +95,10 @@
         "diaMin": 0.0015,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0184,
+        "diaMax_warn": 0.0199,
+        "pos_warn": 0.005
       },
       "a-side": {
         "diaNom": 0.019,
@@ -97,7 +106,10 @@
         "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0173,
+        "diaMax_warn": 0.0195,
+        "pos_warn": 0.007
       }
     }
   },
@@ -156,7 +168,10 @@
         "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0164,
+        "diaMax_warn": 0.0175,
+        "pos_warn": 0.005
       },
       "a-side": {
         "diaNom": 0.0163,
@@ -164,7 +179,10 @@
         "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.0115,
-        "posMin": 0.0115
+        "posMin": 0.0115,
+        "diaMin_warn": 0.0153,
+        "diaMax_warn": 0.0177,
+        "pos_warn": 0.007
       }
     }
   },
@@ -190,7 +208,10 @@
         "diaMin": 0.001,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0164,
+        "diaMax_warn": 0.0175,
+        "pos_warn": 0.005
       },
       "a-side": {
         "diaNom": 0.0163,
@@ -198,7 +219,10 @@
         "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.0115,
-        "posMin": 0.0115
+        "posMin": 0.0115,
+        "diaMin_warn": 0.0153,
+        "diaMax_warn": 0.0177,
+        "pos_warn": 0.007
       }
     }
   },
@@ -518,7 +542,10 @@
         "diaMin": 0.0015,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0184,
+        "diaMax_warn": 0.0199,
+        "pos_warn": 0.005
       },
       "a-side": {
         "diaNom": 0.019,
@@ -526,7 +553,10 @@
         "diaMin": 0.002,
         "posNom": 0,
         "posPlus": 0.01,
-        "posMin": 0.01
+        "posMin": 0.01,
+        "diaMin_warn": 0.0173,
+        "diaMax_warn": 0.0195,
+        "pos_warn": 0.007
       }
     }
   },
