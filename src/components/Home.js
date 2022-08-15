@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
         <p className="lead">A data visualization tool</p>
         <hr className="my-4" />
         <p className="lead version">
-          Ver. <span className="version version-num">1</span>
+          Ver. <span className="version version-num">1.2</span>
         </p>
         <p className="lead">Michael Delfino</p>
         <p className="lead">Jun 2022</p>

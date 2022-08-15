@@ -57,7 +57,7 @@
 }
 
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 li {
@@ -155,6 +155,7 @@ form,
 }
 
 .data-display {
+  margin-left: 52px;
   height: 100vh;
   width: 100%;
   display: flex;
@@ -298,7 +299,7 @@ form,
 }
 
 .carousel-control-prev {
-  margin-left: 275px;
+  margin-left: 24px;
 }
 .carousel-control-next {
   margin-right: -30px;
@@ -458,7 +459,9 @@ form,
 }
 
 .jumbotron {
-  margin-bottom: 0em;
+  margin-bottom: 1em;
+  background-color: rgb(236, 237, 238);
+  border-radius: 10px;
 }
 .boxplot-all,
 .boxplot {
@@ -633,13 +636,19 @@ tbody {
     margin-top: 20px;
   }
   .run-line {
-    height: 85%;
+    height: 95%;
     margin-right: 25px;
   }
   .run-scatter {
-    margin-left: 135px;
-    height: 65%;
-    width: 65%;
+    margin-left: 185px;
+    height: 55%;
+    width: 55%;
+  }
+  .table-headers {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 33px;
+    gap: 27px;
   }
 }
 
@@ -675,7 +684,7 @@ tbody {
     margin-top: 20px;
   }
   .run-line {
-    height: 75%;
+    height: 83%;
     margin-right: 25px;
   }
   .run-scatter {
@@ -683,17 +692,18 @@ tbody {
     height: 65%;
     width: 65%;
   }
-}
-
-.table-headers {
-  display: flex;
-  justify-content: flex-start;
-  gap: 25px;
+  .table-headers {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 29px;
+    gap: 23px;
+  }
 }
 
 .mach-select {
   width: 19%;
 }
+
 .graph-placeholder {
   margin-top: 20px;
 }
@@ -704,4 +714,12 @@ tbody {
   flex-direction: row;
   align-items: center;
   gap: 30px;
+}
+
+.menu-button:hover {
+  fill: #2761cc;
+}
+
+.list-display {
+  width: 97%;
 }
