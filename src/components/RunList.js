@@ -154,8 +154,9 @@ export default function RunList() {
 
       // set fail boolean
       let fail = false;
+      let warn = false;
       // get out of tolerance metrics for each hole
-      const outTol = getOutTol(
+      const [outTol, warnTol] = getOutTol(
         tolerances,
         part.csidedata,
         part.asidedata,
@@ -167,11 +168,20 @@ export default function RunList() {
           fail = true;
         }
       });
+      // if there is a warning tolerance flag
+      Object.values(warnTol).forEach(arr => {
+        if (arr.length) {
+          warn = true;
+        }
+      });
 
       // Get green/red color depending on fail status
       if (fail) {
         newRow.style.backgroundColor = "rgb(235, 14, 14, .2)";
         newRow.style.borderColor = "rgb(235, 14, 14, 1)";
+      } else if (warn) {
+        newRow.style.backgroundColor = "rgb(252, 186, 3, .2)";
+        newRow.style.borderColor = "rgb(252, 186, 3, 1)";
       } else {
         newRow.style.backgroundColor = "rgb(7, 237, 30, .2)";
         newRow.style.borderColor = "rgb(7, 237, 30, 1)";
@@ -266,10 +276,12 @@ export default function RunList() {
 
   const getOutTol = (tolerances, csidedata, asidedata, parttype) => {
     let outTol = {};
+    let warnTol = {};
     let count = 0;
 
     for (const hole of Object.keys(csidedata)) {
       let holeFails = [];
+      let holeWarn = [];
       // hole metrics
       let cDia = csidedata[hole]?.cDia;
       let aDia = asidedata[hole]?.aDia;
@@ -325,6 +337,7 @@ export default function RunList() {
             holeFails.push("aPos");
           }
         }
+        // Straight hole tolerance cases
       } else {
         if (Object.keys(tolerances).length) {
           if (
@@ -337,6 +350,21 @@ export default function RunList() {
             holeFails.push("cDia");
           }
           if (
+            cDia >
+              tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] &&
+            cDia < tolerances["c-side"]["diaMin_warn"]
+          ) {
+            holeWarn.push("cDia");
+          }
+          if (
+            cDia <
+              tolerances["c-side"]["diaNom"] +
+                tolerances["c-side"]["diaPlus"] &&
+            cDia > tolerances["c-side"]["diaMax_warn"]
+          ) {
+            holeWarn.push("cDia");
+          }
+          if (
             aDia >
               tolerances["a-side"]["diaNom"] +
                 tolerances["a-side"]["diaPlus"] ||
@@ -344,6 +372,21 @@ export default function RunList() {
               tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"]
           ) {
             holeFails.push("aDia");
+          }
+          if (
+            aDia >
+              tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] &&
+            aDia < tolerances["a-side"]["diaMin_warn"]
+          ) {
+            holeWarn.push("aDia");
+          }
+          if (
+            aDia <
+              tolerances["a-side"]["diaNom"] +
+                tolerances["a-side"]["diaPlus"] &&
+            aDia > tolerances["a-side"]["diaMax_warn"]
+          ) {
+            holeWarn.push("aDia");
           }
           if (
             cPos >
@@ -355,6 +398,13 @@ export default function RunList() {
             holeFails.push("cPos");
           }
           if (
+            cPos > tolerances["c-side"]["pos_warn"] &&
+            cPos <
+              tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"]
+          ) {
+            holeWarn.push("cPos");
+          }
+          if (
             aPos >
               tolerances["a-side"]["posNom"] +
                 tolerances["a-side"]["posPlus"] ||
@@ -363,13 +413,20 @@ export default function RunList() {
           ) {
             holeFails.push("aPos");
           }
+          if (
+            aPos > tolerances["a-side"]["pos_warn"] &&
+            aPos <
+              tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"]
+          ) {
+            holeWarn.push("aPos");
+          }
         }
       }
       outTol[hole] = holeFails;
+      warnTol[hole] = holeWarn;
       count++;
     }
-
-    return outTol;
+    return [outTol, warnTol];
   };
 
   const setStartDate = e => {

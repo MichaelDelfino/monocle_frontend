@@ -26,6 +26,7 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
     const getPartTols = async currentType => {
       let allCPosData = [];
       let holePassFail = [];
+      let holeWarning = [];
       let tolerances = {};
       let datasets = [];
 
@@ -45,7 +46,7 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
 
       // nomCPosData = getNomCPosition(partData);
 
-      holePassFail = getOutTol(
+      [holePassFail, holeWarning] = getOutTol(
         tolerances,
         partData.csidedata,
         partData.asidedata,
@@ -60,18 +61,35 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
           backgroundColor: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
-
-            return holePassFail[holes[index]]?.length ? "red" : "#20c997";
+            if (holePassFail[holes[index]]?.length) {
+              return "red";
+            } else if (holeWarning[holes[index]]?.length) {
+              return "rgb(252, 186, 3, 1)";
+            } else {
+              return "#20c997";
+            }
           },
           pointRadius: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
-            return holePassFail[holes[index]]?.length ? 5 : 3;
+            if (holePassFail[holes[index]]?.length) {
+              return 5;
+            } else if (holeWarning[holes[index]]?.length) {
+              return 5;
+            } else {
+              return 3;
+            }
           },
           pointHoverRadius: context => {
             let index = context.dataIndex;
             let holes = Object.keys(partData.csidedata);
-            return holePassFail[holes[index]]?.length ? 10 : 4;
+            if (holePassFail[holes[index]]?.length) {
+              return 10;
+            } else if (holeWarning[holes[index]]?.length) {
+              return 10;
+            } else {
+              return 4;
+            }
           },
           borderColor: "black",
           borderWidth: 0.5,
@@ -111,6 +129,7 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
           tolerances: tolerances,
           labels: Object.keys(partData.csidedata),
           holePassFail: holePassFail,
+          holeWarning: holeWarning,
           datasets: datasets,
         };
       });
@@ -193,10 +212,12 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
 
   const getOutTol = (tolerances, csidedata, asidedata, parttype) => {
     let outTol = {};
+    let warnTol = {};
     let count = 0;
 
     for (const hole of Object.keys(csidedata)) {
       let holeFails = [];
+      let holeWarn = [];
       // hole metrics
       let cDia = csidedata[hole]?.cDia;
       let aDia = asidedata[hole]?.aDia;
@@ -252,6 +273,7 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
             holeFails.push("aPos");
           }
         }
+        // Straight hole tolerance cases
       } else {
         if (Object.keys(tolerances).length) {
           if (
@@ -264,6 +286,21 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
             holeFails.push("cDia");
           }
           if (
+            cDia >
+              tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] &&
+            cDia < tolerances["c-side"]["diaMin_warn"]
+          ) {
+            holeWarn.push("cDia");
+          }
+          if (
+            cDia <
+              tolerances["c-side"]["diaNom"] +
+                tolerances["c-side"]["diaPlus"] &&
+            cDia > tolerances["c-side"]["diaMax_warn"]
+          ) {
+            holeWarn.push("cDia");
+          }
+          if (
             aDia >
               tolerances["a-side"]["diaNom"] +
                 tolerances["a-side"]["diaPlus"] ||
@@ -271,6 +308,21 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
               tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"]
           ) {
             holeFails.push("aDia");
+          }
+          if (
+            aDia >
+              tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] &&
+            aDia < tolerances["a-side"]["diaMin_warn"]
+          ) {
+            holeWarn.push("aDia");
+          }
+          if (
+            aDia <
+              tolerances["a-side"]["diaNom"] +
+                tolerances["a-side"]["diaPlus"] &&
+            aDia > tolerances["a-side"]["diaMax_warn"]
+          ) {
+            holeWarn.push("aDia");
           }
           if (
             cPos >
@@ -282,6 +334,13 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
             holeFails.push("cPos");
           }
           if (
+            cPos > tolerances["c-side"]["pos_warn"] &&
+            cPos <
+              tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"]
+          ) {
+            holeWarn.push("cPos");
+          }
+          if (
             aPos >
               tolerances["a-side"]["posNom"] +
                 tolerances["a-side"]["posPlus"] ||
@@ -290,13 +349,20 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
           ) {
             holeFails.push("aPos");
           }
+          if (
+            aPos > tolerances["a-side"]["pos_warn"] &&
+            aPos <
+              tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"]
+          ) {
+            holeWarn.push("aPos");
+          }
         }
       }
       outTol[hole] = holeFails;
+      warnTol[hole] = holeWarn;
       count++;
     }
-
-    return outTol;
+    return [outTol, warnTol];
   };
 
   const convertRadToDeg = radians => {
@@ -347,28 +413,6 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
                       };
                     });
                   }
-                  // if (graphData.point_1 && graphData.point_2) {
-                  //   console.log(
-                  //     getAngleOfSeparation(
-                  //       convertRadToDeg(
-                  //         graphData.point_1.x,
-                  //         graphData.point_1.y
-                  //       ),
-                  //       convertRadToDeg(
-                  //         graphData.point_2.x,
-                  //         graphData.point_2.y
-                  //       )
-                  //     )
-                  //   );
-                  //   setgraphData(prevState => {
-                  //     return {
-                  //       ...prevState,
-                  //       point_1: null,
-                  //       point_2: null,
-                  //       measureMode: false,
-                  //     };
-                  //   });
-                  // }
                 }
               },
               plugins: {
@@ -413,6 +457,35 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
                       }
                       if (
                         graphData.holePassFail[holes[index]]?.includes("aPos")
+                      ) {
+                        label.push(
+                          "A-Pos: " + partData.asidedata[holes[index]]?.aXY
+                        );
+                      }
+                      // if hole within warning tolerances
+                      if (
+                        graphData.holeWarning[holes[index]]?.includes("cDia")
+                      ) {
+                        label.push(
+                          "C-Dia: " + partData.csidedata[holes[index]]?.cDia
+                        );
+                      }
+                      if (
+                        graphData.holeWarning[holes[index]]?.includes("aDia")
+                      ) {
+                        label.push(
+                          "A-Dia: " + partData.asidedata[holes[index]]?.aDia
+                        );
+                      }
+                      if (
+                        graphData.holeWarning[holes[index]]?.includes("cPos")
+                      ) {
+                        label.push(
+                          "C-Pos: " + partData.csidedata[holes[index]]?.cXY
+                        );
+                      }
+                      if (
+                        graphData.holeWarning[holes[index]]?.includes("aPos")
                       ) {
                         label.push(
                           "A-Pos: " + partData.asidedata[holes[index]]?.aXY
