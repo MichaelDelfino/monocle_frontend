@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export const SearchBar = ({ searchHandler }) => {
+export const SearchBar = ({ searchHandler, sectionHandler }) => {
   useEffect(() => {});
 
   const setSearchData = e => {
@@ -19,17 +19,142 @@ export const SearchBar = ({ searchHandler }) => {
 
   const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
-      console.log(li.firstChild.classList);
-      li.firstChild.classList.remove("link-dark");
+      if (!li.firstChild.classList.contains("link-dark")) {
+        li.firstChild.classList.add("link-dark");
+      }
     }
-    e.target.classList.toggle("link-dark");
+    e.target.classList.remove("link-dark");
   };
+
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          Winbro - Monocle
-        </a>
+        <div className="menu-items">
+          <a
+            data-bs-toggle="offcanvas"
+            href="#offcanvasExample"
+            role="button"
+            aria-controls="offcanvasExample"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="black"
+              className="menu-button bi bi-list"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              />
+            </svg>
+          </a>
+          <div
+            className="offcanvas offcanvas-start"
+            tabIndex="-1"
+            id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel"
+          >
+            <div className="offcanvas-header">
+              <h5 className="offcanvas-title" id="offcanvasExampleLabel">
+                Main Menu
+              </h5>
+              <hr />
+              <button
+                type="button"
+                className="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="offcanvas-body">
+              <div className="dropdown mt-3">
+                <ul className="nav nav-pills flex-column mb-auto">
+                  <li className="nav-item">
+                    <a
+                      href="#"
+                      className="nav-link"
+                      aria-current="page"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("home");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Home
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("list");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Run List
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("overview");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Overview
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("mach");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Machine Display
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("part");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Part Display
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <a className="navbar-brand" href="/">
+            Winbro - Monocle
+          </a>
+        </div>
 
         <form className="d-flex" onSubmit={setSearchData}>
           <input
@@ -46,85 +171,5 @@ export const SearchBar = ({ searchHandler }) => {
         </form>
       </div>
     </nav>
-    // <nav className="navbar navbar-light bg-light">
-    //   <div className="container-fluid">
-    //     <a className="navbar-brand" href="#">
-    //       Winbro - Monocle
-    //     </a>
-    //     <button
-    //       className="navbar-toggler"
-    //       type="button"
-    //       data-bs-toggle="offcanvas"
-    //       data-bs-target="#offcanvasNavbar"
-    //       aria-controls="offcanvasNavbar"
-    //     >
-    //       <span className="navbar-toggler-icon"></span>
-    //     </button>
-    //     <div
-    //       className="offcanvas offcanvas-end"
-    //       tabindex="-1"
-    //       id="offcanvasNavbar"
-    //       aria-labelledby="offcanvasNavbarLabel"
-    //     >
-    //       <div className="offcanvas-header">
-    //         <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-    //           Main Menu
-    //         </h5>
-    //         <button
-    //           type="button"
-    //           className="btn-close text-reset"
-    //           data-bs-dismiss="offcanvas"
-    //           aria-label="Close"
-    //         ></button>
-    //       </div>
-    //       <div className="offcanvas-body">
-    //         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-    //           <li className="nav-item">
-    //             <a
-    //               className="nav-link active"
-    //               aria-current="page"
-    //               onMouseEnter={toggleHighlight}
-    //               onMouseLeave={toggleHighlight}
-    //               onClick={props.sectionHandler.bind(null, 'home')}
-    //             >
-    //               Home
-    //             </a>
-    //           </li>
-    //           <li className="nav-item">
-    //             <a
-    //               className="nav-link"
-    //               onMouseEnter={toggleHighlight}
-    //               onMouseLeave={toggleHighlight}
-    //               onClick={props.sectionHandler.bind(null, 'part')}
-    //             >
-    //               Part Display
-    //             </a>
-    //           </li>
-    //           <li className="nav-item dropdown">
-    //             <a
-    //               className="nav-link"
-    //               onMouseEnter={toggleHighlight}
-    //               onMouseLeave={toggleHighlight}
-    //               onClick={props.sectionHandler.bind(null, 'mach')}
-    //             >
-    //               Machine Display
-    //             </a>
-    //           </li>
-    //         </ul>
-    //         <form className="d-flex" onSubmit={setSearchData}>
-    //           <input
-    //             className="form-control me-2"
-    //             type="search"
-    //             placeholder="Search"
-    //             aria-label="Search"
-    //           />
-    //           <button className="btn btn-outline-primary" type="submit">
-    //             Search
-    //           </button>
-    //         </form>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </nav>
   );
 };

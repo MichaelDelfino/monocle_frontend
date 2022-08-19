@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "./components/SearchBar";
-import { SideBar } from "./components/SideBar";
 import Home from "./components/Home";
 import PartDisplay from "./components/PartDisplay";
 import MachineDisplay from "./components/MachineDisplay";
@@ -80,13 +79,16 @@ export default function App() {
   return (
     <div className="App">
       <div className="search-bar">
-        <SearchBar searchHandler={searchHandler} />
+        <SearchBar
+          searchHandler={searchHandler}
+          sectionHandler={updateSection}
+        />
       </div>
       <div className="blue-strip"></div>
       <div className="content">
-        <div className="side-bar">
+        {/* <div className="side-bar">
           <SideBar sectionHandler={updateSection} />
-        </div>
+        </div> */}
         {pageData ? (
           <div className="data-display">
             <div className="home-display">

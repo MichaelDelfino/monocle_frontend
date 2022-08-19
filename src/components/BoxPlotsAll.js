@@ -473,25 +473,25 @@ export default function BoxPlotsAll({
       ) : (
         <div className="loading-spinners">
           <div className="spinner-grow text-primary" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">L</span>
           </div>
           <div className="spinner-grow text-secondary" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">o</span>
           </div>
           <div className="spinner-grow text-success" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">a</span>
           </div>
           <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">d</span>
           </div>
           <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">i</span>
           </div>
           <div className="spinner-grow text-info" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">n</span>
           </div>
           <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">g</span>
           </div>
         </div>
       )}

@@ -542,157 +542,127 @@ export default function PartDisplay(props) {
               <p className="display-4 lead">{partData.part.machine} </p>
             </div>
           </div>
-          <div>
-            <div className="data-display">
-              <div
-                id="carouselExampleIndicators"
-                className="carousel slide"
-                data-ride="false"
-                data-interval="false"
-              >
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <div className="linegraph-and-buttons">
-                      <div className="linegraph-params">
-                        <select
-                          id="form-select"
-                          className="form-select form-select mb-3"
-                          aria-label=".form-select example"
-                          onChange={changeMetric}
-                          value={partData.metric}
-                        >
-                          <option value="diameter">Diameter</option>
-                          <option value="position">Position</option>
-                        </select>
-                        <select
-                          id="form-select"
-                          className="form-select form-select mb-3"
-                          aria-label=".form-select example"
-                          onChange={changeOrder}
-                          value={partData.order}
-                        >
-                          <option value="insp">Inspection Order</option>
-                          <option value="drill">Drill Order</option>
-                        </select>
-                        {/* <select
-                          id="form-select"
-                          className="form-select form-select mb-3"
-                          aria-label=".form-select example"
-                          onChange={changeOrder}
-                        >
-                          <option value="inspect">Inspection Order</option>
-                          <option value="drill">Drill Order</option>
-                        </select> */}
-                      </div>
-                      <div className="line-graph">
-                        <LineGraph
-                          partData={partData.part}
-                          metric={partData.metric}
-                          order={partData.order}
-                          zoom={true}
-                        />
-                      </div>
-                      {/* <div className="metric-buttons">
-                        <ul>
-                          <li>
-                            <button
-                              className="btn btn-outline-primary m-3"
-                              onClick={changeMetric.bind(null, 'diameter')}
-                            >
-                              diameter
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="btn btn-outline-primary m-3"
-                              onClick={changeMetric.bind(null, 'position')}
-                            >
-                              position
-                            </button>
-                          </li>
-                        </ul>
-                      </div> */}
+          <div className="part-stats"></div>
+          <div className="part-graphs">
+            <div
+              id="carouselExampleIndicators"
+              className="carousel slide"
+              data-bs-ride="false"
+              data-bs-interval="false"
+            >
+              <div className="carousel-inner">
+                <div className="carousel-item active">
+                  <div className="linegraph-and-buttons">
+                    <div className="linegraph-params">
+                      <select
+                        id="form-select"
+                        className="form-select form-select mb-3"
+                        aria-label=".form-select example"
+                        onChange={changeMetric}
+                        value={partData.metric}
+                      >
+                        <option value="diameter">Diameter</option>
+                        <option value="position">Position</option>
+                      </select>
+                      <select
+                        id="form-select"
+                        className="form-select form-select mb-3"
+                        aria-label=".form-select example"
+                        onChange={changeOrder}
+                        value={partData.order}
+                      >
+                        <option value="insp">Inspection Order</option>
+                        <option value="drill">Drill Order</option>
+                      </select>
                     </div>
-                  </div>
-                  <div className="carousel-item">
-                    <div className="linegraph-and-buttons">
-                      <div id="angle-btn " className="angle-btn-and-points">
-                        <button
-                          className="btn btn-outline-primary angle-btn"
-                          onClick={setMeasureMode}
-                        >
-                          {partData.measureMode ? (
-                            <span className="btn-text">Reset</span>
-                          ) : (
-                            <span className="btn-text">Measure Angle</span>
-                          )}
-                        </button>
-                        <div>
-                          {partData.measureMode && !partData.theta ? (
-                            <span className="lead display-6 angle-text">
-                              Select two points...
-                            </span>
-                          ) : (
-                            <span className="lead display-6 angle-text"></span>
-                          )}
-                        </div>
-                        <div>
-                          {partData.measureMode && partData.theta ? (
-                            <span className="lead display-6 angle-text">
-                              {partData.theta}&#176; of separation
-                            </span>
-                          ) : (
-                            <p></p>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="scatter-graph">
-                        <ScatterPlot
-                          partData={partData.part}
-                          measureMode={partData.measureMode}
-                          setTheta={setTheta}
-                          zoom={false}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="carousel-item">
-                    <div className="linegraph-and-buttons">
-                      {partData.part ? (
-                        <MetricHighlights partData={partData.part} />
-                      ) : (
-                        <div></div>
-                      )}
+                    <div className="line-graph">
+                      <LineGraph
+                        partData={partData.part}
+                        metric={partData.metric}
+                        order={partData.order}
+                        zoom={true}
+                      />
                     </div>
                   </div>
                 </div>
+                <div className="carousel-item">
+                  <div className="linegraph-and-buttons">
+                    <div id="angle-btn " className="angle-btn-and-points">
+                      <button
+                        className="btn btn-outline-primary angle-btn"
+                        onClick={setMeasureMode}
+                      >
+                        {partData.measureMode ? (
+                          <span className="btn-text">Reset</span>
+                        ) : (
+                          <span className="btn-text">Measure Angle</span>
+                        )}
+                      </button>
+                      <div>
+                        {partData.measureMode && !partData.theta ? (
+                          <span className="lead display-6 angle-text">
+                            Select two points...
+                          </span>
+                        ) : (
+                          <span className="lead display-6 angle-text"></span>
+                        )}
+                      </div>
+                      <div>
+                        {partData.measureMode && partData.theta ? (
+                          <span className="lead display-6 angle-text">
+                            {partData.theta}&#176; of separation
+                          </span>
+                        ) : (
+                          <p></p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="scatter-graph">
+                      <ScatterPlot
+                        partData={partData.part}
+                        measureMode={partData.measureMode}
+                        setTheta={setTheta}
+                        zoom={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="carousel-item">
+                  <div className="linegraph-and-buttons">
+                    {partData.part ? (
+                      <MetricHighlights partData={partData.part} />
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                </div>
               </div>
-              <a
-                className="carousel-control carousel-control-prev"
-                href="#carouselExampleIndicators"
-                role="button"
-                data-slide="prev"
-              >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="sr-only">Previous</span>
-              </a>
-              <a
-                className="carousel-control carousel-control-next"
-                href="#carouselExampleIndicators"
-                role="button"
-                data-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="sr-only">Next</span>
-              </a>
             </div>
+            <a
+              className="carousel-control carousel-control-prev"
+              data-bs-target="#carouselExampleIndicators"
+              role="button"
+              data-bs-slide="prev"
+            >
+              <span
+                className="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a
+              className="carousel-control carousel-control-next"
+              data-bs-target="#carouselExampleIndicators"
+              role="button"
+              data-bs-slide="next"
+            >
+              <span
+                className="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span className="sr-only">Next</span>
+            </a>
           </div>
         </div>
       ) : (
