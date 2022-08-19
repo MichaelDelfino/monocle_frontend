@@ -504,17 +504,23 @@ export default function RunList() {
         </div>
       </div>
       <div className="list-content" id="list-content">
-        <div className="table-responsive run-list-table" id="table-responsive">
-          <table className="table table-hover">
-            <thead>
-              <tr className="table-headers">
-                <th scope="col">Tracking</th>
-                <th scope="col">Part Type</th>
-                <th scope="col">Date</th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
+        <div
+          className="table-responsive run-list-table flip-wrapper"
+          id="table-responsive"
+        >
+          <div className="flip-inner">
+            <table className="table table-hover flip-front">
+              <thead>
+                <tr className="table-headers">
+                  <th scope="col">Tracking</th>
+                  <th scope="col">Part Type</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+            {/* <div className="flip-back"> backside</div> */}
+          </div>
         </div>
 
         {partData.selectedPart.length ? (

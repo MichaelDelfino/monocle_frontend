@@ -57,7 +57,7 @@
 }
 
 body {
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 li {
@@ -101,7 +101,7 @@ form,
   transition: 500ms;
   animation: growStrip 0.5s ease-in forwards;
   width: 0%;
-  height: 10px;
+  height: 4px;
   background-color: #2761cc;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
 }
@@ -142,6 +142,26 @@ form,
   letter-spacing: 0.12em; /* Adjust as needed */
   /* animation: typing-machine 0.9s steps(15, end) forwards,
     blink-caret 0.75s step-end infinite; */
+}
+
+.home-display {
+  display: flex;
+  flex-direction: column;
+}
+@media (-webkit-device-pixel-ratio: 1.25) {
+  .home-display-inner {
+    margin-top: 50px;
+    height: 75%;
+  }
+}
+@media (-webkit-device-pixel-ratio: 1) {
+  .home-display-inner {
+    margin-top: 69px;
+    height: 75%;
+  }
+}
+.home-jumbo {
+  height: 100%;
 }
 
 .PartDisplay,
@@ -233,6 +253,32 @@ form,
   align-items: center;
   margin-top: 30px;
   gap: 30px;
+}
+@media (-webkit-device-pixel-ratio: 1) {
+  .linegraph-and-buttons {
+    height: 100%;
+    width: 90%;
+    padding-left: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 30px;
+  }
+}
+@media (-webkit-device-pixel-ratio: 1) {
+  .linegraph-and-buttons {
+    height: 90%;
+    width: 90%;
+    padding-left: 175px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 30px;
+  }
 }
 
 .line-metric-selector {
@@ -627,6 +673,20 @@ tbody {
     margin-top: 15px;
     width: 32%;
   }
+  /* run list scroll bar styles */
+  .table-responsive::-webkit-scrollbar {
+    width: 16px;
+  }
+  .table-responsive::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+  }
+  .table-responsive::-webkit-scrollbar-thumb {
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-color: grey;
+    background-clip: content-box;
+  }
   .run-list-charts {
     height: 100%;
     width: 60%;
@@ -634,6 +694,20 @@ tbody {
     align-items: center;
     align-content: center;
     margin-top: 20px;
+  }
+  /* run list charts scrollbar styling */
+  .run-list-charts::-webkit-scrollbar {
+    width: 16px;
+  }
+  .run-list-charts::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+  }
+  .run-list-charts::-webkit-scrollbar-thumb {
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-color: grey;
+    background-clip: content-box;
   }
   .run-line {
     height: 95%;
@@ -650,6 +724,34 @@ tbody {
     margin-left: 33px;
     gap: 27px;
   }
+
+  /* table flip functionality */
+  /* .flip-wrapper {
+    perspective: 1000px;
+    background-color: transparent;
+  }
+  .flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    transition: transform 2s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .flip-wrapper:hover,
+  .flip-inner {
+    transform: rotateY(180deg);
+  }
+  .flip-front,
+  .flip-back {
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flip-back {
+    transform: rotateY(180deg);
+  } */
 }
 
 .list-params {
@@ -674,6 +776,20 @@ tbody {
     margin-top: 15px;
     width: 24.5%;
   }
+  /* run list scroll bar styles */
+  .table-responsive::-webkit-scrollbar {
+    width: 16px;
+  }
+  .table-responsive::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+  }
+  .table-responsive::-webkit-scrollbar-thumb {
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-color: grey;
+    background-clip: content-box;
+  }
   .run-list-charts {
     height: 100%;
     width: 60%;
@@ -682,6 +798,20 @@ tbody {
     align-content: center;
     margin-left: 125px;
     margin-top: 20px;
+  }
+  /* run list charts scrollbar styling */
+  .run-list-charts::-webkit-scrollbar {
+    width: 16px;
+  }
+  .run-list-charts::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+  }
+  .run-list-charts::-webkit-scrollbar-thumb {
+    border: 5px solid transparent;
+    border-radius: 100px;
+    background-color: grey;
+    background-clip: content-box;
   }
   .run-line {
     height: 83%;
@@ -722,4 +852,40 @@ tbody {
 
 .list-display {
   width: 97%;
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+  .part-graphs {
+    height: 100%;
+    width: 85%;
+    margin-left: 101px;
+  }
+}
+@media (-webkit-device-pixel-ratio: 1) {
+  .part-graphs {
+    height: 100%;
+    width: 95%;
+    margin-left: 67px;
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+  .demo-line-inner {
+    height: 50%;
+  }
+  .demo-line {
+    height: 100%;
+    width: 100%;
+    margin-top: -101px;
+  }
+}
+@media (-webkit-device-pixel-ratio: 1) {
+  .demo-line-inner {
+    height: 60%;
+  }
+  .demo-line {
+    height: 100%;
+    width: 100%;
+    margin-top: -128px;
+  }
 }

@@ -19,10 +19,11 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
 
   const toggleSelected = e => {
     for (const li of e.target.parentNode.parentNode.childNodes) {
-      console.log(li.firstChild.classList);
-      li.firstChild.classList.remove("link-dark");
+      if (!li.firstChild.classList.contains("link-dark")) {
+        li.firstChild.classList.add("link-dark");
+      }
     }
-    e.target.classList.toggle("link-dark");
+    e.target.classList.remove("link-dark");
   };
 
   return (
@@ -75,9 +76,13 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
                       href="#"
                       className="nav-link"
                       aria-current="page"
+                      data-bs-dismiss="offcanvas"
                       onMouseEnter={toggleHighlight}
                       onMouseLeave={toggleHighlight}
-                      onClick={sectionHandler.bind(null, "home")}
+                      onClick={e => {
+                        sectionHandler("home");
+                        toggleSelected(e);
+                      }}
                     >
                       Home
                     </a>
@@ -86,9 +91,28 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
                     <a
                       href="#"
                       className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
                       onMouseEnter={toggleHighlight}
                       onMouseLeave={toggleHighlight}
-                      onClick={sectionHandler.bind(null, "overview")}
+                      onClick={e => {
+                        sectionHandler("list");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Run List
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
+                        sectionHandler("overview");
+                        toggleSelected(e);
+                      }}
                     >
                       Overview
                     </a>
@@ -97,9 +121,13 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
                     <a
                       href="#"
                       className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
                       onMouseEnter={toggleHighlight}
                       onMouseLeave={toggleHighlight}
-                      onClick={sectionHandler.bind(null, "mach")}
+                      onClick={e => {
+                        sectionHandler("mach");
+                        toggleSelected(e);
+                      }}
                     >
                       Machine Display
                     </a>
@@ -108,22 +136,15 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
                     <a
                       href="#"
                       className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
                       onMouseEnter={toggleHighlight}
                       onMouseLeave={toggleHighlight}
-                      onClick={sectionHandler.bind(null, "part")}
+                      onClick={e => {
+                        sectionHandler("part");
+                        toggleSelected(e);
+                      }}
                     >
                       Part Display
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="nav-link link-dark"
-                      onMouseEnter={toggleHighlight}
-                      onMouseLeave={toggleHighlight}
-                      onClick={sectionHandler.bind(null, "list")}
-                    >
-                      Run List
                     </a>
                   </li>
                 </ul>

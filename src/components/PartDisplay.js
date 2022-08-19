@@ -547,8 +547,8 @@ export default function PartDisplay(props) {
             <div
               id="carouselExampleIndicators"
               className="carousel slide"
-              data-ride="false"
-              data-interval="false"
+              data-bs-ride="false"
+              data-bs-interval="false"
             >
               <div className="carousel-inner">
                 <div className="carousel-item active">
@@ -641,9 +641,9 @@ export default function PartDisplay(props) {
             </div>
             <a
               className="carousel-control carousel-control-prev"
-              href="#carouselExampleIndicators"
+              data-bs-target="#carouselExampleIndicators"
               role="button"
-              data-slide="prev"
+              data-bs-slide="prev"
             >
               <span
                 className="carousel-control-prev-icon"
@@ -653,9 +653,9 @@ export default function PartDisplay(props) {
             </a>
             <a
               className="carousel-control carousel-control-next"
-              href="#carouselExampleIndicators"
+              data-bs-target="#carouselExampleIndicators"
               role="button"
-              data-slide="next"
+              data-bs-slide="next"
             >
               <span
                 className="carousel-control-next-icon"
