@@ -5,7 +5,10 @@ import React, { useEffect, useState } from "react";
 Chart.register(...registerables);
 
 export const DemoLine = () => {
-  const [graphData, setGraphData] = useState(null);
+  const [graphData, setGraphData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
   useEffect(() => {
     const getDemoData = () => {
