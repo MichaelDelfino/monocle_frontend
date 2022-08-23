@@ -110,6 +110,21 @@ export const SearchBar = ({ searchHandler, sectionHandler }) => {
                       onMouseEnter={toggleHighlight}
                       onMouseLeave={toggleHighlight}
                       onClick={e => {
+                        sectionHandler("list-sum");
+                        toggleSelected(e);
+                      }}
+                    >
+                      Summit List
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link link-dark"
+                      data-bs-dismiss="offcanvas"
+                      onMouseEnter={toggleHighlight}
+                      onMouseLeave={toggleHighlight}
+                      onClick={e => {
                         sectionHandler("overview");
                         toggleSelected(e);
                       }}

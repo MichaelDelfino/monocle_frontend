@@ -5,6 +5,7 @@ import PartDisplay from "./components/PartDisplay";
 import MachineDisplay from "./components/MachineDisplay";
 import Overview from "./components/Overview";
 import RunList from "./components/RunList";
+import SummitList from "./components/SummitList";
 
 export default function App() {
   const [pageData, setPageData] = useState({
@@ -35,6 +36,13 @@ export default function App() {
       listDisplay.style.height = "100%";
     } else {
       const listDisplay = document.querySelector(".list-display");
+      listDisplay.style.height = null;
+    }
+    if (pageData.section === "list-sum") {
+      const listDisplay = document.querySelector(".list-display-sum");
+      listDisplay.style.height = "100%";
+    } else {
+      const listDisplay = document.querySelector(".list-display-sum");
       listDisplay.style.height = null;
     }
   }, [pageData.section]);
@@ -84,7 +92,7 @@ export default function App() {
           sectionHandler={updateSection}
         />
       </div>
-      <div className="blue-strip"></div>
+      <div id="blue-strip" className="blue-strip"></div>
       <div className="content">
         {/* <div className="side-bar">
           <SideBar sectionHandler={updateSection} />
@@ -100,7 +108,7 @@ export default function App() {
               ) : (
                 <div></div>
               )}
-            </div>
+            </div>{" "}
             <div className="list-display">
               {pageData.section === "list" ? (
                 <RunList
@@ -113,6 +121,9 @@ export default function App() {
               ) : (
                 <div></div>
               )}
+            </div>{" "}
+            <div className="list-display-sum">
+              {pageData.section === "list-sum" ? <SummitList /> : <div></div>}
             </div>
             <div className="mach-display">
               {pageData.section === "mach" ? (
@@ -128,7 +139,6 @@ export default function App() {
                 <div></div>
               )}
             </div>
-
             <div className="overview-display">
               {pageData.section === "overview" ? (
                 <Overview

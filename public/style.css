@@ -57,7 +57,7 @@
 }
 
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 li {
@@ -664,7 +664,7 @@ tbody {
   .list-content {
     display: flex;
     flex-direction: row;
-    height: 61.5%;
+    height: 62.5%;
     gap: 100px;
   }
   #table-responsive,
@@ -850,7 +850,8 @@ tbody {
   fill: #2761cc;
 }
 
-.list-display {
+.list-display,
+.list-display-sum {
   width: 97%;
 }
 
