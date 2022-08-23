@@ -430,12 +430,17 @@ export default function SummitList() {
     if (!e.target.value.length) {
       const date = new Date(1982, 4, 1).valueOf();
       setPartData(prevState => {
-        return { ...prevState, selectedPart: "", startDate: date };
+        return { ...prevState, selectedPart: "", startDate: date, machine: "" };
       });
     } else {
       const date = e.target.value;
       setPartData(prevState => {
-        return { ...prevState, startDate: Date.parse(date) };
+        return {
+          ...prevState,
+          selectedPart: "",
+          startDate: Date.parse(date),
+          machine: "",
+        };
       });
     }
   };
