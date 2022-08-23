@@ -40,9 +40,43 @@ export default function SummitList() {
           }
         });
     };
+    const refreshTopPart = async () => {
+      fetch(
+        `https://salty-inlet-93542.herokuapp.com/parts/?summit=${
+          partData.summit
+        }&timestamp=${new Date().valueOf()}&flag=list-sum`,
+        {
+          signal: abortController.signal,
+        }
+      )
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setPartData(prevState => {
+            return {
+              ...prevState,
+              parts: data,
+            };
+          });
+
+          // Populate table with only first part of fetch results,
+          // Should limit at server level only fetching most recent part
+          populateFirstRow(data);
+        })
+        .catch(error => {
+          if (error.name === "AbortError") {
+            console.log(error);
+          }
+        });
+    };
     getParts();
+    const refreshTimeout = setInterval(() => {
+      refreshTopPart();
+    }, 10000);
 
     return () => {
+      clearInterval(refreshTimeout);
       abortController.abort();
     };
   }, [partData.summit, partData.startDate]);
@@ -113,8 +147,6 @@ export default function SummitList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
-    console.log(parts);
-
     for (const part of parts) {
       // fetch tolerances before anything
       const defFile = "./config/partDefinitions.json";
@@ -191,6 +223,108 @@ export default function SummitList() {
       newRow.appendChild(newPartType);
       newRow.appendChild(newDate);
       table.appendChild(newRow);
+
+      // add onClick functionality
+      newRow.onclick = () => {
+        let rowTracking = newRow.firstChild.textContent;
+        setPartData(prevState => {
+          return {
+            ...prevState,
+            selectedPart: rowTracking,
+            machine: part.machine,
+          };
+        });
+      };
+    }
+  };
+
+  // Function that says for each part in data, create a <tr> inside <tbody>
+  const populateFirstRow = async parts => {
+    const part = parts[0];
+
+    // fetch tolerances before anything
+    const defFile = "./config/partDefinitions.json";
+    let tolerances = {};
+    let isAngleHole = false;
+
+    const response = await fetch(defFile);
+    const partDef = await response.json();
+
+    for (const def of partDef) {
+      if (String(def.partType).trim() === String(part.parttype).trim()) {
+        tolerances = def.tolerances;
+        isAngleHole = def.textFileSpecs.isAngleHole;
+      }
+    }
+
+    // assemble html elements
+    // get table parent to append children to
+    const table = document.querySelector("#table-body");
+    // create new row and data elements
+    const newRow = document.createElement("tr");
+    const newTracking = document.createElement("td");
+    const newPartType = document.createElement("td");
+    const newDate = document.createElement("td");
+
+    const [date, time] = getFormattedDateStringFromUnix(
+      parseInt(part.timestamp)
+    );
+
+    // set fail boolean
+    let fail = false;
+    let warn = false;
+    // get out of tolerance metrics for each hole
+    const [outTol, warnTol] = getOutTol(
+      tolerances,
+      part.csidedata,
+      part.asidedata,
+      part.parttype
+    );
+    // if there is a metric out of tol, fail = true
+    Object.values(outTol).forEach(arr => {
+      if (arr.length) {
+        fail = true;
+      }
+    });
+    // if there is a warning tolerance flag
+    Object.values(warnTol).forEach(arr => {
+      if (arr.length) {
+        warn = true;
+      }
+    });
+
+    // Get green/red color depending on fail status
+    if (fail) {
+      newRow.style.backgroundColor = "rgb(235, 14, 14, .2)";
+      newRow.style.borderColor = "rgb(235, 14, 14, 1)";
+    } else if (warn) {
+      newRow.style.backgroundColor = "rgb(252, 186, 3, .2)";
+      newRow.style.borderColor = "rgb(252, 186, 3, 1)";
+    } else {
+      newRow.style.backgroundColor = "rgb(7, 237, 30, .2)";
+      newRow.style.borderColor = "rgb(7, 237, 30, 1)";
+    }
+
+    // give new row some values and styling
+    newRow.style.width = "100%";
+    newRow.style.cursor = "pointer";
+    newTracking.textContent = part.tracking;
+    newPartType.textContent = part.parttype;
+    newDate.textContent = date + " " + time;
+
+    // if data is the same, eg: if no new part has crossed summit
+    // then break out and dont update table
+    // can probably just check date since that should never be the same
+    if (table.firstChild.lastChild.textContent == newDate.textContent) {
+      return;
+    } else {
+      // append data to new row and then append to parent table
+      newRow.appendChild(newTracking);
+      newRow.appendChild(newPartType);
+      newRow.appendChild(newDate);
+
+      // append new row to top of table
+      table.insertBefore(newRow, table.firstChild);
 
       // add onClick functionality
       newRow.onclick = () => {
@@ -426,7 +560,6 @@ export default function SummitList() {
   };
 
   const setStartDate = e => {
-    console.log(e.target.value);
     if (!e.target.value.length) {
       const date = new Date(1982, 4, 1).valueOf();
       setPartData(prevState => {
@@ -555,11 +688,6 @@ export default function SummitList() {
                   <option value="drill">Drill Order</option>
                 </select>
               </div>
-              {console.log(
-                partData.parts.filter(obj => {
-                  return obj.tracking === partData.selectedPart;
-                })[0]
-              )}
               <LineGraph
                 className="line-graph"
                 partData={
