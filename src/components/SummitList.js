@@ -8,6 +8,7 @@ export default function SummitList() {
     summit: "Summit_1",
     startDate: new Date().valueOf(),
     selectedPart: "",
+    machine: "",
     metric: "diameter",
     order: "insp",
     measureMode: false,
@@ -101,7 +102,12 @@ export default function SummitList() {
 
   const setSummit = e => {
     setPartData(prevState => {
-      return { ...prevState, selectedPart: "", summit: e.target.value };
+      return {
+        ...prevState,
+        selectedPart: "",
+        machine: "",
+        summit: e.target.value,
+      };
     });
   };
 
@@ -190,7 +196,11 @@ export default function SummitList() {
       newRow.onclick = () => {
         let rowTracking = newRow.firstChild.textContent;
         setPartData(prevState => {
-          return { ...prevState, selectedPart: rowTracking };
+          return {
+            ...prevState,
+            selectedPart: rowTracking,
+            machine: part.machine,
+          };
         });
       };
     }
@@ -446,8 +456,18 @@ export default function SummitList() {
         <div className="machine-info">
           <p className="display-4 lead">
             {summitStringParse(partData.summit)}
-            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            {partData.selectedPart ? (
+              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            ) : (
+              <p></p>
+            )}
             {partData.selectedPart}
+            {partData.machine ? (
+              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            ) : (
+              <p></p>
+            )}
+            {partData.machine}
           </p>
         </div>
       </div>
