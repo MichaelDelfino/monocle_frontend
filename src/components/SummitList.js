@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { LineGraph } from "./LineGraph";
-import { ScatterPlot } from "./ScatterPlot";
+import React, { useState, useEffect } from 'react';
+import { LineGraph } from './LineGraph';
+import { ScatterPlot } from './ScatterPlot';
 
 export default function SummitList() {
   // Hardcoded values for testing purposes only
   const [partData, setPartData] = useState({
-    summit: "Summit_1",
+    summit: 'Summit_1',
     startDate: new Date().valueOf(),
-    selectedPart: "",
-    machine: "",
-    metric: "diameter",
-    order: "insp",
+    selectedPart: '',
+    machine: '',
+    metric: 'diameter',
+    order: 'insp',
     measureMode: false,
   });
 
@@ -35,7 +35,7 @@ export default function SummitList() {
           populateTableData(data);
         })
         .catch(error => {
-          if (error.name === "AbortError") {
+          if (error.name === 'AbortError') {
             console.log(error);
           }
         });
@@ -65,7 +65,7 @@ export default function SummitList() {
           populateFirstRow(data);
         })
         .catch(error => {
-          if (error.name === "AbortError") {
+          if (error.name === 'AbortError') {
             console.log(error);
           }
         });
@@ -84,15 +84,15 @@ export default function SummitList() {
   const getFormattedDateStringFromUnix = date => {
     // resulting format:
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "2-digit",
-      year: "numeric",
+    const stringDate = origDate.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: '2-digit',
+      year: 'numeric',
     });
-    const stringTime = origDate.toLocaleTimeString("en-US", {
+    const stringTime = origDate.toLocaleTimeString('en-US', {
       hour12: true,
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
     });
     return [stringDate, stringTime];
   };
@@ -100,22 +100,22 @@ export default function SummitList() {
   const getFormattedDateStringFromUnixForSelector = date => {
     // resulting format: 2022-05-23T16:46
     const origDate = new Date(date);
-    const stringDate = origDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
+    const stringDate = origDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
     const stringTime = origDate
-      .toLocaleTimeString("en-US", {
+      .toLocaleTimeString('en-US', {
         hour12: false,
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
       })
-      .replace("AM", "")
-      .replace("PM", "")
+      .replace('AM', '')
+      .replace('PM', '')
       .trim();
-    const splitDate = stringDate.split("/");
-    const splitTime = stringTime.split(":");
+    const splitDate = stringDate.split('/');
+    const splitTime = stringTime.split(':');
     const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}T${splitTime[0]}:${splitTime[1]}`;
     return formattedDate;
   };
@@ -138,8 +138,8 @@ export default function SummitList() {
     setPartData(prevState => {
       return {
         ...prevState,
-        selectedPart: "",
-        machine: "",
+        selectedPart: '',
+        machine: '',
         summit: e.target.value,
       };
     });
@@ -149,7 +149,7 @@ export default function SummitList() {
   const populateTableData = async parts => {
     for (const part of parts) {
       // fetch tolerances before anything
-      const defFile = "./config/partDefinitions.json";
+      const defFile = './config/partDefinitions.json';
       let tolerances = {};
       let isAngleHole = false;
 
@@ -165,12 +165,12 @@ export default function SummitList() {
 
       // assemble html elements
       // get table parent to append children to
-      const table = document.querySelector("#table-body");
+      const table = document.querySelector('#table-body');
       // create new row and data elements
-      const newRow = document.createElement("tr");
-      const newTracking = document.createElement("td");
-      const newPartType = document.createElement("td");
-      const newDate = document.createElement("td");
+      const newRow = document.createElement('tr');
+      const newTracking = document.createElement('td');
+      const newPartType = document.createElement('td');
+      const newDate = document.createElement('td');
 
       const [date, time] = getFormattedDateStringFromUnix(
         parseInt(part.timestamp)
@@ -201,22 +201,22 @@ export default function SummitList() {
 
       // Get green/red color depending on fail status
       if (fail) {
-        newRow.style.backgroundColor = "rgb(235, 14, 14, .2)";
-        newRow.style.borderColor = "rgb(235, 14, 14, 1)";
+        newRow.style.backgroundColor = 'rgb(235, 14, 14, .2)';
+        newRow.style.borderColor = 'rgb(235, 14, 14, 1)';
       } else if (warn) {
-        newRow.style.backgroundColor = "rgb(252, 186, 3, .2)";
-        newRow.style.borderColor = "rgb(252, 186, 3, 1)";
+        newRow.style.backgroundColor = 'rgb(252, 186, 3, .2)';
+        newRow.style.borderColor = 'rgb(252, 186, 3, 1)';
       } else {
-        newRow.style.backgroundColor = "rgb(7, 237, 30, .2)";
-        newRow.style.borderColor = "rgb(7, 237, 30, 1)";
+        newRow.style.backgroundColor = 'rgb(7, 237, 30, .2)';
+        newRow.style.borderColor = 'rgb(7, 237, 30, 1)';
       }
 
       // give new row some values and styling
-      newRow.style.width = "100%";
-      newRow.style.cursor = "pointer";
+      newRow.style.width = '100%';
+      newRow.style.cursor = 'pointer';
       newTracking.textContent = part.tracking;
       newPartType.textContent = part.parttype;
-      newDate.textContent = date + " " + time;
+      newDate.textContent = date + ' ' + time;
 
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
@@ -243,7 +243,7 @@ export default function SummitList() {
     const part = parts[0];
 
     // fetch tolerances before anything
-    const defFile = "./config/partDefinitions.json";
+    const defFile = './config/partDefinitions.json';
     let tolerances = {};
     let isAngleHole = false;
 
@@ -259,12 +259,12 @@ export default function SummitList() {
 
     // assemble html elements
     // get table parent to append children to
-    const table = document.querySelector("#table-body");
+    const table = document.querySelector('#table-body');
     // create new row and data elements
-    const newRow = document.createElement("tr");
-    const newTracking = document.createElement("td");
-    const newPartType = document.createElement("td");
-    const newDate = document.createElement("td");
+    const newRow = document.createElement('tr');
+    const newTracking = document.createElement('td');
+    const newPartType = document.createElement('td');
+    const newDate = document.createElement('td');
 
     const [date, time] = getFormattedDateStringFromUnix(
       parseInt(part.timestamp)
@@ -295,22 +295,22 @@ export default function SummitList() {
 
     // Get green/red color depending on fail status
     if (fail) {
-      newRow.style.backgroundColor = "rgb(235, 14, 14, .2)";
-      newRow.style.borderColor = "rgb(235, 14, 14, 1)";
+      newRow.style.backgroundColor = 'rgb(235, 14, 14, .2)';
+      newRow.style.borderColor = 'rgb(235, 14, 14, 1)';
     } else if (warn) {
-      newRow.style.backgroundColor = "rgb(252, 186, 3, .2)";
-      newRow.style.borderColor = "rgb(252, 186, 3, 1)";
+      newRow.style.backgroundColor = 'rgb(252, 186, 3, .2)';
+      newRow.style.borderColor = 'rgb(252, 186, 3, 1)';
     } else {
-      newRow.style.backgroundColor = "rgb(7, 237, 30, .2)";
-      newRow.style.borderColor = "rgb(7, 237, 30, 1)";
+      newRow.style.backgroundColor = 'rgb(7, 237, 30, .2)';
+      newRow.style.borderColor = 'rgb(7, 237, 30, 1)';
     }
 
     // give new row some values and styling
-    newRow.style.width = "100%";
-    newRow.style.cursor = "pointer";
+    newRow.style.width = '100%';
+    newRow.style.cursor = 'pointer';
     newTracking.textContent = part.tracking;
     newPartType.textContent = part.parttype;
-    newDate.textContent = date + " " + time;
+    newDate.textContent = date + ' ' + time;
 
     // if data is the same, eg: if no new part has crossed summit
     // then break out and dont update table
@@ -342,7 +342,7 @@ export default function SummitList() {
   };
 
   const resetTableData = () => {
-    const table = document.querySelector("#table-body");
+    const table = document.querySelector('#table-body');
     while (table.firstChild) {
       table.removeChild(table.firstChild);
     }
@@ -353,10 +353,10 @@ export default function SummitList() {
     if (partData.measureMode === false) {
       setTheta(null);
       newMode = true;
-      console.log("measuring...choose two points");
+      console.log('measuring...choose two points');
     } else {
       setTheta(null);
-      console.log("measuring off...");
+      console.log('measuring off...');
     }
     setPartData(prevState => {
       return { ...prevState, measureMode: newMode };
@@ -370,36 +370,36 @@ export default function SummitList() {
   };
 
   const getPartColor = data => {
-    let borderColor = "";
-    let backgroundColor = "";
+    let borderColor = '';
+    let backgroundColor = '';
 
-    if (String(data.parttype).trim() === "369P-01") {
-      borderColor = "rgb(252, 186, 3, 1)";
-      backgroundColor = "rgb(252, 186, 3, .2)";
-    } else if (String(data.parttype).trim() === "1789P-01") {
-      borderColor = "rgb(2, 117, 216, 1)";
-      backgroundColor = "rgb(2, 117, 216, .2)";
-    } else if (String(data.parttype).trim() === "2078P-01") {
-      borderColor = "rgb(92, 184, 92, 1)";
-      backgroundColor = "rgb(92, 184, 92, .2)";
-    } else if (String(data.parttype).trim() === "1534P-01") {
-      borderColor = "rgb(219, 112, 4, 1)";
-      backgroundColor = "rgb(219, 112, 4, .2)";
-    } else if (String(data.parttype).trim() === "1557P-01") {
-      borderColor = "rgb(68, 242, 207, 1)";
-      backgroundColor = "rgb(68, 242, 207, .2)";
-    } else if (String(data.parttype).trim() === "2129P-01") {
-      borderColor = "rgb(252, 3, 102, 1)";
-      backgroundColor = "rgb(252, 3, 102, .2)";
-    } else if (String(data.parttype).trim() === "2129P-02") {
-      borderColor = "rgb(175, 104, 252, 1)";
-      backgroundColor = "rgb(175, 104, 252, .2)";
-    } else if (String(data.parttype).trim() === "2129P-03") {
-      borderColor = "rgb(1, 0, 3, 1)";
-      backgroundColor = "rgb(1, 0, 3, .2)";
-    } else if (String(data.parttype).trim() === "1565P-01") {
-      borderColor = "rgb(171, 194, 21, 1)";
-      backgroundColor = "rgb(171, 194, 21, .2)";
+    if (String(data.parttype).trim() === '369P-01') {
+      borderColor = 'rgb(252, 186, 3, 1)';
+      backgroundColor = 'rgb(252, 186, 3, .2)';
+    } else if (String(data.parttype).trim() === '1789P-01') {
+      borderColor = 'rgb(2, 117, 216, 1)';
+      backgroundColor = 'rgb(2, 117, 216, .2)';
+    } else if (String(data.parttype).trim() === '2078P-01') {
+      borderColor = 'rgb(92, 184, 92, 1)';
+      backgroundColor = 'rgb(92, 184, 92, .2)';
+    } else if (String(data.parttype).trim() === '1534P-01') {
+      borderColor = 'rgb(219, 112, 4, 1)';
+      backgroundColor = 'rgb(219, 112, 4, .2)';
+    } else if (String(data.parttype).trim() === '1557P-01') {
+      borderColor = 'rgb(68, 242, 207, 1)';
+      backgroundColor = 'rgb(68, 242, 207, .2)';
+    } else if (String(data.parttype).trim() === '2129P-01') {
+      borderColor = 'rgb(252, 3, 102, 1)';
+      backgroundColor = 'rgb(252, 3, 102, .2)';
+    } else if (String(data.parttype).trim() === '2129P-02') {
+      borderColor = 'rgb(175, 104, 252, 1)';
+      backgroundColor = 'rgb(175, 104, 252, .2)';
+    } else if (String(data.parttype).trim() === '2129P-03') {
+      borderColor = 'rgb(1, 0, 3, 1)';
+      backgroundColor = 'rgb(1, 0, 3, .2)';
+    } else if (String(data.parttype).trim() === '1565P-01') {
+      borderColor = 'rgb(171, 194, 21, 1)';
+      backgroundColor = 'rgb(171, 194, 21, .2)';
     }
 
     return [borderColor, backgroundColor];
@@ -422,50 +422,50 @@ export default function SummitList() {
       // fix for angle hole scatter tols
       // TODO - better to use angle hole start/end and isAngleHole instead
       if (
-        (parttype === "1787P-01" && count < 35) ||
-        (parttype === "1565P-01" && count > 587) ||
-        (parttype === "109" && count > 196)
+        (parttype === '1787P-01' && count < 35) ||
+        (parttype === '1565P-01' && count > 587) ||
+        (parttype === '109' && count > 196)
       ) {
         if (Object.keys(tolerances).length) {
           if (
             cDia >
-              tolerances["c-side"]["angled_diaNom"] +
-                tolerances["c-side"]["angled_diaPlus"] ||
+              tolerances['c-side']['angled_diaNom'] +
+                tolerances['c-side']['angled_diaPlus'] ||
             cDia <
-              tolerances["c-side"]["angled_diaNom"] -
-                tolerances["c-side"]["angled_diaMin"]
+              tolerances['c-side']['angled_diaNom'] -
+                tolerances['c-side']['angled_diaMin']
           ) {
-            holeFails.push("cDia");
+            holeFails.push('cDia');
           }
           if (
             aDia >
-              tolerances["a-side"]["angled_diaNom"] +
-                tolerances["a-side"]["angled_diaPlus"] ||
+              tolerances['a-side']['angled_diaNom'] +
+                tolerances['a-side']['angled_diaPlus'] ||
             aDia <
-              tolerances["a-side"]["angled_diaNom"] -
-                tolerances["a-side"]["angled_diaMin"]
+              tolerances['a-side']['angled_diaNom'] -
+                tolerances['a-side']['angled_diaMin']
           ) {
-            holeFails.push("aDia");
+            holeFails.push('aDia');
           }
           if (
             cPos >
-              tolerances["c-side"]["angled_posNom"] +
-                tolerances["c-side"]["angled_posPlus"] ||
+              tolerances['c-side']['angled_posNom'] +
+                tolerances['c-side']['angled_posPlus'] ||
             cPos <
-              tolerances["c-side"]["angled_posNom"] -
-                tolerances["c-side"]["angled_posMin"]
+              tolerances['c-side']['angled_posNom'] -
+                tolerances['c-side']['angled_posMin']
           ) {
-            holeFails.push("cPos");
+            holeFails.push('cPos');
           }
           if (
             aPos >
-              tolerances["a-side"]["angled_posNom"] +
-                tolerances["a-side"]["angled_posPlus"] ||
+              tolerances['a-side']['angled_posNom'] +
+                tolerances['a-side']['angled_posPlus'] ||
             aPos <
-              tolerances["a-side"]["angled_posNom"] -
-                tolerances["a-side"]["angled_posMin"]
+              tolerances['a-side']['angled_posNom'] -
+                tolerances['a-side']['angled_posMin']
           ) {
-            holeFails.push("aPos");
+            holeFails.push('aPos');
           }
         }
         // Straight hole tolerance cases
@@ -473,83 +473,83 @@ export default function SummitList() {
         if (Object.keys(tolerances).length) {
           if (
             cDia >
-              tolerances["c-side"]["diaNom"] +
-                tolerances["c-side"]["diaPlus"] ||
+              tolerances['c-side']['diaNom'] +
+                tolerances['c-side']['diaPlus'] ||
             cDia <
-              tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"]
+              tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin']
           ) {
-            holeFails.push("cDia");
+            holeFails.push('cDia');
           }
           if (
             cDia >
-              tolerances["c-side"]["diaNom"] - tolerances["c-side"]["diaMin"] &&
-            cDia < tolerances["c-side"]["diaMin_warn"]
+              tolerances['c-side']['diaNom'] - tolerances['c-side']['diaMin'] &&
+            cDia < tolerances['c-side']['diaMin_warn']
           ) {
-            holeWarn.push("cDia");
+            holeWarn.push('cDia');
           }
           if (
             cDia <
-              tolerances["c-side"]["diaNom"] +
-                tolerances["c-side"]["diaPlus"] &&
-            cDia > tolerances["c-side"]["diaMax_warn"]
+              tolerances['c-side']['diaNom'] +
+                tolerances['c-side']['diaPlus'] &&
+            cDia > tolerances['c-side']['diaMax_warn']
           ) {
-            holeWarn.push("cDia");
+            holeWarn.push('cDia');
           }
           if (
             aDia >
-              tolerances["a-side"]["diaNom"] +
-                tolerances["a-side"]["diaPlus"] ||
+              tolerances['a-side']['diaNom'] +
+                tolerances['a-side']['diaPlus'] ||
             aDia <
-              tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"]
+              tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin']
           ) {
-            holeFails.push("aDia");
+            holeFails.push('aDia');
           }
           if (
             aDia >
-              tolerances["a-side"]["diaNom"] - tolerances["a-side"]["diaMin"] &&
-            aDia < tolerances["a-side"]["diaMin_warn"]
+              tolerances['a-side']['diaNom'] - tolerances['a-side']['diaMin'] &&
+            aDia < tolerances['a-side']['diaMin_warn']
           ) {
-            holeWarn.push("aDia");
+            holeWarn.push('aDia');
           }
           if (
             aDia <
-              tolerances["a-side"]["diaNom"] +
-                tolerances["a-side"]["diaPlus"] &&
-            aDia > tolerances["a-side"]["diaMax_warn"]
+              tolerances['a-side']['diaNom'] +
+                tolerances['a-side']['diaPlus'] &&
+            aDia > tolerances['a-side']['diaMax_warn']
           ) {
-            holeWarn.push("aDia");
+            holeWarn.push('aDia');
           }
           if (
             cPos >
-              tolerances["c-side"]["posNom"] +
-                tolerances["c-side"]["posPlus"] ||
+              tolerances['c-side']['posNom'] +
+                tolerances['c-side']['posPlus'] ||
             cPos <
-              tolerances["c-side"]["posNom"] - tolerances["c-side"]["posMin"]
+              tolerances['c-side']['posNom'] - tolerances['c-side']['posMin']
           ) {
-            holeFails.push("cPos");
+            holeFails.push('cPos');
           }
           if (
-            cPos > tolerances["c-side"]["pos_warn"] &&
+            cPos > tolerances['c-side']['pos_warn'] &&
             cPos <
-              tolerances["c-side"]["posNom"] + tolerances["c-side"]["posPlus"]
+              tolerances['c-side']['posNom'] + tolerances['c-side']['posPlus']
           ) {
-            holeWarn.push("cPos");
+            holeWarn.push('cPos');
           }
           if (
             aPos >
-              tolerances["a-side"]["posNom"] +
-                tolerances["a-side"]["posPlus"] ||
+              tolerances['a-side']['posNom'] +
+                tolerances['a-side']['posPlus'] ||
             aPos <
-              tolerances["a-side"]["posNom"] - tolerances["a-side"]["posMin"]
+              tolerances['a-side']['posNom'] - tolerances['a-side']['posMin']
           ) {
-            holeFails.push("aPos");
+            holeFails.push('aPos');
           }
           if (
-            aPos > tolerances["a-side"]["pos_warn"] &&
+            aPos > tolerances['a-side']['pos_warn'] &&
             aPos <
-              tolerances["a-side"]["posNom"] + tolerances["a-side"]["posPlus"]
+              tolerances['a-side']['posNom'] + tolerances['a-side']['posPlus']
           ) {
-            holeWarn.push("aPos");
+            holeWarn.push('aPos');
           }
         }
       }
@@ -564,28 +564,28 @@ export default function SummitList() {
     if (!e.target.value.length) {
       const date = new Date(1982, 4, 1).valueOf();
       setPartData(prevState => {
-        return { ...prevState, selectedPart: "", startDate: date, machine: "" };
+        return { ...prevState, selectedPart: '', startDate: date, machine: '' };
       });
     } else {
       const date = e.target.value;
       setPartData(prevState => {
         return {
           ...prevState,
-          selectedPart: "",
+          selectedPart: '',
           startDate: Date.parse(date),
-          machine: "",
+          machine: '',
         };
       });
     }
   };
 
   const summitStringParse = summit => {
-    if (summit === "Summit_1") {
-      return "Summit 1";
-    } else if (summit === "Summit_2") {
-      return "Summit 2";
-    } else if (summit === "Summit_3") {
-      return "Summit 3";
+    if (summit === 'Summit_1') {
+      return 'Summit 1';
+    } else if (summit === 'Summit_2') {
+      return 'Summit 2';
+    } else if (summit === 'Summit_3') {
+      return 'Summit 3';
     }
   };
 
@@ -596,13 +596,13 @@ export default function SummitList() {
           <p className="display-4 lead">
             {summitStringParse(partData.summit)}
             {partData.selectedPart ? (
-              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+              <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
             ) : (
               <p></p>
             )}
             {partData.selectedPart}
             {partData.machine ? (
-              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+              <span style={{ color: 'rgb(39, 97, 204)' }}> &nbsp;| &nbsp;</span>
             ) : (
               <p></p>
             )}
@@ -663,7 +663,7 @@ export default function SummitList() {
         {partData.selectedPart.length ? (
           <div className="run-list-charts">
             <div className="run-line">
-              {" "}
+              {' '}
               <div
                 className="list-linegraph-params linegraph-params"
                 id="list-linegraph-params"
@@ -717,7 +717,7 @@ export default function SummitList() {
           </div>
         ) : (
           <div className="lead graph-placeholder">
-            {" "}
+            {' '}
             Select a part from the table to view
           </div>
         )}
