@@ -325,6 +325,7 @@ export default function SummitList() {
 
       // append new row to top of table
       table.insertBefore(newRow, table.firstChild);
+      table.removeChild(table.lastChild);
 
       // add onClick functionality
       newRow.onclick = () => {
