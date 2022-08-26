@@ -5,32 +5,19 @@ import { ScatterPlot } from "./ScatterPlot";
 export default function RunList() {
   // Hardcoded values for testing purposes only
   const [partData, setPartData] = useState({
-    machine: "WAM 101",
+    machine: "WAM 136",
     startDate: new Date().valueOf(),
     selectedPart: "",
     metric: "diameter",
     order: "insp",
     measureMode: false,
+    summit: "",
   });
 
   useEffect(() => {
     const abortController = new AbortController();
 
     const getParts = async () => {
-      // const defFile = "./config/partDefinitions.json";
-      // let tolerances = {};
-      // let isAngleHole = false;
-
-      // const response = await fetch(defFile);
-      // const partDef = await response.json();
-
-      // for (const part of partDef) {
-      //   if (String(part.partType).trim() === String(currentType).trim()) {
-      //     tolerances = part.tolerances;
-      //     isAngleHole = part.textFileSpecs.isAngleHole;
-      //   }
-      // }
-
       fetch(
         `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&timestamp=${partData.startDate}&flag=list`,
         {
@@ -115,7 +102,13 @@ export default function RunList() {
 
   const setMachine = e => {
     setPartData(prevState => {
-      return { ...prevState, selectedPart: "", machine: e.target.value };
+      return {
+        ...prevState,
+        selectedPart: "",
+        summit: "",
+        metric: "diameter",
+        machine: e.target.value,
+      };
     });
   };
 
@@ -204,7 +197,11 @@ export default function RunList() {
       newRow.onclick = () => {
         let rowTracking = newRow.firstChild.textContent;
         setPartData(prevState => {
-          return { ...prevState, selectedPart: rowTracking };
+          return {
+            ...prevState,
+            selectedPart: rowTracking,
+            summit: part.summit,
+          };
         });
       };
     }
@@ -448,14 +445,34 @@ export default function RunList() {
     }
   };
 
+  const summitStringParse = summit => {
+    if (summit === "Summit_1") {
+      return "Summit 1";
+    } else if (summit === "Summit_2") {
+      return "Summit 2";
+    } else if (summit === "Summit_3") {
+      return "Summit 3";
+    }
+  };
+
   return (
     <div className="run-list-main">
       <div id="machine-title" className="jumbotron machine-jumbotron">
         <div className="machine-info">
           <p className="display-4 lead">
             {partData.machine}
-            <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            {partData.selectedPart ? (
+              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            ) : (
+              <p></p>
+            )}
             {partData.selectedPart}
+            {partData.selectedPart ? (
+              <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
+            ) : (
+              <p></p>
+            )}
+            {summitStringParse(partData.summit)}
           </p>
         </div>
       </div>

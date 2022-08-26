@@ -724,6 +724,11 @@ tbody {
     margin-left: 33px;
     gap: 27px;
   }
+  .table-and-selector {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
   /* table flip functionality */
   /* .flip-wrapper {
