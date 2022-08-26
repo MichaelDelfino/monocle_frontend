@@ -512,6 +512,16 @@ export default function PartDisplay(props) {
     });
   };
 
+  const summitStringParse = summit => {
+    if (summit === "Summit_1") {
+      return "Summit 1";
+    } else if (summit === "Summit_2") {
+      return "Summit 2";
+    } else if (summit === "Summit_3") {
+      return "Summit 3";
+    }
+  };
+
   return (
     <div className="PartDisplay">
       {partData ? (
@@ -544,7 +554,7 @@ export default function PartDisplay(props) {
                 <span style={{ color: "rgb(39, 97, 204)" }}>
                   &nbsp;| &nbsp;
                 </span>
-                {partData.part.summit}
+                {summitStringParse(partData.part.summit)}
               </p>
             </div>
           </div>
