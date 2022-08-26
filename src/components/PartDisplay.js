@@ -540,6 +540,12 @@ export default function PartDisplay(props) {
                 </span>
               </p>
               <p className="display-4 lead">{partData.part.machine} </p>
+              <p className="display-4 lead">
+                <span style={{ color: "rgb(39, 97, 204)" }}>
+                  &nbsp;| &nbsp;
+                </span>
+                {partData.part.summit}
+              </p>
             </div>
           </div>
           <div className="part-stats"></div>
