@@ -659,11 +659,11 @@ export default function SummitList() {
             onChange={setStartDate}
           />
         </div>
-        {partData.selectedPart.length ? (
+        {/* {partData.selectedPart.length ? (
           <button onClick={partDetailsToggle}>details</button>
         ) : (
           <div></div>
-        )}
+        )} */}
       </div>
       <div className="list-content" id="list-content">
         {partData.tableMode === "parts" ? (
