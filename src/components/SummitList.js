@@ -214,19 +214,43 @@ export default function SummitList() {
       // give new row some values and styling
       newRow.style.width = "100%";
       newRow.style.cursor = "pointer";
-      newTracking.textContent = part.tracking;
-      newPartType.textContent = part.parttype;
-      newDate.textContent = date + " " + time;
+      newTracking.style.width = "100%";
+      newTracking.innerHTML =
+        part.tracking +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        part.parttype +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        date +
+        " " +
+        time;
+      // newPartType.textContent = part.parttype;
+      // newDate.textContent = date + " " + time;
 
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
-      newRow.appendChild(newPartType);
-      newRow.appendChild(newDate);
+      // newRow.appendChild(newPartType);
+      // newRow.appendChild(newDate);
       table.appendChild(newRow);
 
       // add onClick functionality
       newRow.onclick = () => {
-        let rowTracking = newRow.firstChild.textContent;
+        let rowTracking = part.tracking;
         setPartData(prevState => {
           return {
             ...prevState,
@@ -306,22 +330,44 @@ export default function SummitList() {
     }
 
     // give new row some values and styling
+    // find better way to space elements maybe?
     newRow.style.width = "100%";
     newRow.style.cursor = "pointer";
-    newTracking.textContent = part.tracking;
-    newPartType.textContent = part.parttype;
-    newDate.textContent = date + " " + time;
+    newTracking.innerHTML =
+      part.tracking +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      part.parttype +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      "&nbsp;" +
+      date +
+      " " +
+      time;
 
     // if data is the same, eg: if no new part has crossed summit
     // then break out and dont update table
     // can probably just check date since that should never be the same
-    if (table.firstChild.lastChild.textContent == newDate.textContent) {
+    if (table.firstChild.firstChild.innerHTML == newTracking.innerHTML) {
       return;
     } else {
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
-      newRow.appendChild(newPartType);
-      newRow.appendChild(newDate);
+      // newRow.appendChild(newPartType);
+      // newRow.appendChild(newDate);
 
       // append new row to top of table
       table.insertBefore(newRow, table.firstChild);
@@ -329,7 +375,7 @@ export default function SummitList() {
 
       // add onClick functionality
       newRow.onclick = () => {
-        let rowTracking = newRow.firstChild.textContent;
+        let rowTracking = part.tracking;
         setPartData(prevState => {
           return {
             ...prevState,

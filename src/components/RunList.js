@@ -179,21 +179,43 @@ export default function RunList() {
       }
 
       // give new row some values and styling
+      // find better way to space elements maybe?
       newRow.style.width = "100%";
       newRow.style.cursor = "pointer";
-      newTracking.textContent = part.tracking;
-      newPartType.textContent = part.parttype;
-      newDate.textContent = date + " " + time;
+      newTracking.innerHTML =
+        part.tracking +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        part.parttype +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        "&nbsp;" +
+        date +
+        " " +
+        time;
 
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
-      newRow.appendChild(newPartType);
-      newRow.appendChild(newDate);
+      // newRow.appendChild(newPartType);
+      // newRow.appendChild(newDate);
       table.appendChild(newRow);
 
       // add onClick functionality
       newRow.onclick = () => {
-        let rowTracking = newRow.firstChild.textContent;
+        let rowTracking = part.tracking;
         setPartData(prevState => {
           return {
             ...prevState,
