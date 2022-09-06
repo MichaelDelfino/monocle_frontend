@@ -182,6 +182,7 @@ export default function RunList() {
       // find better way to space elements maybe?
       newRow.style.width = "100%";
       newRow.style.cursor = "pointer";
+      newTracking.style.width = "100%";
       newTracking.innerHTML =
         part.tracking +
         "&nbsp;" +
