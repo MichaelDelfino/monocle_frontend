@@ -133,7 +133,6 @@ export const LineGraph = ({ partData, metric, order, zoom }) => {
       for (const hole of Object.values(data.csidedata)) {
         positionArray.push(hole.cXY);
       }
-      console.log(positionArray);
       return positionArray;
     } else if (order === "drill") {
       for (const hole of drillOrder) {
@@ -164,7 +163,6 @@ export const LineGraph = ({ partData, metric, order, zoom }) => {
       for (const hole of Object.values(data.asidedata)) {
         positionArray.push(hole.aXY);
       }
-      console.log(positionArray);
       return positionArray;
     } else if (order === "drill") {
       for (const hole of drillOrder) {
@@ -212,7 +210,6 @@ export const LineGraph = ({ partData, metric, order, zoom }) => {
 
   // TODO - refactor repeated code
   const setAnnotations = (tols, metric, isAngleHole, borderColor) => {
-    console.log(tols);
     const annotations = [];
     if (metric === "diameter") {
       annotations.push(

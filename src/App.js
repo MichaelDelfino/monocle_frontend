@@ -58,7 +58,6 @@ export default function App() {
 
   const searchHandler = tracking => {
     if (tracking) {
-      console.log("Searching for...", tracking);
       setPageData(prevState => {
         return {
           ...prevState,
@@ -100,14 +99,12 @@ export default function App() {
         {pageData ? (
           <div className="data-display">
             <div className="home-display">
-              {pageData.section === "home" ? <Home /> : <div></div>}
+              {pageData.section === "home" ? <Home /> : null}
             </div>
             <div className="part-display">
               {pageData.section === "part" ? (
                 <PartDisplay tracking={pageData.tracking} />
-              ) : (
-                <div></div>
-              )}
+              ) : null}
             </div>{" "}
             <div className="list-display">
               {pageData.section === "list" ? (
@@ -118,12 +115,10 @@ export default function App() {
                   metric={pageData.metric}
                   startDate={pageData.startDate}
                 />
-              ) : (
-                <div></div>
-              )}
+              ) : null}
             </div>{" "}
             <div className="list-display-sum">
-              {pageData.section === "list-sum" ? <SummitList /> : <div></div>}
+              {pageData.section === "list-sum" ? <SummitList /> : null}
             </div>
             <div className="mach-display">
               {pageData.section === "mach" ? (
@@ -135,9 +130,7 @@ export default function App() {
                   metric={pageData.metric}
                   startDate={pageData.startDate}
                 />
-              ) : (
-                <div></div>
-              )}
+              ) : null}
             </div>
             <div className="overview-display">
               {pageData.section === "overview" ? (
@@ -145,14 +138,10 @@ export default function App() {
                   machHandler={machHandler}
                   searchHandler={searchHandler}
                 />
-              ) : (
-                <div></div>
-              )}
+              ) : null}
             </div>
           </div>
-        ) : (
-          <div></div>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -114,8 +114,6 @@ export default function RunList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
-    console.log(parts);
-
     for (const part of parts) {
       // fetch tolerances before anything
       const defFile = "./config/partDefinitions.json";
@@ -427,7 +425,6 @@ export default function RunList() {
   };
 
   const setStartDate = e => {
-    console.log(e.target.value);
     if (!e.target.value.length) {
       const date = new Date(1982, 4, 1).valueOf();
       setPartData(prevState => {
@@ -463,15 +460,11 @@ export default function RunList() {
             {partData.machine}
             {partData.selectedPart ? (
               <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            ) : (
-              <p></p>
-            )}
+            ) : null}
             {partData.selectedPart}
             {partData.selectedPart ? (
               <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            ) : (
-              <p></p>
-            )}
+            ) : null}
             {summitStringParse(partData.summit)}
           </p>
         </div>
@@ -573,11 +566,11 @@ export default function RunList() {
                   <option value="drill">Drill Order</option>
                 </select>
               </div>
-              {console.log(
+              {/* {console.log(
                 partData.parts.filter(obj => {
                   return obj.tracking === partData.selectedPart;
                 })[0]
-              )}
+              )} */}
               <LineGraph
                 className="line-graph"
                 partData={

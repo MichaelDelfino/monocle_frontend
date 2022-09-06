@@ -17,7 +17,6 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
     point_2: null,
   });
   useEffect(() => {
-    console.log(partData);
     if (!measureMode) {
       setgraphData(prevState => {
         return { ...prevState, point_1: null, point_2: null };
@@ -527,7 +526,6 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
               },
             }}
           />
-          <small>Algorithm Design: Jacob Johns</small>
         </div>
       ) : (
         <p>no data loaded</p>

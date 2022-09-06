@@ -613,19 +613,15 @@ export default function SummitList() {
     <div className="run-list-main">
       <div id="machine-title" className="jumbotron machine-jumbotron">
         <div className="machine-info">
-          <p className="display-4 lead">
+          <p className="display-4 lead list-title">
             {summitStringParse(partData.summit)}
             {partData.selectedPart ? (
               <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            ) : (
-              <p></p>
-            )}
+            ) : null}
             {partData.selectedPart}
             {partData.machine ? (
               <span style={{ color: "rgb(39, 97, 204)" }}> &nbsp;| &nbsp;</span>
-            ) : (
-              <p></p>
-            )}
+            ) : null}
             {partData.machine}
           </p>
         </div>

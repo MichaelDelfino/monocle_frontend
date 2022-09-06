@@ -23,7 +23,6 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
-    console.log(props.tracking);
     // Set development environments to fetch localhost instead of hosted server
     // let url = "";
     // if (process.env.NODE_ENV === "development") {
@@ -44,7 +43,6 @@ export default function PartDisplay(props) {
         return response.json();
       })
       .then(data => {
-        console.log("...found", data[0]);
         if (data[0] === undefined) {
           setPartData(null);
         } else {
@@ -58,7 +56,6 @@ export default function PartDisplay(props) {
         }
       })
       .catch(error => {
-        console.log("tracking error", error);
         if (error.name === "AbortError") {
           console.log(error);
         }
@@ -85,7 +82,6 @@ export default function PartDisplay(props) {
       // console.log(lines);
       const partPromise = tfParser(lines, mtime, cSideOnly);
       partPromise.then(part => {
-        console.log(part);
         setPartData({
           part: part,
           metric: "diameter",
@@ -472,7 +468,6 @@ export default function PartDisplay(props) {
   };
 
   const importTest = async partData => {
-    console.log(partData.tracking);
     const response = await fetch(`http://localhost:3001/parts`, {
       method: "POST",
       headers: {
@@ -481,7 +476,6 @@ export default function PartDisplay(props) {
       body: JSON.stringify(partData),
     });
     const data = response.json();
-    console.log(data);
   };
 
   const changeOrder = e => {
