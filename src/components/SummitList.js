@@ -72,7 +72,7 @@ export default function SummitList() {
     };
     getParts();
     const refreshTimeout = setInterval(() => {
-      refreshTopPart();
+      //refreshTopPart();
     }, 10000);
 
     return () => {
@@ -147,6 +147,7 @@ export default function SummitList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
+    let partCount = 0;
     for (const part of parts) {
       // fetch tolerances before anything
       const defFile = "./config/partDefinitions.json";
@@ -165,12 +166,10 @@ export default function SummitList() {
 
       // assemble html elements
       // get table parent to append children to
-      const table = document.querySelector("#table-body");
+      const table = document.querySelector("#accordionExample");
       // create new row and data elements
       const newRow = document.createElement("tr");
       const newTracking = document.createElement("td");
-      const newPartType = document.createElement("td");
-      const newDate = document.createElement("td");
 
       const [date, time] = getFormattedDateStringFromUnix(
         parseInt(part.timestamp)
@@ -239,14 +238,31 @@ export default function SummitList() {
         date +
         " " +
         time;
-      // newPartType.textContent = part.parttype;
-      // newDate.textContent = date + " " + time;
 
       // append data to new row and then append to parent table
       newRow.appendChild(newTracking);
-      // newRow.appendChild(newPartType);
-      // newRow.appendChild(newDate);
-      table.appendChild(newRow);
+
+      // add accordion attribs to row
+      newRow.classList.add("accordion-button");
+      newRow.classList.add("collapsed");
+      newRow.ariaExpanded = false;
+      newRow.type = "button";
+      newRow.dataset.bsToggle = "collapse";
+      newRow.dataset.bsTarget = "#collapse" + partCount.toString();
+
+      // set up accordion elements
+      const [accItem, accHead, accCollapse, accBody] =
+        setupAccordion(partCount);
+      // set up part details
+      setPartDetails(accBody, parts, partCount);
+
+      // create heirarchy
+      accCollapse.appendChild(accBody);
+      accItem.appendChild(accHead);
+      accItem.appendChild(accCollapse);
+      accHead.appendChild(newRow);
+
+      table.appendChild(accItem);
 
       // add onClick functionality
       newRow.onclick = () => {
@@ -259,11 +275,13 @@ export default function SummitList() {
           };
         });
       };
+      partCount++;
     }
   };
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateFirstRow = async parts => {
+    let partCount = 21;
     const part = parts[0];
 
     // fetch tolerances before anything
@@ -283,12 +301,10 @@ export default function SummitList() {
 
     // assemble html elements
     // get table parent to append children to
-    const table = document.querySelector("#table-body");
+    const table = document.querySelector("#accordionExample");
     // create new row and data elements
     const newRow = document.createElement("tr");
     const newTracking = document.createElement("td");
-    const newPartType = document.createElement("td");
-    const newDate = document.createElement("td");
 
     const [date, time] = getFormattedDateStringFromUnix(
       parseInt(part.timestamp)
@@ -361,8 +377,12 @@ export default function SummitList() {
 
     // if data is the same, eg: if no new part has crossed summit
     // then break out and dont update table
-    // can probably just check date since that should never be the same
-    if (table.firstChild.firstChild.innerHTML == newTracking.innerHTML) {
+
+    // if
+    if (
+      table.firstChild.firstChild.firstChild.firstChild.innerHTML ==
+      newTracking.innerHTML
+    ) {
       return;
     } else {
       // append data to new row and then append to parent table
@@ -371,7 +391,28 @@ export default function SummitList() {
       // newRow.appendChild(newDate);
 
       // append new row to top of table
-      table.insertBefore(newRow, table.firstChild);
+
+      //set up accordion elements
+      const [accItem, accHead, accCollapse, accBody] =
+        setupAccordion(partCount);
+      // set up part details
+      setPartDetails(accBody, partCount);
+
+      // create heirarchy
+      accCollapse.appendChild(accBody);
+      accItem.appendChild(accHead);
+      accItem.appendChild(accCollapse);
+      accHead.appendChild(newRow);
+
+      // add accordion attribs to row
+      newRow.classList.add("accordion-button");
+      newRow.classList.add("collapsed");
+      newRow.ariaExpanded = false;
+      newRow.type = "button";
+      newRow.dataset.bsToggle = "collapse";
+      newRow.dataset.bsTarget = "#collapse" + partCount.toString();
+
+      table.firstChild.insertBefore(accItem, table.firstChild.firstChild);
       table.removeChild(table.lastChild);
 
       // add onClick functionality
@@ -385,7 +426,60 @@ export default function SummitList() {
           };
         });
       };
+      partCount++;
     }
+  };
+
+  const setPartDetails = (details, parts, count) => {
+    const cDiameters = getCDiameters(parts[count]);
+    const aDiameters = getADiameters(parts[count]);
+    const cPosition = getCPosition(parts[count]);
+    const aPosition = getAPosition(parts[count]);
+
+    details.innerHTML =
+      "<strong>C Dia Max: </strong>" +
+      Math.max(...cDiameters) +
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+      "<strong>A Dia Max: </strong>" +
+      Math.max(...aDiameters) +
+      "&nbsp; </br><strong>C Dia Min: </strong>" +
+      Math.min(...cDiameters) +
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+      "<strong>A Dia Min: </strong>" +
+      Math.min(...aDiameters) +
+      "<hr><strong>C Pos Max: </strong>" +
+      Math.max(...cPosition) +
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+      "<strong>A Pos Max: </strong>" +
+      Math.max(...aPosition) +
+      "&nbsp; </br><strong>C Pos Min: </strong>" +
+      Math.min(...cPosition) +
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+      "<strong>A Pos Min: </strong>" +
+      Math.min(...aPosition);
+  };
+
+  const setupAccordion = count => {
+    // create parent divs
+    const accItem = document.createElement("div");
+    accItem.classList.add("accordion-item");
+
+    const accHead = document.createElement("h2");
+    accHead.classList.add("accordion-header");
+    accHead.id = "heading" + count.toString();
+
+    // create hidden info
+    const accCollapse = document.createElement("div");
+    accCollapse.id = "collapse" + count.toString();
+    accCollapse.classList.add("accordion-collapse");
+    accCollapse.classList.add("collapse");
+    accCollapse.dataset.bsParent = "#accordionExample";
+    accCollapse.ariaLabel = "heading" + count.toString();
+
+    const accBody = document.createElement("div");
+    accBody.classList.add("accordion-body");
+
+    return [accItem, accHead, accCollapse, accBody];
   };
 
   const resetTableData = () => {
@@ -656,6 +750,38 @@ export default function SummitList() {
     }
   };
 
+  const getCDiameters = data => {
+    let diameterArray = [];
+    for (const hole of Object.values(data.csidedata)) {
+      diameterArray.push(hole.cDia);
+    }
+    return diameterArray;
+  };
+
+  const getCPosition = data => {
+    let positionArray = [];
+    for (const hole of Object.values(data.csidedata)) {
+      positionArray.push(hole.cXY);
+    }
+    return positionArray;
+  };
+
+  const getADiameters = data => {
+    let diameterArray = [];
+    for (const hole of Object.values(data.asidedata)) {
+      diameterArray.push(hole.aDia);
+    }
+    return diameterArray;
+  };
+
+  const getAPosition = data => {
+    let positionArray = [];
+    for (const hole of Object.values(data.asidedata)) {
+      positionArray.push(hole.aXY);
+    }
+    return positionArray;
+  };
+
   return (
     <div className="run-list-main">
       <div id="machine-title" className="jumbotron machine-jumbotron">
@@ -711,11 +837,14 @@ export default function SummitList() {
       <div className="list-content" id="list-content">
         {partData.tableMode === "parts" ? (
           <div
-            className="table-responsive run-list-table flip-wrapper"
+            className="table-responsive run-list-table"
             id="table-responsive"
           >
             <div className="flip-inner">
-              <table className="table table-hover flip-front">
+              <table
+                className="table table-hover accordion"
+                id="accordionExample"
+              >
                 <thead>
                   <tr className="table-headers">
                     <th scope="col">Tracking</th>
@@ -723,18 +852,18 @@ export default function SummitList() {
                     <th scope="col">Date</th>
                   </tr>
                 </thead>
+
                 <tbody id="table-body"></tbody>
               </table>
-              {/* <div className="flip-back"> backside</div> */}
             </div>
           </div>
         ) : (
           <div
-            className="table-responsive run-list-table flip-wrapper"
+            className="table-responsive run-list-table "
             id="table-responsive"
           >
             <div className="flip-inner">
-              <table className="table table-hover flip-front">
+              <table className="table table-hover">
                 <thead>
                   <tr className="detail-headers">
                     <th scope="col">{partData.selectedPart}</th>
@@ -742,7 +871,6 @@ export default function SummitList() {
                 </thead>
                 <tbody id="table-body"></tbody>
               </table>
-              {/* <div className="flip-back"> backside</div> */}
             </div>
           </div>
         )}

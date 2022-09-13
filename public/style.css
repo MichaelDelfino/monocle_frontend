@@ -721,8 +721,9 @@ tbody {
   .table-headers {
     display: flex;
     justify-content: flex-start;
-    margin-left: 33px;
+    margin-left: 0px;
     gap: 27px;
+    background-color: rgb(255, 255, 255, 1);
   }
   .table-and-selector {
     width: 100%;
@@ -894,4 +895,7 @@ tbody {
     width: 100%;
     margin-top: -128px;
   }
+}
+tr {
+  font-weight: normal;
 }
