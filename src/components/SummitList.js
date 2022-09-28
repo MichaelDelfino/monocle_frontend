@@ -760,8 +760,8 @@ export default function SummitList() {
               </div>
             </div>
           </div>
-          {/* End Graph Guide Modal */}
         </div>
+        {/* End Graph Guide Modal */}
       </div>
 
       <div className="list-content" id="list-content">
