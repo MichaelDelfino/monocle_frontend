@@ -14,7 +14,7 @@ export default function GraphGuide() {
           <p>
             Part was not level on the Summit. Small air pockets between the
             mylar and the part could raise the part just enought to cause this
-            pattern.
+            wave pattern that increases intensity from left to right.
           </p>
           <p>
             Notice how the wave pattern only appears on the a-side (grey) of the
