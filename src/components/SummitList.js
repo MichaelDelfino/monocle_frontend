@@ -120,15 +120,14 @@ export default function SummitList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
+    // fetch tolerances before anything
+    const defFile = "./config/partDefinitions.json";
+    let tolerances = {};
+    let isAngleHole = false;
+    const response = await fetch(defFile);
+    const partDef = await response.json();
+    
     for (const part of parts) {
-      // fetch tolerances before anything
-      const defFile = "./config/partDefinitions.json";
-      let tolerances = {};
-      let isAngleHole = false;
-
-      const response = await fetch(defFile);
-      const partDef = await response.json();
-
       for (const def of partDef) {
         if (String(def.partType).trim() === String(part.parttype).trim()) {
           tolerances = def.tolerances;
@@ -142,8 +141,6 @@ export default function SummitList() {
       // create new row and data elements
       const newRow = document.createElement("tr");
       const newTracking = document.createElement("td");
-      const newPartType = document.createElement("td");
-      const newDate = document.createElement("td");
 
       const [date, time] = getFormattedDateStringFromUnix(
         parseInt(part.timestamp)
@@ -260,8 +257,6 @@ export default function SummitList() {
     // create new row and data elements
     const newRow = document.createElement("tr");
     const newTracking = document.createElement("td");
-    const newPartType = document.createElement("td");
-    const newDate = document.createElement("td");
 
     const [date, time] = getFormattedDateStringFromUnix(
       parseInt(part.timestamp)

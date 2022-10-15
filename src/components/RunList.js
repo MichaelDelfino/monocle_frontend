@@ -101,14 +101,14 @@ export default function RunList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
+    // fetch tolerances before anything
+    const defFile = "./config/partDefinitions.json";
+    let tolerances = {};
+    let isAngleHole = false;
+    const response = await fetch(defFile);
+    const partDef = await response.json();
+    
     for (const part of parts) {
-      // fetch tolerances before anything
-      const defFile = "./config/partDefinitions.json";
-      let tolerances = {};
-      let isAngleHole = false;
-
-      const response = await fetch(defFile);
-      const partDef = await response.json();
 
       for (const def of partDef) {
         if (String(def.partType).trim() === String(part.parttype).trim()) {
