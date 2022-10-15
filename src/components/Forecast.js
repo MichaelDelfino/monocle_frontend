@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import PieChart from "./PieChart";
 
-// Use this component as base for modularization of "get" functions
+// ******* Component not currently in use ********
 
 export default function Forcast() {
   const [partData, setPartData] = useState({

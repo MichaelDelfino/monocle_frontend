@@ -4,11 +4,19 @@ import { LineGraph } from "./LineGraph";
 import { ScatterPlot } from "./ScatterPlot";
 import { MetricHighlights } from "./MetricHighlights";
 
-export default function PartDisplay(props) {
-  const [partData, setPartData] = useState(null);
+// API Imports
+import { getPartData } from "../api/monocle.api";
 
-  // ***************Make methods into class that can be imported into Components***********
-  // *************************************************************************************
+export default function PartDisplay(props) {
+  const [partData, setPartData] = useState(
+    {
+      metric: "diameter",
+      side: "c-side",
+      order: "insp",
+      measureMode: false,
+    }
+  );
+
   class Part {
     constructor(headerInfo, cSideData, aSideData, aFlipData, tolerances) {
       this.machine = headerInfo.machine;
@@ -23,46 +31,21 @@ export default function PartDisplay(props) {
   }
 
   useEffect(() => {
-    // Set development environments to fetch localhost instead of hosted server
-    // let url = "";
-    // if (process.env.NODE_ENV === "development") {
-    //   url = `http://localhost:3001/parts/?tracking=${props.tracking}`;
-    // } else {
-    //   url = `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`;
-    // }
-
-    const abortController = new AbortController();
-
-    fetch(
-      `https://salty-inlet-93542.herokuapp.com/parts/?tracking=${props.tracking}`,
-      {
-        signal: abortController.signal,
+    const setData = response => {
+      if (response[0] === undefined) {
+        setPartData(null);
+      } else {
+        setPartData(prevState => {
+          return {
+            ...prevState,
+            part: response[0]
+          }
+        })
       }
-    )
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        if (data[0] === undefined) {
-          setPartData(null);
-        } else {
-          setPartData({
-            part: data[0],
-            metric: "diameter",
-            side: "c-side",
-            order: "insp",
-            measureMode: false,
-          });
-        }
-      })
-      .catch(error => {
-        if (error.name === "AbortError") {
-          console.log(error);
-        }
-      });
-    return () => {
-      abortController.abort();
-    };
+    }
+
+    getPartData(props.tracking, setData)
+    
   }, [props.tracking]);
 
   // File Drag-and-Drop Functionality

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import BoxPlots from "./BoxPlots";
 
+// API Imports
+import { getMachineData } from "../api/monocle.api";
+
 export default function MachineDisplay({
   searchHandler,
   machine,
@@ -13,7 +16,7 @@ export default function MachineDisplay({
     parts: [],
     machine: machine,
     partType: parttype,
-    numOfParts: 9, // this isn't used, hardcoded at server level
+    numOfParts: 9, // this isn't used, set at server level
     metric: metric,
     side: side,
     startDate: startDate,
@@ -22,8 +25,6 @@ export default function MachineDisplay({
   });
 
   useEffect(() => {
-    const abortController = new AbortController();
-
     const getPartTols = async currentType => {
       const defFile = "./config/partDefinitions.json";
       let tolerances = {};
@@ -37,41 +38,28 @@ export default function MachineDisplay({
           tolerances = part.tolerances;
           isAngleHole = part.textFileSpecs.isAngleHole;
         }
-      }
-
-      fetch(
-        `https://salty-inlet-93542.herokuapp.com/parts/?machine=${partData.machine}&parttype=${partData.partType}&timestamp=${partData.startDate}&flag=mach`,
-        {
-          signal: abortController.signal,
+      } 
+      setPartData(prevState => {
+        return {
+          ...prevState,
+          tols: tolerances,
+          isAngleHole: isAngleHole,
         }
-      )
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          setPartData({
-            parts: data,
-            machine: partData.machine,
-            partType: partData.partType,
-            numOfParts: partData.numOfParts,
-            metric: partData.metric,
-            side: partData.side,
-            startDate: partData.startDate,
-            tols: tolerances,
-            isAngleHole: isAngleHole,
-          });
-        })
-        .catch(error => {
-          if (error.name === "AbortError") {
-            console.log(error);
-          }
-        });
+      })
     };
+
+    const setMachineData = (response) => {
+      setPartData(prevState => {
+        return {
+          ...prevState,
+          parts: response
+        }
+      })
+    }
+    
+    getMachineData(partData.machine, partData.partType, partData.startDate, setMachineData)
     getPartTols(partData.partType);
 
-    return () => {
-      abortController.abort();
-    };
   }, [partData.machine, partData.startDate, partData.partType]);
 
   const setMachine = e => {

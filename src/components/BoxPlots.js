@@ -381,7 +381,6 @@ export default function BoxPlots({
                   enabled: true,
                   callbacks: {
                     title: context => {
-                      console.log(context[0].raw);
                       const title = `${context[0].raw.tracking}`;
                       return title;
                     },
