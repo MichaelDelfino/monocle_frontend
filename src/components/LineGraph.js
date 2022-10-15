@@ -1,9 +1,10 @@
+import {React, useEffect, useState } from "react";
+
+// Chartjs Imports
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
-import React, { useEffect, useState } from "react";
 import annotationPlugin from "chartjs-plugin-annotation";
-
 Chart.register(...registerables, zoomPlugin, annotationPlugin);
 
 export const LineGraph = ({ partData, metric, order, zoom }) => {

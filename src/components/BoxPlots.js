@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import {React, useState, useEffect} from "react";
+
+// Chartjs Imports
 import { Scatter } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
-
 Chart.register(...registerables, annotationPlugin);
 
 export default function BoxPlots({

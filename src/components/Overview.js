@@ -1,5 +1,6 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
+
+// Component Imports
 import BoxPlotsAll from "./BoxPlotsAll";
 
 export default function Overview({ machHandler, searchHandler }) {

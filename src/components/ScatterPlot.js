@@ -1,8 +1,8 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
+
+// Chartjs Imports
 import { Scatter } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-
 Chart.register(...registerables);
 
 export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {

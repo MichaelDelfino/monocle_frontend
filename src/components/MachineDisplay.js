@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import {React, useEffect, useState } from "react";
+
+// Component Imports
 import BoxPlots from "./BoxPlots";
 
 // API Imports

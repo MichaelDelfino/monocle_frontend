@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import {React, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
 
 export default function DragAndDrop({ onDrop }) {
   const drop = useRef(null);

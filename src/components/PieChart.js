@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import {React, useEffect, useState } from 'react';
+
+// Chartjs Imports
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(...registerables, zoomPlugin);
+
+// ******* Component not currently in use ********
 
 export default function PieChart({ passedParts, failedParts }) {
   const [partData, setPartData] = useState(null);

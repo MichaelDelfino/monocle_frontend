@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 // API Imports
 import { getSummitList } from "../api/monocle.api"
 
-// Graph Imports
+// Component Imports
 import { LineGraph } from "./LineGraph";
 import { ScatterPlot } from "./ScatterPlot";
 import GraphGuide from "./GraphGuide";

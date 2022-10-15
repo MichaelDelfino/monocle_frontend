@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import {React, useEffect } from "react";
 
 export const SearchBar = ({ searchHandler, sectionHandler }) => {
   useEffect(() => {});

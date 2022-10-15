@@ -20,6 +20,6 @@ export const getOverviewData = (machine, startDate, callback) => {
 }
 
 // Single Part API
-export const getPartData = (tracking, callback) => {
+export const getPart = (tracking, callback) => {
     return call('parts', `?tracking=${tracking}`, callback)
 }

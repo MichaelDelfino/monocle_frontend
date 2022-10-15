@@ -1,56 +1,40 @@
 import React, { useEffect, useState } from "react";
+
+// Component Imports
 import DragAndDrop from "./DragAndDrop";
 import { LineGraph } from "./LineGraph";
 import { ScatterPlot } from "./ScatterPlot";
 import { MetricHighlights } from "./MetricHighlights";
 
 // API Imports
-import { getPartData } from "../api/monocle.api";
+import { getPart } from "../api/monocle.api";
+
+// Class Imports
+import Part from "../models/part.model"
 
 export default function PartDisplay(props) {
-  const [partData, setPartData] = useState(
-    {
-      metric: "diameter",
-      side: "c-side",
-      order: "insp",
-      measureMode: false,
-    }
-  );
-
-  class Part {
-    constructor(headerInfo, cSideData, aSideData, aFlipData, tolerances) {
-      this.machine = headerInfo.machine;
-      this.parttype = headerInfo.partType;
-      this.tracking = headerInfo.tracking;
-      this.timestamp = headerInfo.date;
-      this.csidedata = cSideData;
-      this.asidedata = aSideData;
-      this.aflipdata = aFlipData;
-      this.tolerances = tolerances;
-    }
-  }
+  const [partData, setPartData] = useState(null);
 
   useEffect(() => {
     const setData = response => {
-      if (response[0] === undefined) {
-        setPartData(null);
-      } else {
         setPartData(prevState => {
           return {
             ...prevState,
-            part: response[0]
+            part: response[0],
+            metric: "diameter",
+            side: "c-side",
+            order: "insp",
+            measureMode: false,
           }
-        })
-      }
+      })
     }
 
-    getPartData(props.tracking, setData)
+    getPart(props.tracking, setData)
     
   }, [props.tracking]);
 
   // File Drag-and-Drop Functionality
   const onDrop = file => {
-    // init csideonly and modified time
     let cSideOnly = false;
     const mtime = file[0].lastModified;
 

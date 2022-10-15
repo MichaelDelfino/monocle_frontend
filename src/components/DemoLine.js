@@ -1,7 +1,8 @@
+import {React, useEffect, useState } from "react";
+
+// Chartjs Imports
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import React, { useEffect, useState } from "react";
-
 Chart.register(...registerables);
 
 export const DemoLine = () => {
