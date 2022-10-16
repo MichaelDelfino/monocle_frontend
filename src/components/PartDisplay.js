@@ -10,31 +10,31 @@ import { MetricHighlights } from "./MetricHighlights";
 import { getPart } from "../api/monocle.api";
 
 // Class Imports
-import Part from "../models/part.model"
+import Part from "../models/part.model";
 
 export default function PartDisplay(props) {
   const [partData, setPartData] = useState(null);
 
   useEffect(() => {
-    const setData = response => {
-        setPartData(prevState => {
-          return {
-            ...prevState,
-            part: response[0],
-            metric: "diameter",
-            side: "c-side",
-            order: "insp",
-            measureMode: false,
-          }
-      })
+    const setData = (response) => {
+      setPartData((prevState) => {
+        return {
+          ...prevState,
+          part: response[0],
+          metric: "diameter",
+          side: "c-side",
+          order: "insp",
+          measureMode: false,
+        };
+      });
+    };
+    if(partData || props.tracking !== ''){
+      getPart(props?.tracking, setData);
     }
-
-    getPart(props.tracking, setData)
-    
   }, [props.tracking]);
 
   // File Drag-and-Drop Functionality
-  const onDrop = file => {
+  const onDrop = (file) => {
     let cSideOnly = false;
     const mtime = file[0].lastModified;
 
@@ -44,11 +44,11 @@ export default function PartDisplay(props) {
       cSideOnly = false;
     }
 
-    const data = file[0].text().then(text => {
+    const data = file[0].text().then((text) => {
       const lines = text.split(/\r?\n/);
       // console.log(lines);
       const partPromise = tfParser(lines, mtime, cSideOnly);
-      partPromise.then(part => {
+      partPromise.then((part) => {
         setPartData({
           part: part,
           metric: "diameter",
@@ -363,7 +363,7 @@ export default function PartDisplay(props) {
     return [cSideData, aSideData, aFlipData];
   };
 
-  const getPartColor = partType => {
+  const getPartColor = (partType) => {
     let borderColor = "";
     let backgroundColor = "";
 
@@ -399,9 +399,9 @@ export default function PartDisplay(props) {
     return [borderColor, backgroundColor];
   };
 
-  const changeMetric = e => {
+  const changeMetric = (e) => {
     const metric = e.target.value;
-    setPartData(prevState => {
+    setPartData((prevState) => {
       return { ...prevState, metric: metric };
     });
   };
@@ -434,7 +434,7 @@ export default function PartDisplay(props) {
     return part;
   };
 
-  const importTest = async partData => {
+  const importTest = async (partData) => {
     const response = await fetch(`http://localhost:3001/parts`, {
       method: "POST",
       headers: {
@@ -445,9 +445,9 @@ export default function PartDisplay(props) {
     const data = response.json();
   };
 
-  const changeOrder = e => {
+  const changeOrder = (e) => {
     const order = e.target.value;
-    setPartData(prevState => {
+    setPartData((prevState) => {
       return { ...prevState, order: order };
     });
   };
@@ -462,18 +462,18 @@ export default function PartDisplay(props) {
       setTheta(null);
       console.log("measuring off...");
     }
-    setPartData(prevState => {
+    setPartData((prevState) => {
       return { ...prevState, measureMode: newMode };
     });
   };
 
-  const setTheta = theta => {
-    setPartData(prevState => {
+  const setTheta = (theta) => {
+    setPartData((prevState) => {
       return { ...prevState, theta: theta };
     });
   };
 
-  const summitStringParse = summit => {
+  const summitStringParse = (summit) => {
     if (summit === "Summit_1") {
       return "Summit 1";
     } else if (summit === "Summit_2") {
