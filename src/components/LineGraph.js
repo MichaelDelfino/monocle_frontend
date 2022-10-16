@@ -1,5 +1,8 @@
 import {React, useEffect, useState } from "react";
 
+// Redux Store Imports
+import { useSelector } from 'react-redux'
+
 // Chartjs Imports
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
@@ -10,6 +13,11 @@ Chart.register(...registerables, zoomPlugin, annotationPlugin);
 export const LineGraph = ({ partData, metric, order, zoom }) => {
   const [graphData, setGraphData] = useState(null);
 
+  // Redux Stores
+  const partDef = useSelector(state => state.config.partDef)
+  const orderDef = useSelector(state => state.config.drillOrder)
+  const euclidDef = useSelector(state => state.config.euclidMachs)
+
   useEffect(() => {
     const getPartTols = async currentType => {
       let scales = {};
@@ -17,26 +25,8 @@ export const LineGraph = ({ partData, metric, order, zoom }) => {
       let drillOrder = [];
       let euclidMachs = [];
       let isEuclid = false;
-
-      // define part def file, drill order file, and euclid machs file
-      const defFile = "./config/partDefinitions.json";
-      const orderFile = "./config/drillOrder.json";
-      const euclidList = "./config/euclidMachs.json";
-
       let tolerances = {};
       let isAngleHole = false;
-
-      // fetch part definitions
-      const response = await fetch(defFile);
-      const partDef = await response.json();
-
-      // fetch drill order
-      const orderResponse = await fetch(orderFile);
-      const orderDef = await orderResponse.json();
-
-      // fetch euclid machs
-      const euclidResponse = await fetch(euclidList);
-      const euclidDef = await euclidResponse.json();
 
       if (euclidDef.includes(partData.machine)) {
         isEuclid = true;

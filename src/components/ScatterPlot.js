@@ -1,5 +1,8 @@
 import { React, useState, useEffect } from "react";
 
+// Redux Store Imports
+import { useSelector } from 'react-redux'
+
 // Chartjs Imports
 import { Scatter } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
@@ -16,6 +19,9 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
     point_1: null,
     point_2: null,
   });
+  // Redux Store
+  const partDef = useSelector(state => state.config.partDef);
+
   useEffect(() => {
     if (!measureMode) {
       setgraphData(prevState => {
@@ -28,11 +34,6 @@ export const ScatterPlot = ({ partData, measureMode, setTheta, zoom }) => {
       let holeWarning = [];
       let tolerances = {};
       let datasets = [];
-
-      const defFile = "./config/partDefinitions.json";
-
-      const response = await fetch(defFile);
-      const partDef = await response.json();
 
       for (const part of partDef) {
         if (String(part.partType).trim() === String(currentType).trim()) {

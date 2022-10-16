@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+// Redux Imports
+import { useSelector } from 'react-redux';
+
 // API Imports
 import { getSummitList } from "../api/monocle.api"
 
@@ -21,6 +24,8 @@ export default function SummitList() {
     measureMode: false,
     tableMode: "parts",
   });
+  // Redux Store
+  const partDef = useSelector(state => state.config.partDef);
 
   useEffect(() => {
     const setSummitData = (response) => {
@@ -120,13 +125,9 @@ export default function SummitList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
-    // fetch tolerances before anything
-    const defFile = "./config/partDefinitions.json";
     let tolerances = {};
     let isAngleHole = false;
-    const response = await fetch(defFile);
-    const partDef = await response.json();
-    
+
     for (const part of parts) {
       for (const def of partDef) {
         if (String(def.partType).trim() === String(part.parttype).trim()) {
@@ -235,14 +236,8 @@ export default function SummitList() {
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateFirstRow = async parts => {
     const part = parts[0];
-
-    // fetch tolerances before anything
-    const defFile = "./config/partDefinitions.json";
     let tolerances = {};
     let isAngleHole = false;
-
-    const response = await fetch(defFile);
-    const partDef = await response.json();
 
     for (const def of partDef) {
       if (String(def.partType).trim() === String(part.parttype).trim()) {

@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DemoLine } from "./DemoLine";
 
+// Redux store imports
+import { useDispatch } from "react-redux";
+import { setPartDef, setEuclidMachs, setDrillOrder } from "../store/configSlice";
+
+
 export default function Home() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    //Load config data to redux stores
+    const loadConfigData = async () => {
+      let file = "./config/partDefinitions.json";
+      let response = await fetch(file);
+      let data = await response.json();
+      dispatch(setPartDef(data));
+
+      file = "./config/euclidMachs.json";
+      response = await fetch(file);
+      data = await response.json();
+      dispatch(setEuclidMachs(data));
+
+      file = "./config/drillOrder.json";
+      response = await fetch(file);
+      data = await response.json();
+      dispatch(setDrillOrder(data));
+    };
+    loadConfigData();
+  }, []);
+
   return (
     <div>
       <div className="home-display-inner">

@@ -1,4 +1,7 @@
-import {React, useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
+
+// Redux Imports
+import { useSelector } from "react-redux";
 
 // Component Imports
 import { LineGraph } from "./LineGraph";
@@ -18,20 +21,21 @@ export default function RunList() {
     measureMode: false,
     summit: "",
   });
+  // Redux Store
+  const partDef = useSelector(state => state.config.partDef);
 
   useEffect(() => {
-    const setTable = (response) => {
-      resetTableData(); 
+    const setTable = response => {
+      resetTableData();
       populateTableData(response);
       setPartData(prevState => {
         return {
           ...prevState,
-          parts: response
-        }
-      })
-    }      
-    getMachineRunList(partData.machine, partData.startDate, setTable)
-
+          parts: response,
+        };
+      });
+    };
+    getMachineRunList(partData.machine, partData.startDate, setTable);
   }, [partData.machine, partData.startDate, partData.machine]);
 
   const getFormattedDateStringFromUnix = date => {
@@ -101,15 +105,10 @@ export default function RunList() {
 
   // Function that says for each part in data, create a <tr> inside <tbody>
   const populateTableData = async parts => {
-    // fetch tolerances before anything
-    const defFile = "./config/partDefinitions.json";
     let tolerances = {};
     let isAngleHole = false;
-    const response = await fetch(defFile);
-    const partDef = await response.json();
-    
-    for (const part of parts) {
 
+    for (const part of parts) {
       for (const def of partDef) {
         if (String(def.partType).trim() === String(part.parttype).trim()) {
           tolerances = def.tolerances;

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// Redux store imports
-import { useDispatch } from "react-redux";
-import { setPartDef, setEuclidMachs, setDrillOrder } from "./store/configSlice";
-
 // Component imports
 import { SearchBar } from "./components/SearchBar";
 import Home from "./components/Home";
@@ -23,7 +19,6 @@ export default function App() {
     metric: "Diameter",
     startDate: Date.now(),
   });
-  const dispatch = useDispatch();    
 
   useEffect(() => {      
     setPageData({
@@ -35,24 +30,6 @@ export default function App() {
       metric: "Diameter",
       startDate: Date.now(),
     });
-    
-    //Load config data to redux stores      
-    const loadConfigData = async () => {
-      let file = "./config/partDefinitions.json";
-      let response = await fetch(file);
-      let data = await response.json();
-      dispatch(setPartDef(data))
-
-      file = "./config/euclidMachs.json";
-      response = await fetch(file);
-      data = await response.json();
-      dispatch(setEuclidMachs(data))
-
-      file = "./config/drillOrder.json";
-      response = await fetch(file);
-      data = await response.json();
-      dispatch(setDrillOrder(data))
-    }
 
     const fixScaling = () => {
       // resize list-display height to fix scaling bug
@@ -72,8 +49,6 @@ export default function App() {
         listDisplay.style.height = null;
       }
     }
-
-    loadConfigData();
     fixScaling();
   }, [pageData.section]);
 
