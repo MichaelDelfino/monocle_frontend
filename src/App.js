@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+
+// Redux store imports
+import { useDispatch } from "react-redux";
+import { setPartDef, setEuclidMachs, setDrillOrder } from "./store/configSlice";
+
+// Component imports
 import { SearchBar } from "./components/SearchBar";
 import Home from "./components/Home";
 import PartDisplay from "./components/PartDisplay";
@@ -17,8 +23,9 @@ export default function App() {
     metric: "Diameter",
     startDate: Date.now(),
   });
+  const dispatch = useDispatch();    
 
-  useEffect(() => {
+  useEffect(() => {      
     setPageData({
       section: pageData.section,
       tracking: pageData.tracking,
@@ -28,23 +35,46 @@ export default function App() {
       metric: "Diameter",
       startDate: Date.now(),
     });
+    
+    //Load config data to redux stores      
+    const loadConfigData = async () => {
+      let file = "./config/partDefinitions.json";
+      let response = await fetch(file);
+      let data = await response.json();
+      dispatch(setPartDef(data))
 
-    // resize list-display height to fix scaling bug
-    // ONLY if page is selected...breaks otherwise
-    if (pageData.section === "list") {
-      const listDisplay = document.querySelector(".list-display");
-      listDisplay.style.height = "100%";
-    } else {
-      const listDisplay = document.querySelector(".list-display");
-      listDisplay.style.height = null;
+      file = "./config/euclidMachs.json";
+      response = await fetch(file);
+      data = await response.json();
+      dispatch(setEuclidMachs(data))
+
+      file = "./config/drillOrder.json";
+      response = await fetch(file);
+      data = await response.json();
+      dispatch(setDrillOrder(data))
     }
-    if (pageData.section === "list-sum") {
-      const listDisplay = document.querySelector(".list-display-sum");
-      listDisplay.style.height = "100%";
-    } else {
-      const listDisplay = document.querySelector(".list-display-sum");
-      listDisplay.style.height = null;
+
+    const fixScaling = () => {
+      // resize list-display height to fix scaling bug
+      // ONLY if page is selected...breaks otherwise
+      if (pageData.section === "list") {
+        const listDisplay = document.querySelector(".list-display");
+        listDisplay.style.height = "100%";
+      } else {
+        const listDisplay = document.querySelector(".list-display");
+        listDisplay.style.height = null;
+      }
+      if (pageData.section === "list-sum") {
+        const listDisplay = document.querySelector(".list-display-sum");
+        listDisplay.style.height = "100%";
+      } else {
+        const listDisplay = document.querySelector(".list-display-sum");
+        listDisplay.style.height = null;
+      }
     }
+
+    loadConfigData();
+    fixScaling();
   }, [pageData.section]);
 
   const updateSection = section => {
