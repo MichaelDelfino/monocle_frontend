@@ -1,3 +1,18 @@
-# Monocle
+# Monocle Frontend #
+A data visualization application
 
-## A data visualization application
+# Version History #
+### VERSION 2.0.0.2 ###
+* Added Redux store
+* Refactored components to use redux store
+
+### VERSION 2.0.0.1 ###
+* Refactored API services
+
+### VERSION 2.0.0.0 ###
+* Redesigned Menu UI
+* Added Summit List & Run List pages
+* Added Graph Tutorial
+
+### VERSION 1.0.0.0 ###
+* Initial release to production
