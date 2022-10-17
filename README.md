@@ -2,11 +2,11 @@
 A data visualization application
 
 # Version History #
-### VERSION 2.0.0.2 ###
+### VERSION 2.2.0.0 ###
 * Added Redux store
 * Refactored components to use redux store
 
-### VERSION 2.0.0.1 ###
+### VERSION 2.1.0.0 ###
 * Refactored API services
 
 ### VERSION 2.0.0.0 ###
