@@ -78,6 +78,8 @@ export default function PartDisplay(props) {
           partType = "317P-01";
         } else if (line.includes("-109-")) {
           partType = "109";
+        }else if (line.includes("-911-")) {
+          partType = "2078P-01";
         } else {
           partType = String(line.substring(9, 17)).trim();
         }
@@ -409,6 +411,8 @@ export default function PartDisplay(props) {
   const tfParser = async (textFile, mtime, cSideOnly) => {
     //Get header info from text file
     const headerInfo = getHeaderInfo(textFile, mtime);
+
+    console.log(headerInfo);
 
     //Get line numbers and other file specifics for given part type
     const [textFileSpecs, tolerances] = await getTextFileSpecs(

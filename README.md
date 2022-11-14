@@ -1,6 +1,10 @@
 # Monocle Frontend #
 A data visualization application
 
+### TODO ###
+* Move string routes to constants file
+* Refactor commonly used methods across components
+
 # Version History #
 ### VERSION 2.2.0.0 ###
 * Added Redux store
