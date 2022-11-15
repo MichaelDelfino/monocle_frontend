@@ -407,6 +407,54 @@
     }
   },
   {
+    "partType": "1565P-01",
+    "textFileSpecs": {
+      "version": "EV1",
+      "includeAFlip": true,
+      "cSideOnly": false,
+      "isAngleHole": true,
+      "angleHoleStart": 588,
+      "angleHoleEnd": 1268,
+      "numHoles": 1268,
+      "cEnd": 5083,
+      "aEnd": 7437,
+      "diaString": "Dia",
+      "truePosString": "True",
+      "xPosString": "_X_",
+      "yPosString": "_Y_"
+    },
+    "tolerances": {
+      "c-side": {
+        "diaNom": 0.017,
+        "diaPlus": 0.001,
+        "diaMin": 0.001,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01,
+        "angled_diaNom": 0.017,
+        "angled_diaPlus": 0.0035,
+        "angled_diaMin": 0.0025,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
+      },
+      "a-side": {
+        "diaNom": 0.0163,
+        "diaPlus": 0.0015,
+        "diaMin": 0.0015,
+        "posNom": 0,
+        "posPlus": 0.01,
+        "posMin": 0.01,
+        "angled_diaNom": 0.0163,
+        "angled_diaPlus": 0.005,
+        "angled_diaMin": 0.005,
+        "angled_posNom": 0,
+        "angled_posPlus": 0.018,
+        "angled_posMin": 0.018
+      }
+    }
+  },
+  {
     "partType": "817P-01",
     "textFileSpecs": {
       "includeAFlip": true,

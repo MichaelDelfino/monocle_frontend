@@ -412,7 +412,7 @@ export default function PartDisplay(props) {
     //Get header info from text file
     const headerInfo = getHeaderInfo(textFile, mtime);
 
-    console.log(headerInfo);
+    // console.log(headerInfo);
 
     //Get line numbers and other file specifics for given part type
     const [textFileSpecs, tolerances] = await getTextFileSpecs(
@@ -421,11 +421,15 @@ export default function PartDisplay(props) {
       cSideOnly
     );
 
+    // console.log(textFileSpecs)
+
     //Create data objects for each section of the part
     const [cSideData, aSideData, aFlipData] = getPartData(
       textFileSpecs,
       textFile
     );
+    
+    // console.log(cSideData);
 
     //Create part object with all metrics
     const part = new Part(
