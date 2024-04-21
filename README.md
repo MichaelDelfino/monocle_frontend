@@ -1,6 +1,8 @@
 # Monocle Frontend #
 A data visualization application
 
+## This repository has been depricated. Backend database no longer active.
+
 ### TODO ###
 * Move string routes to constants file
 * Refactor commonly used methods across components
